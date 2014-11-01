@@ -1,0 +1,14 @@
+JH. Zasady:
+1. Kontakt: ****
+2. Konsultacje odbywają się w środy po wcześniejszym umówieniu się drogą mailową.
+3. Ostatni termin na oddanie projektu to 26 stycznia 2015.
+4. Projekt należy zaprezentować osobiście. Za oddanie projektu tylko na email odejmowane
+jest 5 punktów.
+5. Dodatkowo, za każdy dzień spóźnienia odejmowane jest 5 punktów.
+6. Projekt należy odebrać do końca listopada 2015. Brak odebrania uniemożliwia uzyskanie
+maksymalnej liczby punktów.
+
+JH.AE.1: Magiczny kwadrat
+Napisać algorytm ewolucyjny generujący magiczny kwadrat:
+http://en.wikipedia.org/wiki/Magic_square
+

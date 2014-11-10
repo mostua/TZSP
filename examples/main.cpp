@@ -3,89 +3,11 @@
 #include <vector>
 #include <ctime>
 #include <set>
+#include "population.h"
+#include "square.h"
+
 
 using namespace std;
-
-
-
-//class represents square containing numbers from 1 to n^2
-template<unsigned int size>
-class Square
-{
-protected:
-	int * values;
-public:
-	Square()
-	{
-		values = new int[size*size];
-		for (int i = 1; i <= size*size; ++i)
-		{
-			values[i - 1] = 0;
-		}
-	}
-	//copy constructor
-	Square(const Square& x) : Square()
-	{
-		for (int i = 0; i < size*size; ++i)
-			values[i] = x.values[i];
-	}
-	/*const Square& operator=(const Square& x)
-	{
-		for (int i = 0; i < size*size; ++i)
-			values[i] = x.values[i];
-		return x;
-	}*/
-	//befor using method call srand(time(0)) to proper working
-	void randomFill()
-	{
-		for (int i = 1; i <= size*size; ++i)
-		{
-			values[i - 1] = i;
-		}
-		random_shuffle(values, values + size*size);
-	}
-	//returns value at specific row and column counting from 0 to size - 1
-	int get(int row, int column) const
-	{
-		if (row >= size || column >= size)
-			throw "out of range";
-		if (values == 0)
-			throw "access to not reserved memory";
-		return values[row*size + column];
-	}
-	//set value on specific row
-	void set(int row, int column, int value)
-	{
-		if (row >= size || column >= size)
-			throw "out of range";
-		values[row*size + column] = value;
-	}
-	//swap places of to values
-	void swap(int valueA, int valueB)
-	{
-		int whereA = size*size, whereB = size*size;
-		for (int i = 0; i < size*size; ++i)
-		{
-			if (values[i] == valueA)
-			{
-				whereA = i;
-			}
-			if (values[i] == valueB)
-			{
-				whereB = i;
-			}
-		}
-		if (whereA == size*size || whereB == size*size)
-		{
-			throw "cant find value";
-		}
-		std::swap(values[whereA], values[whereB]);
-
-	}
-	template<unsigned int size2>
-	friend ostream& operator<<(ostream &, const Square<size2> &);
-};
-
 
 template<unsigned int size>
 ostream& operator<<(ostream & os, const Square<size> &square)
@@ -102,7 +24,7 @@ ostream& operator<<(ostream & os, const Square<size> &square)
 
 //fitness function measure how square is far from being magic square
 template<unsigned int size>
-int fitnessFunction(Square<size>);
+int fitnessFunction(const Square<size>&);
 
 //function creates two children from two parents, mixing diagonals
 template<unsigned int size>
@@ -114,80 +36,24 @@ Square<size> mutationFunction(const Square<size> & square);
 
 //we can sort squares comparing theirs fitness values
 template<unsigned int size>
-bool operator<(Square<size> a, Square<size> b)
+bool cmp(const Square<size>& a, const Square<size>& b)
 {
-	return fitnessFunction(a) < fitnessFunction(b);
+	if (fitnessFunction(a) != fitnessFunction(b))
+		return fitnessFunction(a) < fitnessFunction(b);
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+			if (a.get(i, j) != b.get(i, j))
+				return a.get(i, j) < b.get(i, j);
+	}
+	return a.id < b.id;
 }
 
-//class contain whole population of squares
-template<unsigned int size>
-class Population
-{
-private:
-	const int INF = 100000;
-	const int maxIterations = 1000;
-	const int pMutation = 1, qMutation = 5; //probability of mutation is pMutation/qMutation
-protected:
-	vector<Square<size>> population;
-	
-public:
-	//make population with the size 
-	Population(int begin_size) 
-	{
-		Square<size> temp;
-		for (int i = 0; i < begin_size; ++i)
-		{
-			temp.randomFill();
-			population.push_back(temp);
-		}
-	}
-	//methos whil st
-	Square<size> algorithm(int howManyReproduces)
-	{
-		for (int t = 1; t < maxIterations; ++t)
-		{
-			//make it works
-			//sort(population.begin(), population.end(), [](int a, int b)->bool { return		fitnessFunction(a) < fitnessFunction(b); }());
-			sort(population.begin(), population.end());
-			if (population.size() > howManyReproduces)
-				population.resize(howManyReproduces);
-			//we assume that fitnessFunction returns 0 if we find magic square
-			if (fitnessFunction(*population.begin()) == 0)
-			{
-				return *population.begin();
-			}
-			random_shuffle(population.begin(), population.end());
-			int bestSquare = INF;
-			for (size_t i = 0; i < population.size(); ++i)
-			{
-				bestSquare = min(bestSquare, fitnessFunction(population[i]));
-				//cout << population[i] << endl;
-			}
-			//it's temporary solution to prints results on a screen
-			cout << "it: " <<  t << " " << bestSquare << endl;
-			pair<Square<size>, Square<size>> result;
-			size_t populationSize = population.size();
-			for (size_t i = 0; 2 * i + 1 < min((size_t)howManyReproduces, populationSize) - min((size_t)howManyReproduces, populationSize)%2; i++)
-			{
-				result = reproductionFunction(population[2 * i], population[2 * i + 1]);
-				//one time on five mutate child
-				if (rand() % qMutation < pMutation)
-					result.first = mutationFunction(result.first);
-				if (rand() % qMutation < pMutation)
-					result.second = mutationFunction(result.second);
-				population.push_back(result.first);
-				population.push_back(result.second);
-			}
-			
-		}
-		return *population.begin();
-	}
-};
 
 //function returns fitness of square measered as a sum of distances from befor calculated sum in row/column/diagonal to sum of every row, column and diagonal 
 //see in code
 template<unsigned int size>
-int fitnessFunction(Square<size> square)
+int fitnessFunction(const Square<size>& square)
 {
 	int result = 0;
 	int currentSumInRow, currentSumInCoumn, diagonalSum;
@@ -228,7 +94,8 @@ pair<Square<size>, Square<size>> reproductionFunction(const Square<size> & paren
 	//	throw "Sheep can't reproduce with human";
 	//make one of children with parentA diagonals, and second with parentB diagonals
 	//copy child A from parent A and so for child B
-	Square<size> childA(parentA), childB(parentB);
+	Square<size> childA, childB;
+	childA = parentA, childB = parentB;
 	//swap (x,x) in childA to value of parentB (x,x) same to (n-x-1, x)
 	int x, y;
 	for (int i = 0; i < size; ++i)
@@ -268,7 +135,7 @@ pair<Square<size>, Square<size>> reproductionFunction(const Square<size> & paren
 template<unsigned int size>
 Square<size> mutationFunction(const Square<size> & square)
 {
-	Square<size> result(square);
+	Square<size> result = square;
 	int ax, ay, av, bx, by, bv;
 	ax = rand() % size;
 	ay = rand() % size;
@@ -282,24 +149,54 @@ Square<size> mutationFunction(const Square<size> & square)
 }
 
 
+template<unsigned int size>
+void perform(int reproducesNumber, Population<size> &population, Square<size> &best)
+{
+    int i = 1;
+	do
+	{
+        population.generateNextPopulation(reproducesNumber, cmp, mutationFunction, fitnessFunction, reproductionFunction);
+		best = population.getBest(fitnessFunction);
+        cout << "Iteration " << i++ << " best far now " << fitnessFunction(best) << endl;
+	} while (fitnessFunction(best) != 0);
+	cout << "Result: fitness = " << fitnessFunction(best) << endl;
+	cout << best << endl;
+}
+
+
+
+
 int main()
 {
 	srand((unsigned int)(time(NULL)));
-	Population<4> population(1000);
-	/*Square<3> a, b;
-	//a.randomFill();
-	a.randomFill();
-	//b.randomFill();
-	b.randomFill();
-	cout << a << endl;
-	cout << b << endl;
-	pair<Square<3>, Square<3>> children;
-	children = reproductionFunction(a, b);
-	cout << children.first << endl;
-	cout << children.second << endl;*/
+    unsigned int  squareSize, populationSize, reproductionAvaiable;
+    cout << "Please give square size: " << endl;
+	cin >> squareSize;
+    cout << "Please give begin population size: " << endl;
+    cin >> populationSize;
+    cout << "Please give number of individuals abvaiable to reproduction" << endl;
+    cin >> reproductionAvaiable;
+	if (squareSize == 3)
+	{
+        Population<3> population(reproductionAvaiable);
+		Square<3> best;
+        perform(reproductionAvaiable, population, best);
+	}
+	if (squareSize == 4)
+	{
+        Population<4> population(reproductionAvaiable);
+		Square<4> best;
+        perform(reproductionAvaiable, population, best);
+	}
+	if (squareSize == 5)
+	{
+        Population<5> population(reproductionAvaiable);
+		Square<5> best;
+        perform(reproductionAvaiable, population, best);
+	}
+
 	
-	Square<4> result = population.algorithm(100);
-	cout << "Result: fitness = " << fitnessFunction(result) << endl;
-	cout << result << endl;
+	
+
 	system("pause");
 }

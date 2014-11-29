@@ -6,50 +6,13 @@
 #include "population.h"
 #include "square.h"
 #include "reproduction.h"
+#include "mutation.h"
 
 using namespace std;
-
-
-template<unsigned int size>
-ostream& operator<<(ostream & os, const Square<size> &square)
-{
-	os << size << " x " << size << "\n";
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-			os << square.get(i, j) << " ";
-		os << "\n";
-	}
-	return os;
-}
 
 //fitness function measure how square is far from being magic square
 template<unsigned int size>
 int fitnessFunction(const Square<size>&);
-
-//function creates two children from two parents, mixing diagonals
-template<unsigned int size>
-pair<Square<size>, Square<size>> reproductionFunction(const Square<size> &, const Square<size> &);
-
-//function swap 2 points in square
-template<unsigned int size>
-Square<size> mutationFunction(const Square<size> & square);
-
-//we can sort squares comparing theirs fitness values
-template<unsigned int size>
-bool cmp(const Square<size>& a, const Square<size>& b)
-{
-	if (fitnessFunction(a) != fitnessFunction(b))
-		return fitnessFunction(a) < fitnessFunction(b);
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-			if (a.get(i, j) != b.get(i, j))
-				return a.get(i, j) < b.get(i, j);
-	}
-	return a.id < b.id;
-}
-
 
 //function returns fitness of square measered as a sum of distances from befor calculated sum in row/column/diagonal to sum of every row, column and diagonal 
 //see in code
@@ -88,22 +51,6 @@ int fitnessFunction(const Square<size>& square)
 }
 
 
-//Mutation function swaping two random points in 
-template<unsigned int size>
-Square<size> mutationFunction(const Square<size> & square)
-{
-	Square<size> result = square;
-	int ax, ay, av, bx, by, bv;
-	ax = rand() % size;
-	ay = rand() % size;
-	av = result.get(ay, ax);
-	bx = rand() % size;
-	by = rand() % size;
-	bv = result.get(by, bx);
-	result.set(by, bx, av);
-	result.set(ay, ax, bv);
-	return result;
-}
 
 
 template<unsigned int size>
@@ -112,7 +59,7 @@ void perform(int reproducesNumber, Population<size> &population, Square<size> &b
     int i = 1;
 	do
 	{
-        population.generateNextPopulation(reproducesNumber, cmp, mutationFunction, fitnessFunction, reproduction::reproductionFunction);
+        population.generateNextPopulation(reproducesNumber, mutation::swapToPoints, fitnessFunction, reproduction::reproductionFunction);
 		best = population.getBest(fitnessFunction);
         cout << "Iteration " << i++ << " best far now " << fitnessFunction(best) << endl;
 	} while (fitnessFunction(best) != 0);

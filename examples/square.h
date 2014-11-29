@@ -98,11 +98,38 @@ public:
 		std::swap(values[whereA], values[whereB]);
 
 	}
+
+	bool operator<(const Square<size>& b) const
+	{
+		for (int i = 0; i < size; ++i)
+		{
+			for (int j = 0; j < size; ++j)
+				if (get(i, j) != b.get(i, j))
+					return get(i, j) < b.get(i, j);
+		}
+		return id < b.id;
+	}
+
 	template<unsigned int size2>
 	friend ostream& operator<<(ostream &, const Square<size2> &);
 };
 
 template<unsigned int size>
 int Square<size>::number = 0;
+
+
+template<unsigned int size>
+ostream& operator<<(ostream & os, const Square<size> &square)
+{
+	os << size << " x " << size << "\n";
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+			os << square.get(i, j) << " ";
+		os << "\n";
+	}
+	return os;
+}
+
 
 #endif

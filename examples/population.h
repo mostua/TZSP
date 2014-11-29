@@ -16,11 +16,16 @@ protected:
 public:
 	//make population with the size 
 	Population(int begin_size);
-	//methos whil st
-	void generateNextPopulation(int howManyReproduces, bool(*cmp)(const Square<size>&, const Square<size>&), Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair< Square<size>,Square<size> > (*reproductionFunction)(const Square<size> &, const Square<size> &));
+	//method generate next population, howManyReproduces - how many individuals will be a parent, mutationFunction is a pointer to rule containing mutation process, fitnessFunction measure how good is an individual, reproductionFunction defining how to children come from parents
+	void generateNextPopulation(int howManyReproduces, Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair< Square<size>,Square<size> > (*reproductionFunction)(const Square<size> &, const Square<size> &));
+	//method sets mutation propability
 	void setMutationPropability(int p, int q);
+	//method returns population size
 	unsigned int getPopulationSize();
+	//method returns an individual which is current best one
 	Square<size> getBest(int(*fitnessFunction)(const Square<size>&));
+	//method returns average of all individuals
+	double populationAverage(int(*fitnessFunction)(const Square<size>&));
 };
 
 
@@ -42,10 +47,10 @@ Population<size>::Population(int begin_size)
 }
 
 template<unsigned int size>
-void Population<size>::generateNextPopulation(int howManyReproduces, bool(*cmp)(const Square<size>&, const Square<size>&), Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair<Square<size>, Square<size>> (*reproductionFunction)(const Square<size> &, const Square<size> &))
+void Population<size>::generateNextPopulation(int howManyReproduces,  Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair<Square<size>, Square<size>> (*reproductionFunction)(const Square<size> &, const Square<size> &))
 {
 	//we get best individuals 
-	sort(population.begin(), population.end(), cmp);
+	sort(population.begin(), population.end(), [fitnessFunction](const Square<size> &a, const Square<size> &b)->bool{ 	return (fitnessFunction(a) != fitnessFunction(b) ? fitnessFunction(a) < fitnessFunction(b) : a < b);  });
 	if (population.size() > howManyReproduces)
 		population.resize(howManyReproduces);
 	population.shrink_to_fit();
@@ -93,4 +98,15 @@ Square<size> Population<size>::getBest(int(*fitnessFunction)(const Square<size>&
 	return population[best];
 }
 
+template < unsigned int size >
+double Population<size>::populationAverage(int (*fitnessFunction)(const Square<size>&))
+{
+	long long sum = 0;
+	for (size_t i = 0; i < population.size(); ++i)
+	{
+		sum += fitnessFunction(population[i]);
+	}
+	return ((double)sum) / population.size();
+
+}
 #endif

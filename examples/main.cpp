@@ -17,11 +17,11 @@ void perform(int reproducesNumber, Population<size> &population, Square<size> &b
     int i = 1;
 	do
 	{
-        population.generateNextPopulation(reproducesNumber, mutation::swapToPoints, fitness::fitnessFunction, reproduction::reproductionFunction);
-		best = population.getBest(fitness::fitnessFunction);
-        cout << "Iteration " << i++ << " best far now " << fitness::fitnessFunction(best) << endl;
-	} while (fitness::fitnessFunction(best) != 0);
-	cout << "Result: fitness = " << fitness::fitnessFunction(best) << endl;
+		population.generateNextPopulation(reproducesNumber, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
+		best = population.getBest(fitness::diagonalsAreImportant);
+		cout << "Iteration " << i++ << " best far now " << fitness::diagonalsAreImportant(best) << endl;
+	} while (fitness::diagonalsAreImportant(best) != 0);
+	cout << "Result: fitness = " << fitness::diagonalsAreImportant(best) << endl;
 	cout << best << endl;
 }
 

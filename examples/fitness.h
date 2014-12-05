@@ -5,7 +5,7 @@
 namespace fitness
 {
 	template<unsigned int size>
-	int fitnessFunction(const Square<size>& square)
+	int diagonalsAreImportant(const Square<size>& square)
 	{
 		int result = 0;
 		int currentSumInRow, currentSumInCoumn, diagonalSum;

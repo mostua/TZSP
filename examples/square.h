@@ -5,10 +5,18 @@
 #include <algorithm>  
 using namespace std;
 
-//class represents square containing numbers from 1 to n^2
+//klasa odzwierciedla magiczny kwadrat
 template<unsigned int size>
 class Square
 {
+private:
+	//funkcja zwraca miejsce w tablicy dla danej pozycji
+	int placeInTable(int row, int column) const
+	{
+		if (row >= size || column >= size)
+			throw "out of range";
+		return row*size + column;
+	}
 protected:
 	int * values;
 
@@ -24,7 +32,7 @@ public:
 			values[i - 1] = 0;
 		}
 	}
-	//copy constructor
+	//konstruktor kopiujacy
 	Square(const Square& x)
 	{
 		values = new int[size*size];
@@ -51,7 +59,7 @@ public:
 			values[i] = x.values[i];
 		return x;
 	}
-	//befor using method call srand(time(0)) to proper working
+	//do poprawnego dzialania winien byc wywolany srand(time(0));
 	void randomFill()
 	{
 		for (int i = 1; i <= size*size; ++i)
@@ -60,24 +68,22 @@ public:
 		}
 		std::random_shuffle(values, values + size*size);
 	}
-	//returns value at specific row and column counting from 0 to size - 1
+	//zwraca wartosc z pola magicznego kwadrata z danej kolumny i wiersza, liczymy wiersze i kolumny od 0
 	int get(int row, int column) const
 	{
-		if (row >= size || column >= size)
-			throw "out of range";
 		if (values == 0)
 			throw "access to not reserved memory";
-		return values[row*size + column];
+		return values[placeInTable(row,column)];
 	}
-	//set value on specific row
+	//ustaw wartosc w danej kolumnie i wierszu
 	void set(int row, int column, int value)
 	{
 		if (row >= size || column >= size)
 			throw "out of range";
 		values[row*size + column] = value;
 	}
-	//swap places of to values
-	void swap(int valueA, int valueB)
+	//zamien miejscami dwie wartosci
+	void swapValues(int valueA, int valueB)
 	{
 		int whereA = size*size, whereB = size*size;
 		for (int i = 0; i < size*size; ++i)
@@ -98,7 +104,12 @@ public:
 		std::swap(values[whereA], values[whereB]);
 
 	}
-
+	//zamien miejscami dwa punktu
+	void swapPoints(int ax, int ay, int bx, int by)
+	{
+		swap(values[placeInTable(ax, ay)], values[placeInTable(bx, by)]);
+	}
+	//porownanie przez rozszerzenie porownania na na kolejne wartosci, najpierw porownujemy wartosci [0][0], poznmiej [0][1] etc.
 	bool operator<(const Square<size>& b) const
 	{
 		for (int i = 0; i < size; ++i)
@@ -117,7 +128,7 @@ public:
 template<unsigned int size>
 int Square<size>::number = 0;
 
-
+//f. do wyswietlania kwadrata na standardowe wyjscie.
 template<unsigned int size>
 ostream& operator<<(ostream & os, const Square<size> &square)
 {

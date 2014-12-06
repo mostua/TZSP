@@ -4,27 +4,27 @@
 #include "square.h"
 #include <vector>
 
-//class contain whole population of squares
+//klasa kontener, zawiera populacje
 template<unsigned int size>
 class Population
 {
 private:
 	const int INF = 100000;
-	int pMutation, qMutation; //probability of mutation is pMutation/qMutation
+	int pMutation, qMutation; //prawdopodbienstwo mutacji postaci p/q
 protected:
     vector< Square<size> > population;
 public:
-	//make population with the size 
+	//konstruktor, tworzy populacje o zadanej wielkosci
 	Population(int begin_size);
-	//method generate next population, howManyReproduces - how many individuals will be a parent, mutationFunction is a pointer to rule containing mutation process, fitnessFunction measure how good is an individual, reproductionFunction defining how to children come from parents
+	//metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaza, nastepnie wskazniki na funkcje odpowiadajace mutacje, dopasowanie, reprodukcje
 	void generateNextPopulation(int howManyReproduces, Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair< Square<size>,Square<size> > (*reproductionFunction)(const Square<size> &, const Square<size> &));
-	//method sets mutation propability
+	//metoda ustawia prawd. mutacji
 	void setMutationPropability(int p, int q);
-	//method returns population size
+	//metoda zwraca wielkosc populacji
 	unsigned int getPopulationSize();
-	//method returns an individual which is current best one
+	//metoda zwraca najlepszego osobnika
 	Square<size> getBest(int(*fitnessFunction)(const Square<size>&));
-	//method returns average of all individuals
+	//metoda zwraca srednia dopasowania
 	double populationAverage(int(*fitnessFunction)(const Square<size>&));
 };
 
@@ -42,26 +42,26 @@ Population<size>::Population(int begin_size)
 		temp.randomFill();
 		population.push_back(temp);
 	}
-	//default value of mutation propability is 50%
+	//wartosc prawd. mutacji domyslnie 1/2
 	setMutationPropability(1, 2);
 }
 
 template<unsigned int size>
 void Population<size>::generateNextPopulation(int howManyReproduces,  Square<size>(*mutationFunction)(const Square<size>&), int(*fitnessFunction)(const Square<size>&), pair<Square<size>, Square<size>> (*reproductionFunction)(const Square<size> &, const Square<size> &))
 {
-	//we get best individuals 
+	//sortujemy wg. wsp. dopasowania
 	sort(population.begin(), population.end(), [fitnessFunction](const Square<size> &a, const Square<size> &b)->bool{ 	return (fitnessFunction(a) != fitnessFunction(b) ? fitnessFunction(a) < fitnessFunction(b) : a < b);  });
 	if (population.size() > howManyReproduces)
 		population.resize(howManyReproduces);
 	population.shrink_to_fit();
-	//we want to random parents reproduction
+	//z tych co sie beda dopasowywac wybieramy losowo rodzicow
 	random_shuffle(population.begin(), population.end());
 	pair<Square<size>, Square<size>> result;
 	size_t populationSize = population.size();
 	for (size_t i = 0; 2 * i + 1 < min((size_t)howManyReproduces, populationSize) - min((size_t)howManyReproduces, populationSize) % 2; i++)
 	{
 		result = reproductionFunction(population.at(2 * i), population.at(2 * i + 1));
-		//one time on five mutate child
+		//z danym prawd. mutujemy dzieci
 		if (rand() % qMutation < pMutation)
 			result.first = mutationFunction(result.first);
 		if (rand() % qMutation < pMutation)

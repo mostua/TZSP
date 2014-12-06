@@ -1,34 +1,44 @@
-//function returns fitness of square measered as a sum of distances from befor calculated sum in row/column/diagonal to sum of every row, column and diagonal 
-//see in code
 #include "square.h"
 
+
+//przestrzen nazw zawiera wszystkie funkcje dopasowania
 namespace fitness
 {
+	//przek¹tne maja znaczenie
 	template<unsigned int size>
-	int diagonalsAreImportant(const Square<size>& square)
+	int onlyRowsAndColumns(const Square<size>& square)
 	{
 		int result = 0;
-		int currentSumInRow, currentSumInCoumn, diagonalSum;
+		int currentSumInRow, currentSumInCoumn;
 		int fitnessSum = size*(size * size + 1) / 2;
 		for (int i = 0; i < size; ++i)
 		{
 			currentSumInRow = currentSumInCoumn = 0;
-			//for each row and column sum values of littles squares
+			//dla kazdej kolumny policz sume, oraz dla kazdego wiersza
 			for (int j = 0; j < size; ++j)
 			{
 				currentSumInRow += square.get(i, j);
 				currentSumInCoumn += square.get(j, i);
 			}
-			//sum results of absolut diffrance of sum calculated befor and sum in a row/column
+			//do wyniku dodaj roznice miedzy porzadana suma a otrzymana (dla kazdej kolumny i wiersza)
 			result += abs(fitnessSum - currentSumInRow) + abs(fitnessSum - currentSumInCoumn);
 		}
+		return result;
+	}
+	//przek¹tne maja znaczenie
+	template<unsigned int size>
+	int diagonalsAreImportant(const Square<size>& square)
+	{
+		int result = 0;
+		int diagonalSum;
+		int fitnessSum = size*(size * size + 1) / 2;
+		result += onlyRowsAndColumns(square);
 		diagonalSum = 0;
 		for (int i = 0; i < size; ++i)
 		{
 			diagonalSum += square.get(i, i);
 		}
 		result += abs(fitnessSum - diagonalSum);
-
 		diagonalSum = 0;
 		for (int i = 0; i < size; ++i)
 		{

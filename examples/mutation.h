@@ -1,5 +1,5 @@
 #include "square.h"
-
+#include <vector>
 
 
 //przestrzen nazw zawierajaca wszystkie funkcje mutacji
@@ -28,12 +28,13 @@ namespace mutation
 		Square<size> result = square;
 		int columna, columnb;
 		//losujemy sposrod 3 kolumn
-		vector<int> tab({ 0, 1, 2 });
+		vector<int> tab;
+		for (int i = 0; i < size; i++) { tab.push_back(i); }
 		random_shuffle(tab.begin(), tab.end());
 		columna = tab[0], columnb = tab[1];
 		for (int i = 0; i < size; ++i)
 		{
-			result.swapPoints(columna, i, columnb, i);
+			result.swapPoints(i, columna, i, columnb);
 		}
 		return result;
 	}
@@ -44,12 +45,13 @@ namespace mutation
 		Square<size> result = square;
 		int rowa, rowb;
 		//losujemy sposrod 3 wierszy
-		vector<int> tab({ 0, 1, 2 });
+		vector<int> tab;
+		for (int i = 0; i < size; i++) { tab.push_back(i); }
 		random_shuffle(tab.begin(), tab.end());
 		rowa = tab[0], rowb = tab[1];
 		for (int i = 0; i < size; ++i)
 		{
-			result.swapPoints(i, rowa, i, rowb);
+			result.swapPoints(rowa, i, rowb, i);
 		}
 		return result;
 	}

@@ -17,7 +17,7 @@ void perform(int reproducesNumber, Population<size> &population, Square<size> &b
     int i = 1;
 	do
 	{
-		population.generateNextPopulation(reproducesNumber, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
+		population.generateNextPopulation(reproducesNumber);
 		best = population.getBest(fitness::diagonalsAreImportant);
 		cout << "Iteration " << i++ << " best far now " << fitness::diagonalsAreImportant(best) << endl;
 	} while (fitness::diagonalsAreImportant(best) != 0);
@@ -40,19 +40,19 @@ int main()
     cin >> reproductionAvaiable;
 	if (squareSize == 3)
 	{
-        Population<3> population(reproductionAvaiable);
+		Population<3> population(reproductionAvaiable, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
 		Square<3> best;
         perform(reproductionAvaiable, population, best);
 	}
 	if (squareSize == 4)
 	{
-        Population<4> population(reproductionAvaiable);
+		Population<4> population(reproductionAvaiable, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
 		Square<4> best;
         perform(reproductionAvaiable, population, best);
 	}
 	if (squareSize == 5)
 	{
-        Population<5> population(reproductionAvaiable);
+		Population<5> population(reproductionAvaiable, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
 		Square<5> best;
         perform(reproductionAvaiable, population, best);
 	}

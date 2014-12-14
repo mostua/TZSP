@@ -19,7 +19,7 @@ public:
 	//konstruktor, tworzy populacje o zadanej wielkoscia, nastepnie wskazniki na funkcje odpowiadajace (odpowiednio) za mutacje, dopasowanie, reprodukcje
 	Population(int , Square<size>(*mut)(const Square<size>&), int(*fit)(const Square<size>&), pair< Square<size>, Square<size> >(*repr)(const Square<size> &, const Square<size> &));
 	//metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
-	void generateNextPopulation(int howManyReproduces);
+    void generateNextPopulation(unsigned int howManyReproduces);
 	//metoda ustawia prawd. mutacji
 	void setMutationPropability(int p, int q);
 	//metoda zwraca wielkosc populacji
@@ -48,7 +48,7 @@ Population<size>::Population(int beginSize, Square<size>(*mutationFunction)(cons
 }
 
 template<unsigned int size>
-void Population<size>::generateNextPopulation(int howManyReproduces)
+void Population<size>::generateNextPopulation(unsigned int howManyReproduces)
 {
 	//sortujemy wg. wsp. dopasowania
 	sort(population.begin(), population.end(), [this](const Square<size> &a, const Square<size> &b)->bool{ 	return (fitnessFunction(a) != fitnessFunction(b) ? fitnessFunction(a) < fitnessFunction(b) : a < b);  });

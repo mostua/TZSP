@@ -11,7 +11,7 @@ class Square
 {
 private:
 	//funkcja zwraca miejsce w tablicy dla danej pozycji
-	int placeInTable(int row, int column) const
+    int placeInTable(unsigned int row, unsigned int column) const
 	{
 		if (row >= size || column >= size)
 			throw "out of range";
@@ -27,7 +27,7 @@ public:
 	{
 		values = new int[size*size];
 		id = number++;
-		for (int i = 1; i <= size*size; ++i)
+        for (unsigned int i = 1; i <= size*size; ++i)
 		{
 			values[i - 1] = 0;
 		}
@@ -37,7 +37,7 @@ public:
 	{
 		values = new int[size*size];
 		id = number++;
-		for (int i = 0; i < size*size; ++i)
+        for (unsigned int i = 0; i < size*size; ++i)
 			values[i] = x.values[i];
 	}
 	bool operator==(const Square& x)
@@ -55,14 +55,14 @@ public:
 	{
 		if (&x == this)
 			return x;
-		for (int i = 0; i < size*size; ++i)
+        for (unsigned int i = 0; i < size*size; ++i)
 			values[i] = x.values[i];
 		return x;
 	}
 	//do poprawnego dzialania winien byc wywolany srand(time(0));
 	void randomFill()
 	{
-		for (int i = 1; i <= size*size; ++i)
+        for (unsigned int i = 1; i <= size*size; ++i)
 		{
 			values[i - 1] = i;
 		}
@@ -76,7 +76,7 @@ public:
 		return values[placeInTable(row,column)];
 	}
 	//ustaw wartosc w danej kolumnie i wierszu
-	void set(int row, int column, int value)
+    void set(unsigned int row, unsigned int column, int value)
 	{
 		if (row >= size || column >= size)
 			throw "out of range";
@@ -86,7 +86,7 @@ public:
 	void swapValues(int valueA, int valueB)
 	{
 		int whereA = size*size, whereB = size*size;
-		for (int i = 0; i < size*size; ++i)
+        for (unsigned int i = 0; i < size*size; ++i)
 		{
 			if (values[i] == valueA)
 			{
@@ -112,9 +112,9 @@ public:
 	//porownanie przez rozszerzenie porownania na na kolejne wartosci, najpierw porownujemy wartosci [0][0], poznmiej [0][1] etc.
 	bool operator<(const Square<size>& b) const
 	{
-		for (int i = 0; i < size; ++i)
+        for (unsigned int i = 0; i < size; ++i)
 		{
-			for (int j = 0; j < size; ++j)
+            for (unsigned int j = 0; j < size; ++j)
 				if (get(i, j) != b.get(i, j))
 					return get(i, j) < b.get(i, j);
 		}
@@ -133,9 +133,9 @@ template<unsigned int size>
 ostream& operator<<(ostream & os, const Square<size> &square)
 {
 	os << size << " x " << size << "\n";
-	for (int i = 0; i < size; ++i)
+    for (unsigned int i = 0; i < size; ++i)
 	{
-		for (int j = 0; j < size; ++j)
+        for (unsigned int j = 0; j < size; ++j)
 			os << square.get(i, j) << " ";
 		os << "\n";
 	}

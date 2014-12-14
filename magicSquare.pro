@@ -25,3 +25,5 @@ HEADERS  += view/mainwindow.h \
     model/square.h
 
 FORMS    += view/mainwindow.ui
+
+QMAKE_CXXFLAGS += -std=c++11

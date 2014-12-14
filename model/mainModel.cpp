@@ -25,8 +25,7 @@ void perform(int reproducesNumber, Population<size> &population, Square<size> &b
 	cout << best << endl;
 }
 
-
-
+/*
 
 int main()
 {
@@ -62,3 +61,4 @@ int main()
 
 	system("pause");
 }
+*/

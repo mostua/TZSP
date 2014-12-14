@@ -1,3 +1,5 @@
+#ifndef REPRODUCTION_H
+#define REPRODUCTION_H
 #include "square.h"
 
 
@@ -48,3 +50,5 @@ namespace reproduction
 		return make_pair(childA, childB);
 	}
 }
+
+#endif

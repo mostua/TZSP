@@ -15,14 +15,18 @@ TEMPLATE = app
 SOURCES += main.cpp\
         view/mainwindow.cpp \
     model/testMutation.cpp \
-    model/mainModel.cpp
+    model/mainModel.cpp \
+    model/model.cpp \
+    controller/controller.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \
     model/mutation.h \
     model/population.h \
     model/reproduction.h \
-    model/square.h
+    model/square.h \
+    model/model.h \
+    controller/controller.h
 
 FORMS    += view/mainwindow.ui
 

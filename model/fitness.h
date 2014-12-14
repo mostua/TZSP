@@ -1,10 +1,13 @@
+#ifndef _FITNESS_H
+#define _FITNESS_H
+
 #include "square.h"
 
 
 //przestrzen nazw zawiera wszystkie funkcje dopasowania
 namespace fitness
 {
-    //przekπtne maja znaczenie
+    //przek≈°tne maja znaczenie
     template<unsigned int size>
     int onlyRowsAndColumns(const Square<size>& square)
     {
@@ -25,7 +28,7 @@ namespace fitness
         }
         return result;
     }
-    //przekπtne maja znaczenie
+    //przek≈°tne maja znaczenie
     template<unsigned int size>
     int diagonalsAreImportant(const Square<size>& square)
     {
@@ -48,3 +51,5 @@ namespace fitness
         return result;
     }
 }
+
+#endif

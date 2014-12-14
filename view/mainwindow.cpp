@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -17,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /*Creating menus*/
     fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(saveResults);
-
+    /*Creating connections */
+    createConnections();
 }
 
 MainWindow::~MainWindow()
@@ -75,6 +77,11 @@ void MainWindow::createItemsForOptionLayout()
     optionLayout->addWidget(beginButton,2,1);
     squareResultTable = new QTableWidget(3,3);
     optionLayout->addWidget(squareResultTable, 3,1);
+
+    //substitution
+    chartSubstitue = new QTextEdit();
+    optionLayout->addWidget(chartSubstitue, 4,1);
+    //endsubstitution
     simulationTypeGroup = new QGroupBox(tr("Simulation Options"));
     optionLayout->addWidget(simulationTypeGroup, 1,1);
     createItemsForGroupBoxes();
@@ -131,4 +138,23 @@ void MainWindow::createItemsForGroupBoxes()
     simulationTypeLayout->addWidget(simulationTypeButtonList->at(2), 2,0);
     simulationTypeLayout->addWidget(simulationTypeBoxList->at(0), 1,1);
     simulationTypeLayout->addWidget(simulationTypeBoxList->at(1), 2,1);
+
 }
+
+void MainWindow::createConnections()
+{
+    connect(beginButton, SIGNAL(clicked()), this, SLOT(simulationButtonPressed()));
+
+}
+
+void MainWindow::addIteration(QString value)
+{
+    chartSubstitue->append("\n" + value);
+}
+
+void MainWindow::simulationButtonPressed()
+{
+    emit startSimulation(squareSizeBox->value());
+}
+
+

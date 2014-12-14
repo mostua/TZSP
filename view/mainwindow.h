@@ -11,6 +11,7 @@
 #include <QSpinBox>
 #include <QPushButton>
 #include <QTableWidget>
+#include <QTextEdit>
 
 #define MAX_SQUARE_SIZE 8
 
@@ -26,6 +27,14 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+public slots:
+    void addIteration(QString value);
+private slots:
+    void simulationButtonPressed();
+
+signals:
+    void startSimulation(unsigned int size);
 
 private:
     Ui::MainWindow *ui;
@@ -44,12 +53,14 @@ private:
     QList<QSpinBox *> *simulationTypeBoxList;
     QPushButton *beginButton;
     QTableWidget *squareResultTable;
+    QTextEdit *chartSubstitue; //namiastka wykresu
     QMenu *fileMenu;
     QAction *saveResults;
 
     void createItemsForCentralWidget();
     void createItemsForOptionLayout();
     void createItemsForGroupBoxes();
+    void createConnections();
 };
 
 #endif // MAINWINDOW_H

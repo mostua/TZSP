@@ -12,7 +12,10 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QTextEdit>
+#include <qcustomplot-source/qcustomplot.h>
 
+#define MAIN_WINDOW_HEIGHT 600
+#define MAIN_WINDOW_WIDTH 800
 #define MAX_SQUARE_SIZE 8
 
 
@@ -39,9 +42,15 @@ signals:
 private:
     Ui::MainWindow *ui;
     QWidget *centralWidget;
-    QGridLayout *centralWidgetLayout;
+    QHBoxLayout *centralWidgetLayout;
+    QWidget *optionWidget;
+    QWidget *resultWidget;
+
+    /*central layout elements*/
     QGridLayout *optionLayout;
-    QWidget *graphWidget;
+    QGridLayout *graphLayout;
+
+    /*option layout elements*/
     QList<QGroupBox *> *boxList;
     QLabel *squareSizeText;
     QSpinBox *squareSizeBox;
@@ -54,11 +63,19 @@ private:
     QPushButton *beginButton;
     QTableWidget *squareResultTable;
     QTextEdit *chartSubstitue; //namiastka wykresu
+
+    /*graph widget layout*/
+    QCustomPlot *graphWidget;
+
     QMenu *fileMenu;
+
+    /*actions*/
     QAction *saveResults;
 
+    /*logically devided create functions */
     void createItemsForCentralWidget();
     void createItemsForOptionLayout();
+    void createItemsForGraphLayout();
     void createItemsForGroupBoxes();
     void createConnections();
 };

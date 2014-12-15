@@ -4,7 +4,8 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui printsupport
+
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,7 +18,8 @@ SOURCES += main.cpp\
     model/testMutation.cpp \
     model/mainModel.cpp \
     model/model.cpp \
-    controller/controller.cpp
+    controller/controller.cpp \
+    qcustomplot-source/qcustomplot.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \
@@ -26,7 +28,8 @@ HEADERS  += view/mainwindow.h \
     model/reproduction.h \
     model/square.h \
     model/model.h \
-    controller/controller.h
+    controller/controller.h \
+    qcustomplot-source/qcustomplot.h
 
 FORMS    += view/mainwindow.ui
 

@@ -7,9 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+  //  setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)));
     centralWidget = new QWidget(this);
     setCentralWidget(centralWidget);
-
     createItemsForCentralWidget();
 
     /*Creating actions*/
@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget *parent) :
     /*Creating menus*/
     fileMenu = menuBar()->addMenu(tr("File"));
     fileMenu->addAction(saveResults);
+
     /*Creating connections */
     createConnections();
 }
@@ -30,14 +31,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::createItemsForCentralWidget()
 {
-    centralWidgetLayout = new QGridLayout(centralWidget);
+    centralWidgetLayout = new QHBoxLayout(centralWidget);
     centralWidget->setLayout(centralWidgetLayout);
+    optionWidget = new QWidget(centralWidget);
+    resultWidget = new QWidget(centralWidget);
+    optionWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
+    resultWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
     optionLayout = new QGridLayout();
-    graphWidget = new QWidget(centralWidget);
-
-    centralWidgetLayout->addLayout(optionLayout,0,0);
-    centralWidgetLayout->addWidget(graphWidget,0,1);
-
+    graphLayout = new QGridLayout();
+    optionWidget->setLayout(optionLayout);
+    resultWidget->setLayout(graphLayout);
+    centralWidgetLayout->addWidget(optionWidget);
+    centralWidgetLayout->addWidget(resultWidget);
+    createItemsForGraphLayout();
     createItemsForOptionLayout();
 }
 
@@ -139,6 +145,28 @@ void MainWindow::createItemsForGroupBoxes()
     simulationTypeLayout->addWidget(simulationTypeBoxList->at(0), 1,1);
     simulationTypeLayout->addWidget(simulationTypeBoxList->at(1), 2,1);
 
+}
+
+void MainWindow::createItemsForGraphLayout()
+{
+    graphWidget = new QCustomPlot();
+    graphLayout->addWidget(graphWidget);
+    QVector<double> x(101), y(101); // initialize with entries 0..100
+    for (int i=0; i<101; ++i)
+    {
+      x[i] = i/50.0 - 1; // x goes from -1 to 1
+      y[i] = x[i]*x[i]; // let's plot a quadratic function
+    }
+    // create graph and assign data to it:
+    graphWidget->addGraph();
+    graphWidget->graph(0)->setData(x, y);
+    // give the axes some labels:
+    graphWidget->xAxis->setLabel("x");
+    graphWidget->yAxis->setLabel("y");
+    // set axes ranges, so we see all data:
+    graphWidget->xAxis->setRange(-1, 1);
+    graphWidget->yAxis->setRange(0, 1);
+    graphWidget->replot();
 }
 
 void MainWindow::createConnections()

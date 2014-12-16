@@ -31,6 +31,6 @@ HEADERS  += view/mainwindow.h \
     controller/controller.h \
     qcustomplot-source/qcustomplot.h
 
-FORMS    += view/mainwindow.ui
+FORMS    +=
 
 QMAKE_CXXFLAGS += -std=c++11

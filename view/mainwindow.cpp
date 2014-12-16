@@ -170,7 +170,6 @@ void MainWindow::createItemsForGraphLayout()
 void MainWindow::createConnections()
 {
     connect(beginButton, SIGNAL(clicked()), this, SLOT(simulationButtonPressed()));
-
 }
 
 void MainWindow::addIteration(QString value)

@@ -33,6 +33,7 @@ public:
 
 public slots:
     void addIteration(QString value);
+
 private slots:
     void simulationButtonPressed();
 
@@ -45,6 +46,9 @@ private:
     QHBoxLayout *centralWidgetLayout;
     QWidget *optionWidget;
     QWidget *resultWidget;
+
+    /*tab layout*/
+    QTabWidget *tabLayout;
 
     /*central layout elements*/
     QGridLayout *optionLayout;

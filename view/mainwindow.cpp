@@ -3,21 +3,21 @@
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)//,
+    //ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    //ui->setupUi(this);
   //  setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)));
-    centralWidget = new QWidget(this);
-    setCentralWidget(centralWidget);
+    tabLayout = new QTabWidget(this);
+    setCentralWidget(tabLayout);
     createItemsForCentralWidget();
 
     /*Creating actions*/
     saveResults  = new QAction(tr("Save"), this);
 
     /*Creating menus*/
-    fileMenu = menuBar()->addMenu(tr("File"));
-    fileMenu->addAction(saveResults);
+/*    fileMenu = menuBar()->addMenu(tr("File"));
+    fileMenu->addAction(saveResults);*/
 
     /*Creating connections */
     createConnections();
@@ -25,24 +25,22 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+    //delete ui;
 }
 
 
 void MainWindow::createItemsForCentralWidget()
 {
-    centralWidgetLayout = new QHBoxLayout(centralWidget);
-    centralWidget->setLayout(centralWidgetLayout);
-    optionWidget = new QWidget(centralWidget);
-    resultWidget = new QWidget(centralWidget);
-    optionWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
-    resultWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
+    optionWidget = new QWidget();
+    resultWidget = new QWidget();
+    tabLayout->addTab(optionWidget, tr("Options"));
+    tabLayout->addTab(resultWidget, tr("Results"));
+    //optionWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
+    //resultWidget->setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH/2, MAIN_WINDOW_HEIGHT)));
     optionLayout = new QGridLayout();
     graphLayout = new QGridLayout();
     optionWidget->setLayout(optionLayout);
     resultWidget->setLayout(graphLayout);
-    centralWidgetLayout->addWidget(optionWidget);
-    centralWidgetLayout->addWidget(resultWidget);
     createItemsForGraphLayout();
     createItemsForOptionLayout();
 }
@@ -184,5 +182,3 @@ void MainWindow::simulationButtonPressed()
 {
     emit startSimulation(squareSizeBox->value());
 }
-
-

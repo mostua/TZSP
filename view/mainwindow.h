@@ -13,6 +13,7 @@
 #include <QTableWidget>
 #include <QTextEdit>
 #include <qcustomplot-source/qcustomplot.h>
+#include <QVBoxLayout>
 
 #define MAIN_WINDOW_HEIGHT 600
 #define MAIN_WINDOW_WIDTH 800
@@ -32,7 +33,8 @@ public:
     ~MainWindow();
 
 public slots:
-    void addIteration(QString value);
+    void addIterationToFitnessFunction(double iteration, double best, double average, int graph);
+
 
 private slots:
     void simulationButtonPressed();
@@ -55,7 +57,18 @@ private:
     QGridLayout *graphLayout;
 
     /*option layout elements*/
-    QList<QGroupBox *> *boxList;
+    QGroupBox *squareTypeBox;
+    QGroupBox *algorithmStrategyBox;
+    QGroupBox *selectionTypeBox;
+    QGroupBox *reproductionTypeBox;
+    QGroupBox *mutationTypeBox;
+
+    QRadioButton* squareTypeButtons[2];
+    QRadioButton* algorithmStrategyButtons[2];
+    QRadioButton* selectionTypeButtons[3];
+    QRadioButton* reproductionTypeButtons[3];
+    QRadioButton* mutationTypeButtons[2];
+
     QLabel *squareSizeText;
     QSpinBox *squareSizeBox;
     QList<QVBoxLayout *> *boxLayouts;
@@ -68,6 +81,12 @@ private:
     QTableWidget *squareResultTable;
     QTextEdit *chartSubstitue; //namiastka wykresu
 
+    QGroupBox* simulationOptionsBox;
+    QRadioButton* simulationOptionsButtons[3];
+    QSpinBox* simulationOptionsSpinBoxes[2];
+    QGroupBox* chartTypeBox;
+    QRadioButton* chartTypeButtons[2];
+
     /*graph widget layout*/
     QCustomPlot *graphWidget;
 
@@ -78,6 +97,7 @@ private:
 
     /*logically devided create functions */
     void createItemsForCentralWidget();
+    void createItemsForResultWidget();
     void createItemsForOptionLayout();
     void createItemsForGraphLayout();
     void createItemsForGroupBoxes();

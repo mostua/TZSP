@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     MainWindow w;
     Controller controller;
 
-    QObject::connect(&controller, SIGNAL(returnIteration(QString)), &w, SLOT(addIteration(QString)));
+   // QObject::connect(&controller, SIGNAL(returnIteration(QString)), &w, SLOT(addIteration(QString)));
     QObject::connect(&w, SIGNAL(startSimulation(unsigned int)), &controller, SLOT(beginSimulation(unsigned int)));
     w.show();
 

@@ -11,12 +11,10 @@ template<unsigned int size>
 struct Model
 {
     Population<size> * population;
-    enum strategyType {ranking,random,best};
-    enum fitnessType{diagonalsCount,diagonalsNotCount};
-    enum reproductionType{saveDiagonals, saveColumns, saveRows};
-    enum mutationType{swapFields,swapRowsColumns};
 };
 
 const int MAX_SQUARE_SIZE = 8;
+const int MAX_MI_VALUE = 10000;
+const int MAX_ALPHA_VALUE = 10000;
 
 #endif // MODEL_H

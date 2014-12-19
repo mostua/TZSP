@@ -40,7 +40,15 @@ private:
     /*Formularz do wyboru rozmiaru kwadratu*/
     QLabel *squareSizeText;
     QSpinBox *squareSizeBox;
-
+    /*Formularz do wyboru parametru alpha */
+    QLabel *alphaSizeText;
+    QSpinBox *alphaSizeBox;
+    /*Formularz do wyboru parametru mi */
+    QLabel *miSizeText;
+    QSpinBox *miSizeBox;
+    /*Literki greckie */
+    QChar mi;
+    QChar alpha;
     void createWidgetItems();
     void setWidgetLayout();
 };

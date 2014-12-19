@@ -5,6 +5,7 @@ Results::Results(QWidget *parent) :
 {
     createWidgetItems();
     setWidgetLayout();
+    createConnections();
 }
 
 void Results::createWidgetItems()
@@ -26,9 +27,15 @@ void Results::createWidgetItems()
     chartTypeButtons[0]->setChecked(true);
     chartTypeButtons[1] = new QRadioButton(tr("Number of indivuals on fitness function value"));
     beginButton = new QPushButton(tr("Begin"));
+    resetButton = new QPushButton(tr("Reset"));
+    resetButton->setEnabled(false);
     /* widget zawierajacy wykres */
-    graphWidget = new QCustomPlot();
-
+    fitnessOnIterationChart = new QCustomPlot();
+    fitnessOnIterationChart->yAxis->setLabel(tr("fitness"));
+    fitnessOnIterationChart->xAxis->setLabel(tr("iteration"));
+    numberOnFitnessChart = new QCustomPlot();
+    numberOnFitnessChart->xAxis->setLabel(tr("fitness"));
+    numberOnFitnessChart->yAxis->setLabel(tr("number"));
 }
 
 void Results::setWidgetLayout()
@@ -55,9 +62,33 @@ void Results::setWidgetLayout()
     vb->addWidget(simulationOptionsBox);
     vb->addWidget(chartTypeBox);
     vb->addWidget(beginButton);
+    vb->addWidget(resetButton);
     /* w głównym layoutcie mamy 2, jeden od wykresu, drugi od przyciskow */
     widgetLayout->addLayout(vb, 0,1);
-    graphWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    graphWidget->setMinimumSize(400,300);
-    widgetLayout->addWidget(graphWidget,0,0);
+    fitnessOnIterationChart->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    fitnessOnIterationChart->setMinimumSize(400,300);
+    numberOnFitnessChart->setMinimumSize(400,300);
+    numberOnFitnessChart->setVisible(false);
+    widgetLayout->addWidget(fitnessOnIterationChart, 0, 0);
+    widgetLayout->addWidget(numberOnFitnessChart, 0, 0);
+}
+
+void Results::swapCharts()
+{
+    if(chartTypeButtons[0]->isChecked())
+    {
+        fitnessOnIterationChart->setVisible(true);
+        numberOnFitnessChart->setVisible(false);
+    }
+    else
+    {
+        fitnessOnIterationChart->setVisible(false);
+        numberOnFitnessChart->setVisible(true);
+    }
+}
+
+void Results::createConnections()
+{
+    connect(chartTypeButtons[0], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
+    connect(chartTypeButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
 }

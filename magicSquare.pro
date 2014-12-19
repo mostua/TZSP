@@ -21,7 +21,8 @@ SOURCES += main.cpp\
     controller/controller.cpp \
     libraries/qcustomplot.cpp \
     view/options.cpp \
-    view/results.cpp
+    view/results.cpp \
+    model/settings.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \
@@ -33,7 +34,8 @@ HEADERS  += view/mainwindow.h \
     controller/controller.h \
     libraries/qcustomplot.h \
     view/options.h \
-    view/results.h
+    view/results.h \
+    model/settings.h
 
 FORMS    +=
 

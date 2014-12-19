@@ -18,6 +18,8 @@ signals:
 
 public slots:
 
+private slots:
+    void swapCharts();
 private:
     /*Layout widgetu*/
     QGridLayout *widgetLayout;
@@ -33,10 +35,14 @@ private:
     QRadioButton* chartTypeButtons[2];
     /*Przycisk rozpoczynający symulacje */
     QPushButton *beginButton;
+    /*Przycisk do zresetowania symulacji */
+    QPushButton *resetButton;
     /*Widget z grafika */
-    QCustomPlot *graphWidget;
+    QCustomPlot *fitnessOnIterationChart;
+    QCustomPlot *numberOnFitnessChart;
     void createWidgetItems();
     void setWidgetLayout();
+    void createConnections();
 };
 
 #endif // RESULTS_H

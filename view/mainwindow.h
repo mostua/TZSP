@@ -28,6 +28,7 @@ public:
 
 public slots:
     void addIterationToFitnessFunction(double iteration, double best, double average, int graph);
+    void DrawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
 
 
 private slots:

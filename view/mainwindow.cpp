@@ -40,6 +40,12 @@ void MainWindow::createConnections()
     //connect(beginButton, SIGNAL(clicked()), this, SLOT(simulationButtonPressed()));
 }
 
-void MainWindow::addIterationToFitnessFunction(double iteration, double best, double average, int graph)
+void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)
 {
+
+}
+
+void MainWindow::DrawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
+{
+
 }

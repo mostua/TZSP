@@ -15,7 +15,7 @@ class Results : public QWidget
 public:
     explicit Results(QWidget *parent = 0);
 signals:
-
+    void beginSimulationClicked();
 public slots:
 
 private slots:

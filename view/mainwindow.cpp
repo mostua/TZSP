@@ -34,6 +34,10 @@ void MainWindow::createItemsForCentralWidget()
     tabLayout->addTab(squareResultTable, tr("Best indivuals"));
 }
 
+void MainWindow::simulationButtonPressed()
+{
+
+}
 
 void MainWindow::createConnections()
 {
@@ -45,7 +49,7 @@ void MainWindow::drawFitnessGraph(double iteration, double best, double average,
 
 }
 
-void MainWindow::DrawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
+void MainWindow::drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
 {
 
 }

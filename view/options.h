@@ -12,13 +12,16 @@
 #include <QGridLayout>
 #include <QTextEdit>
 #include "../model/model.h"
+#include "../model/settings.h"
 
 class Options : public QWidget
 {
     Q_OBJECT
 public:
     explicit Options(QWidget *parent = 0);
-
+    Settings::squareType getSquareType();
+    Settings::strategyType getStrategyType();
+    Settings::algorithmType getAlgorithmType();
 signals:
 
 public slots:
@@ -52,5 +55,7 @@ private:
     void createWidgetItems();
     void setWidgetLayout();
 };
+
+
 
 #endif // OPTIONS_H

@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     Controller controller;
 
    // QObject::connect(&controller, SIGNAL(returnIteration(QString)), &w, SLOT(addIteration(QString)));
-    QObject::connect(&w, SIGNAL(startSimulation(unsigned int)), &controller, SLOT(beginSimulation(unsigned int)));
+    QObject::connect(&w, SIGNAL(startSimulation(Settings)), &controller, SLOT(beginSimulation(Settings)));
     w.show();
 
     return a.exec();

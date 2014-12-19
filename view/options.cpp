@@ -111,4 +111,27 @@ void Options::setWidgetLayout()
     vb->addWidget(mutationTypeButtons[1]);
     mutationTypeBox->setLayout(vb);
     optionLayout->addWidget(mutationTypeBox, 4,1);
+    /*Widzet pomagajcy w rozmieszczeniu */
+    QWidget* emptyWidget = new QWidget;
+    emptyWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    optionLayout->addWidget(emptyWidget, 6,2);
+}
+
+Settings::squareType Options::getSquareType()
+{
+    if(squareTypeButtons[0]->isChecked())
+        return Settings::squareType::diagonalsCount;
+    if(squareTypeButtons[1]->isChecked())
+        return Settings::squareType::diagonalsNotCount;
+    throw "nothing is checked";
+}
+
+Settings::strategyType Options::getStrategyType()
+{
+
+}
+
+Settings::algorithmType Options::getAlgorithmType()
+{
+
 }

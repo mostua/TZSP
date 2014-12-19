@@ -17,6 +17,7 @@
 #include <QDebug>
 #include "options.h"
 #include "results.h"
+#include "model/settings.h"
 
 class MainWindow : public QMainWindow
 {
@@ -27,15 +28,15 @@ public:
     ~MainWindow();
 
 public slots:
-    void addIterationToFitnessFunction(double iteration, double best, double average, int graph);
-    void DrawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
+    void drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph);
+    void drawFitnessGraph(double iteration, double best, double average, int graph);
 
 
 private slots:
-   // void simulationButtonPressed();
+   void simulationButtonPressed();
 
 signals:
-    void startSimulation(unsigned int size);
+    void startSimulation(Settings settings);
 
 private:
     const int MAIN_WINDOW_HEIGHT = 600;
@@ -52,7 +53,6 @@ private:
     QTableWidget *squareResultTable;
     /*actions*/
     QAction *saveResults;
-
     /*logically devided create functions */
     void createItemsForCentralWidget();
     void createItemsForResultWidget();

@@ -91,4 +91,5 @@ void Results::createConnections()
 {
     connect(chartTypeButtons[0], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
     connect(chartTypeButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
+    connect(beginButton, SIGNAL(clicked()), this, SIGNAL(beginSimulationClicked()));
 }

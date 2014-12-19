@@ -12,17 +12,11 @@
 #include <QPushButton>
 #include <QTableWidget>
 #include <QTextEdit>
-#include <qcustomplot-source/qcustomplot.h>
 #include <QVBoxLayout>
-
-#define MAIN_WINDOW_HEIGHT 600
-#define MAIN_WINDOW_WIDTH 800
-#define MAX_SQUARE_SIZE 8
-
-
-namespace Ui {
-class MainWindow;
-}
+#include <libraries/qcustomplot.h>
+#include <QDebug>
+#include "options.h"
+#include "results.h"
 
 class MainWindow : public QMainWindow
 {
@@ -37,61 +31,24 @@ public slots:
 
 
 private slots:
-    void simulationButtonPressed();
+   // void simulationButtonPressed();
 
 signals:
     void startSimulation(unsigned int size);
 
 private:
-    Ui::MainWindow *ui;
+    const int MAIN_WINDOW_HEIGHT = 600;
+    const int MAIN_WINDOW_WIDTH = 800;
     QWidget *centralWidget;
     QHBoxLayout *centralWidgetLayout;
     QWidget *optionWidget;
     QWidget *resultWidget;
-
     /*tab layout*/
     QTabWidget *tabLayout;
-
     /*central layout elements*/
-    QGridLayout *optionLayout;
-    QGridLayout *graphLayout;
-
-    /*option layout elements*/
-    QGroupBox *squareTypeBox;
-    QGroupBox *algorithmStrategyBox;
-    QGroupBox *selectionTypeBox;
-    QGroupBox *reproductionTypeBox;
-    QGroupBox *mutationTypeBox;
-
-    QRadioButton* squareTypeButtons[2];
-    QRadioButton* algorithmStrategyButtons[2];
-    QRadioButton* selectionTypeButtons[3];
-    QRadioButton* reproductionTypeButtons[3];
-    QRadioButton* mutationTypeButtons[2];
-
-    QLabel *squareSizeText;
-    QSpinBox *squareSizeBox;
-    QList<QVBoxLayout *> *boxLayouts;
-    QList<QRadioButton *> *buttonList;
-    QGroupBox *simulationTypeGroup;
-    QGridLayout *simulationTypeLayout;
-    QList<QRadioButton *> *simulationTypeButtonList;
-    QList<QSpinBox *> *simulationTypeBoxList;
-    QPushButton *beginButton;
-    QTableWidget *squareResultTable;
-    QTextEdit *chartSubstitue; //namiastka wykresu
-
-    QGroupBox* simulationOptionsBox;
-    QRadioButton* simulationOptionsButtons[3];
-    QSpinBox* simulationOptionsSpinBoxes[2];
-    QGroupBox* chartTypeBox;
-    QRadioButton* chartTypeButtons[2];
-
-    /*graph widget layout*/
-    QCustomPlot *graphWidget;
-
     QMenu *fileMenu;
-
+    /*tab individuals */
+    QTableWidget *squareResultTable;
     /*actions*/
     QAction *saveResults;
 

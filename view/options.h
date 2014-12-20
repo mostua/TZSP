@@ -20,8 +20,13 @@ class Options : public QWidget
 public:
     explicit Options(QWidget *parent = 0);
     Settings::squareType getSquareType();
-    Settings::strategyType getStrategyType();
+    Settings::selectionType getSelectionType();
     Settings::algorithmType getAlgorithmType();
+    Settings::mutationType getMutationType();
+    Settings::reproductionType getReproductionType();
+    int getAlpha();
+    int getMi();
+    int getSquareSize();
 signals:
 
 public slots:

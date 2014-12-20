@@ -4,7 +4,10 @@
 #include <QObject>
 #include <QThread>
 #include "../model/model.h"
+#include "../model/settings.h"
 #include <QDebug>
+#include <cstdlib>
+#include <ctime>
 using namespace std;
 
 class Controller : public QThread
@@ -14,10 +17,9 @@ public:
     explicit Controller(QObject *parent = 0);
     Controller* thread;
 signals:
-    void returnIteration(QString value);
+//    void returnIteration(QString value);
 public slots:
-    void beginSimulation(unsigned int size);
-public:
+    void beginSimulation(Settings settings);
     void run();
 };
 

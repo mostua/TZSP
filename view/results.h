@@ -8,12 +8,16 @@
 #include <QSpinBox>
 #include <QPushButton>
 #include "libraries/qcustomplot.h"
+#include "model/model.h"
+#include "model/settings.h"
 
 class Results : public QWidget
 {
     Q_OBJECT
 public:
     explicit Results(QWidget *parent = 0);
+    Settings::simulationType getSimulationType();
+    int getSimulationParameter();
 signals:
     void beginSimulationClicked();
 public slots:
@@ -28,7 +32,7 @@ private:
     /*Grupa zawierające przyciski do wyboru wykresu */
     QGroupBox* chartTypeBox;
     /*Przyciski od wyboru symulacji */
-    QRadioButton* simulationOptionsButtons[3];
+    QRadioButton* simulationOptionsButtons[2];
     /*Suwaki od wyboru parametrow symulacji */
     QSpinBox* simulationOptionsSpinBoxes[2];
     /*Przyciski od wyboru wykresu */

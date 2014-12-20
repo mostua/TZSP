@@ -15,21 +15,21 @@ void Options::createWidgetItems()
     /*Suwak do wyboru rozmiaru kwadratu*/
     squareSizeText = new QLabel(tr("Square side size:"));
     squareSizeBox = new QSpinBox();
-    squareSizeBox->setRange(3,MAX_SQUARE_SIZE);
+    squareSizeBox->setRange(MIN_SQUARE_SIZE,MAX_SQUARE_SIZE);
     squareSizeBox->setSingleStep(1);
-    squareSizeBox->setValue(3);
+    squareSizeBox->setValue(MIN_SQUARE_SIZE);
     /*Suwak do wyboru wielkosci parametru alpha */
     alphaSizeText = new QLabel(QString(alpha) + tr(" parameter value:"));
     alphaSizeBox = new QSpinBox();
-    alphaSizeBox->setRange(10,MAX_ALPHA_VALUE);
+    alphaSizeBox->setRange(MIN_ALPHA_VALUE,MAX_ALPHA_VALUE);
     alphaSizeBox->setSingleStep(1);
-    alphaSizeBox->setValue(10);
+    alphaSizeBox->setValue(MIN_ALPHA_VALUE);
     /*Suwak do wyboru wielkosci parametru mi*/
     miSizeText = new QLabel(QString(mi) + tr(" parameter value:"));
     miSizeBox = new QSpinBox();
-    miSizeBox->setRange(10,MAX_MI_VALUE);
+    miSizeBox->setRange(MIN_MI_VALUE,MAX_MI_VALUE);
     miSizeBox->setSingleStep(1);
-    miSizeBox->setValue(10);
+    miSizeBox->setValue(MIN_MI_VALUE);
     /*Grupa przyciskow do wyboru magicznego kwadratu */
     squareTypeBox = new QGroupBox(tr("Square Type Box"));
     squareTypeButtons[0] = new QRadioButton(tr("Diagonals are important"));
@@ -120,18 +120,72 @@ void Options::setWidgetLayout()
 Settings::squareType Options::getSquareType()
 {
     if(squareTypeButtons[0]->isChecked())
-        return Settings::squareType::diagonalsCount;
+        return Settings::diagonalsCount;
     if(squareTypeButtons[1]->isChecked())
-        return Settings::squareType::diagonalsNotCount;
-    throw "nothing is checked";
+        return Settings::diagonalsNotCount;
+    throw "nothing is checked in square buttons";
 }
 
-Settings::strategyType Options::getStrategyType()
+Settings::selectionType Options::getSelectionType()
 {
-
+    if(selectionTypeButtons[0]->isChecked())
+        return Settings::ranking;
+    if(selectionTypeButtons[1]->isChecked())
+        return Settings::random;
+    if(selectionTypeButtons[2]->isChecked())
+        return Settings::best;
+    throw "nothing is checked in selection buttons";
 }
 
 Settings::algorithmType Options::getAlgorithmType()
 {
+    if(algorithmStrategyButtons[0]->isChecked())
+        return Settings::alphaPlusMi;
+    if(algorithmStrategyButtons[1]->isChecked())
+        return Settings::alphaMi;
+    throw "nothin is checked in strategy buttons";
+}
 
+Settings::mutationType Options::getMutationType()
+{
+    if(mutationTypeButtons[0]->isChecked())
+        return Settings::swapFields;
+    if(mutationTypeButtons[1]->isChecked())
+        return Settings::swapRowsColumns;
+    throw "nothing is checked in mutation buttons";
+}
+
+Settings::reproductionType Options::getReproductionType()
+{
+    if(reproductionTypeButtons[0]->isChecked())
+        return Settings::saveDiagonals;
+    if(reproductionTypeButtons[1]->isChecked())
+        return Settings::saveColumns;
+    if(reproductionTypeButtons[2]->isChecked())
+        return Settings::saveRows;
+    throw "nothing is checked in reproductionType";
+}
+
+int Options::getAlpha()
+{
+    int result = alphaSizeBox->value();
+    if(result < MIN_ALPHA_VALUE || result > MAX_ALPHA_VALUE)
+        throw "alpha size out of range";
+    return result;
+}
+
+int Options::getMi()
+{
+    int result = miSizeBox->value();
+    if(result < MIN_MI_VALUE || result > MAX_MI_VALUE)
+        throw "mi size out of range";
+    return result;
+}
+
+int Options::getSquareSize()
+{
+    int result = squareSizeBox->value();
+    if(result < MIN_SQUARE_SIZE || result > MAX_SQUARE_SIZE)
+        throw "quare size out of range";
+    return result;
 }

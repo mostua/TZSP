@@ -8,19 +8,53 @@ Results::Results(QWidget *parent) :
     createConnections();
 }
 
+Settings::simulationType Results::getSimulationType()
+{
+    if(simulationOptionsButtons[0]->isChecked())
+        return Settings::stepsByStep;
+    if(simulationOptionsButtons[1]->isChecked())
+        return Settings::fewStepsPerSecond;
+    throw "nothing is checked in simulation section";
+}
+
+int Results::getSimulationParameter()
+{
+    Settings::simulationType type = getSimulationType();
+    int result;
+    if(type == Settings::stepsByStep)
+    {
+        result = simulationOptionsSpinBoxes[0]->value();
+        if(result < MIN_STEPS_VALUE || result > MAX_STEPS_VALUE)
+            throw "steps value out of range";
+    }
+    else
+    {
+        result = simulationOptionsSpinBoxes[1]->value();
+        if(result < MIN_STEPS_PER_SECOND || result > MAX_STEPS_PER_SECOND)
+            throw "steps value out of range";
+    }
+    return result;
+
+}
+
 void Results::createWidgetItems()
 {
     widgetLayout = new QGridLayout();
     /* grupa zawierajace przyciski do wyboru typu symulacji */
     simulationOptionsBox = new QGroupBox(tr("Simulation Options"));
     simulationOptionsBox->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    simulationOptionsButtons[0] = new QRadioButton(tr("Step by step simulation"));
+//    simulationOptionsButtons[0] = new QRadioButton(tr("Step by step simulation"));
+//    simulationOptionsButtons[0]->setChecked(true);
+    simulationOptionsButtons[0] = new QRadioButton(tr("Few steps by step simulation"));
     simulationOptionsButtons[0]->setChecked(true);
-    simulationOptionsButtons[1] = new QRadioButton(tr("Few steps by step simulation"));
-    simulationOptionsButtons[2] = new QRadioButton(tr("Steps per second simulation"));
-    /* suwalo dp wyboru parametrów krokowych symulacji */
+    simulationOptionsButtons[1] = new QRadioButton(tr("Steps per second simulation"));
+    /* suwaki do wyboru parametrów krokowych symulacji */
     simulationOptionsSpinBoxes[0] = new QSpinBox();
+    simulationOptionsSpinBoxes[0]->setRange(MIN_STEPS_VALUE, MAX_STEPS_VALUE);
+    simulationOptionsSpinBoxes[0]->setValue(MIN_STEPS_VALUE);
     simulationOptionsSpinBoxes[1] = new QSpinBox();
+    simulationOptionsSpinBoxes[1]->setRange(MIN_STEPS_PER_SECOND, MAX_STEPS_PER_SECOND);
+    simulationOptionsSpinBoxes[1]->setValue(MIN_STEPS_PER_SECOND);
     /* grupa zawierajaca przyciski do wyboru wykresu */
     chartTypeBox = new QGroupBox(tr("Chart Type"));
     chartTypeButtons[0] = new QRadioButton(tr("Fitness function value on iteration"));
@@ -47,9 +81,8 @@ void Results::setWidgetLayout()
     gl = new QGridLayout;
     gl->addWidget(simulationOptionsButtons[0],0,0);
     gl->addWidget(simulationOptionsButtons[1],1,0);
-    gl->addWidget(simulationOptionsButtons[2],2,0);
-    gl->addWidget(simulationOptionsSpinBoxes[0], 1,1);
-    gl->addWidget(simulationOptionsSpinBoxes[1],2,1);
+    gl->addWidget(simulationOptionsSpinBoxes[0],0,1);
+    gl->addWidget(simulationOptionsSpinBoxes[1],1,1);
     simulationOptionsBox->setLayout(gl);
     chartTypeBox->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     /*layout grupy przyciskow wyboru wykresu */

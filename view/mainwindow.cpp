@@ -36,12 +36,18 @@ void MainWindow::createItemsForCentralWidget()
 
 void MainWindow::simulationButtonPressed()
 {
-
+    try{
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getAlpha(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter());
+        emit startSimulation(msg);
+    }catch(char const * e)
+    {
+        qDebug() << e;
+    }
 }
 
 void MainWindow::createConnections()
 {
-    //connect(beginButton, SIGNAL(clicked()), this, SLOT(simulationButtonPressed()));
+    connect(resultWidget, SIGNAL(beginSimulationClicked()), this, SLOT(simulationButtonPressed()));
 }
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)

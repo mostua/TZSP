@@ -43,8 +43,8 @@ private:
     const int MAIN_WINDOW_WIDTH = 800;
     QWidget *centralWidget;
     QHBoxLayout *centralWidgetLayout;
-    QWidget *optionWidget;
-    QWidget *resultWidget;
+    Options *optionWidget;
+    Results *resultWidget;
     /*tab layout*/
     QTabWidget *tabLayout;
     /*central layout elements*/

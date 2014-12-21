@@ -2,6 +2,11 @@
 #define STEPEDSIMULATION_H
 
 #include <QThread>
+#include <QMutex>
+#include <QWaitCondition>
+#include <QDebug>
+#include "../model/model.h"
+
 
 class stepedSimulation : public QThread
 {
@@ -12,7 +17,12 @@ public:
 signals:
 
 public slots:
-
+    void run();
+private:
+    QMutex saveIsWorking;
+    //QMutexLocker lockerIsWorking;
+    QWaitCondition canStartWorking;
+    bool isWorking;
 };
 
 #endif // STEPEDSIMULATION_H

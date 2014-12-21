@@ -30,14 +30,12 @@ public:
 public slots:
     void drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph);
     void drawFitnessGraph(double iteration, double best, double average, int graph);
-
-
 private slots:
    void simulationButtonPressed();
 
 signals:
     void startSimulation(Settings settings);
-
+    void  activateButtons(); //sygnal uruchamiany gdy symulacja sie rozpocznie aby uaktualnic przyciski
 private:
     const int MAIN_WINDOW_HEIGHT = 600;
     const int MAIN_WINDOW_WIDTH = 800;

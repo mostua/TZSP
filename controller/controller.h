@@ -2,25 +2,28 @@
 #define CONTROLLER_H
 
 #include <QObject>
-#include <QThread>
-#include "../model/model.h"
-#include "../model/settings.h"
-#include <QDebug>
 #include <cstdlib>
 #include <ctime>
+#include "../model/model.h"
+#include "../model/settings.h"
+#include "continuoussimulation.h"
+#include "stepedsimulation.h"
+
 using namespace std;
 
-class Controller : public QThread
+class Controller : public QObject
 {
     Q_OBJECT
 public:
     explicit Controller(QObject *parent = 0);
-    Controller* thread;
+    QThread* thread;
 signals:
-//    void returnIteration(QString value);
+    void simulationStarted();
+/*    void pauseOrResumeSimulationSignal();*/
 public slots:
     void beginSimulation(Settings settings);
-    void run();
+    //void pauseOrResumeSimulationSlot();
+
 };
 
 #endif // CONTROLLER_H

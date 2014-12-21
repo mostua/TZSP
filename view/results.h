@@ -19,11 +19,13 @@ public:
     Settings::simulationType getSimulationType();
     int getSimulationParameter();
 signals:
-    void beginSimulationClicked();
+    void beginStepSimulationClicked();//sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji klikanej
+    void beginContinousSimulationClicked(); //sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji ciaglej
 public slots:
-
+    void activateButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji
 private slots:
     void swapCharts();
+    void swapBeginButtons();
 private:
     /*Layout widgetu*/
     QGridLayout *widgetLayout;
@@ -37,13 +39,16 @@ private:
     QSpinBox* simulationOptionsSpinBoxes[2];
     /*Przyciski od wyboru wykresu */
     QRadioButton* chartTypeButtons[2];
-    /*Przycisk rozpoczynający symulacje */
-    QPushButton *beginButton;
+    /*Przycisk rozpoczynający symulacje klikana */
+    QPushButton *beginButtonStep;
+    /*Przycisk rozpoczynający symulacje ciaglla */
+    QPushButton *beginButtonContinous;
     /*Przycisk do zresetowania symulacji */
     QPushButton *resetButton;
     /*Widget z grafika */
     QCustomPlot *fitnessOnIterationChart;
     QCustomPlot *numberOnFitnessChart;
+
     void createWidgetItems();
     void setWidgetLayout();
     void createConnections();

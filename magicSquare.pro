@@ -22,7 +22,9 @@ SOURCES += main.cpp\
     libraries/qcustomplot.cpp \
     view/options.cpp \
     view/results.cpp \
-    model/settings.cpp
+    model/settings.cpp \
+    controller/continuoussimulation.cpp \
+    controller/stepedsimulation.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \
@@ -35,7 +37,9 @@ HEADERS  += view/mainwindow.h \
     libraries/qcustomplot.h \
     view/options.h \
     view/results.h \
-    model/settings.h
+    model/settings.h \
+    controller/continuoussimulation.h \
+    controller/stepedsimulation.h
 
 FORMS    +=
 

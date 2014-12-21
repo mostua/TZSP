@@ -37,6 +37,21 @@ int Results::getSimulationParameter()
 
 }
 
+void Results::activateButtons()
+{
+    /*if(isSimulationStarted == false)
+    {
+        beginButton->setText(getSimulationType() == Settings::stepsByStep ? tr("Next step") : tr("Pause"));
+        resetButton->setEnabled(true);
+    }
+    else
+    {
+        beginButton->setText(tr("Begin"));
+        resetButton->setEnabled(false);
+    }
+    isSimulationStarted = true;*/
+}
+
 void Results::createWidgetItems()
 {
     widgetLayout = new QGridLayout();
@@ -60,7 +75,8 @@ void Results::createWidgetItems()
     chartTypeButtons[0] = new QRadioButton(tr("Fitness function value on iteration"));
     chartTypeButtons[0]->setChecked(true);
     chartTypeButtons[1] = new QRadioButton(tr("Number of indivuals on fitness function value"));
-    beginButton = new QPushButton(tr("Begin"));
+    beginButtonStep = new QPushButton(tr("Begin step simulation"));
+    beginButtonContinous = new QPushButton(tr("Begin continous simulation"));
     resetButton = new QPushButton(tr("Reset"));
     resetButton->setEnabled(false);
     /* widget zawierajacy wykres */
@@ -94,7 +110,11 @@ void Results::setWidgetLayout()
     QVBoxLayout *vb = new QVBoxLayout;
     vb->addWidget(simulationOptionsBox);
     vb->addWidget(chartTypeBox);
-    vb->addWidget(beginButton);
+    QGridLayout *beginsButtons = new QGridLayout;
+    beginsButtons->addWidget(beginButtonContinous,0,0);
+    beginButtonContinous->setVisible(false);
+    beginsButtons->addWidget(beginButtonStep,0,0);
+    vb->addLayout(beginsButtons);
     vb->addWidget(resetButton);
     /* w głównym layoutcie mamy 2, jeden od wykresu, drugi od przyciskow */
     widgetLayout->addLayout(vb, 0,1);
@@ -120,9 +140,26 @@ void Results::swapCharts()
     }
 }
 
+void Results::swapBeginButtons()
+{
+    if(simulationOptionsButtons[0]->isChecked())
+    {
+        beginButtonStep->setVisible(true);
+        beginButtonContinous->setVisible(false);
+    }
+    else
+    {
+        beginButtonStep->setVisible(false);
+        beginButtonContinous->setVisible(true);
+    }
+}
+
 void Results::createConnections()
 {
     connect(chartTypeButtons[0], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
     connect(chartTypeButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapCharts()));
-    connect(beginButton, SIGNAL(clicked()), this, SIGNAL(beginSimulationClicked()));
+    connect(simulationOptionsButtons[0], SIGNAL(toggled(bool)), this, SLOT(swapBeginButtons()));
+    connect(simulationOptionsButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapBeginButtons()));
+    connect(beginButtonContinous, SIGNAL(clicked()), this, SIGNAL(beginContinousSimulationClicked()));
+    connect(beginButtonStep, SIGNAL(clicked()), this, SIGNAL(beginStepSimulationClicked()));
 }

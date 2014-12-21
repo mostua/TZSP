@@ -48,6 +48,7 @@ void MainWindow::simulationButtonPressed()
 void MainWindow::createConnections()
 {
     connect(resultWidget, SIGNAL(beginSimulationClicked()), this, SLOT(simulationButtonPressed()));
+    connect(this, SIGNAL(activateButtons()), resultWidget,  SLOT(activateButtons()));
 }
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)

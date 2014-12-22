@@ -16,14 +16,21 @@ class Controller : public QObject
     Q_OBJECT
 public:
     explicit Controller(QObject *parent = 0);
-    QThread* thread;
+    ContinuousSimulation * continousSimulation;
+    StepedSimulation * stepedSimulation;
 signals:
-    void simulationStarted();
+    void stepSimulationStarted();
+    void continousSimulationStarted();
 /*    void pauseOrResumeSimulationSignal();*/
 public slots:
-    void beginSimulation(Settings settings);
-    //void pauseOrResumeSimulationSlot();
-
+    void beginStepSimulation(Settings settings);
+    void beginContinousSimulation(Settings settings);
+    void nextStep(); //slot wywolywany przy symulacji krokowej
+    void pause(); //slot wywolywany przy symulacji ciaglej
+    void restart();
+private:
+    bool isSimulationStarted;
+    void createConnections();
 };
 
 #endif // CONTROLLER_H

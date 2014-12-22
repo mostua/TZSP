@@ -37,19 +37,16 @@ int Results::getSimulationParameter()
 
 }
 
-void Results::activateButtons()
+void Results::activateContinousButtons()
 {
-    /*if(isSimulationStarted == false)
-    {
-        beginButton->setText(getSimulationType() == Settings::stepsByStep ? tr("Next step") : tr("Pause"));
-        resetButton->setEnabled(true);
-    }
-    else
-    {
-        beginButton->setText(tr("Begin"));
-        resetButton->setEnabled(false);
-    }
-    isSimulationStarted = true;*/
+    beginButtonContinous->setText(tr("Pause"));
+    resetButton->setEnabled(true);
+}
+
+void Results::activateStepButtons()
+{
+    beginButtonStep->setText(tr("Next step"));
+    resetButton->setEnabled(true);
 }
 
 void Results::createWidgetItems()

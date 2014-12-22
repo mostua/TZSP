@@ -30,12 +30,15 @@ public:
 public slots:
     void drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph);
     void drawFitnessGraph(double iteration, double best, double average, int graph);
-private slots:
-   void simulationButtonPressed();
 
+private slots:
+   void continousSimulationButtonPressed();
+   void stepSimulationButtonPressed();
 signals:
-    void startSimulation(Settings settings);
-    void  activateButtons(); //sygnal uruchamiany gdy symulacja sie rozpocznie aby uaktualnic przyciski
+    void startContinousSimulation(Settings settings);
+    void startStepSimulation(Settings settings);
+    void activateContinousButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji ciaglej
+    void activateStepButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji krokowej
 private:
     const int MAIN_WINDOW_HEIGHT = 600;
     const int MAIN_WINDOW_WIDTH = 800;

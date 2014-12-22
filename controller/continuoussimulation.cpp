@@ -1,13 +1,17 @@
 #include "continuoussimulation.h"
-#include <ctime>
-#include <cstdlib>
 
-continuousSimulation::continuousSimulation(QObject *parent) :
-    QThread(parent)
+
+ContinuousSimulation::ContinuousSimulation(QObject *parent) :
+    QThread(parent), isWorkingValue(false)
 {
 }
 
-void continuousSimulation::run()
+bool ContinuousSimulation::isWorking() const
+{
+    return isWorkingValue;
+}
+
+void ContinuousSimulation::run()
 {
         srand(time(0));
     qDebug() << "Thread started";
@@ -19,14 +23,11 @@ void continuousSimulation::run()
     Square<4> best;
     int i = 1;
     QString textToShow;
-    isWorking = true;
-    emit simulationStarted();
+    isWorkingValue = true;
+    emit continousSimulationStarted();
     do
     {
-        saveIsWorking.lock();
-        while(isWorking == false)
-            canStartWorking.wait(&saveIsWorking);
-
+        mutexIsWorking.lock();
         model.population->generateNextPopulation(100);
         best = model.population->getBest(fitness::onlyRowsAndColumns);
         textToShow.clear();
@@ -34,10 +35,23 @@ void continuousSimulation::run()
         qDebug() << textToShow;
         if(i % 100 == 0)
             model.population->addNewIndividuals(reproductionAvaiable);
-        saveIsWorking.unlock();
+        mutexIsWorking.unlock();
     } while (fitness::onlyRowsAndColumns(best) != 0);
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(fitness::onlyRowsAndColumns(best));
     qDebug() << textToShow;
     //emit returnIteration(textToShow);
+}
+
+void ContinuousSimulation::pause()
+{
+    mutexIsWorking.lock();
+    isWorkingValue = false;
+}
+
+
+void ContinuousSimulation::resume()
+{
+    isWorkingValue = true;
+    mutexIsWorking.unlock();
 }

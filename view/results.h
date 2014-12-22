@@ -21,8 +21,11 @@ public:
 signals:
     void beginStepSimulationClicked();//sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji klikanej
     void beginContinousSimulationClicked(); //sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji ciaglej
+    void continousSimulationPaused(); //sygnal do zatrzymania symulacji
+    void nextStep(); //sygnal do wykonania nastepnego kroka
 public slots:
-    void activateButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji
+    void activateContinousButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji ciaglej
+    void activateStepButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji krokowej
 private slots:
     void swapCharts();
     void swapBeginButtons();

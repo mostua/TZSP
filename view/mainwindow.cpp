@@ -34,11 +34,22 @@ void MainWindow::createItemsForCentralWidget()
     tabLayout->addTab(squareResultTable, tr("Best indivuals"));
 }
 
-void MainWindow::simulationButtonPressed()
+void MainWindow::continousSimulationButtonPressed()
 {
     try{
         Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getAlpha(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter());
-        emit startSimulation(msg);
+        emit startContinousSimulation(msg);
+    }catch(char const * e)
+    {
+        qDebug() << e;
+    }
+}
+
+void MainWindow::stepSimulationButtonPressed()
+{
+    try{
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getAlpha(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter());
+        emit startStepSimulation(msg);
     }catch(char const * e)
     {
         qDebug() << e;
@@ -47,8 +58,12 @@ void MainWindow::simulationButtonPressed()
 
 void MainWindow::createConnections()
 {
-    connect(resultWidget, SIGNAL(beginSimulationClicked()), this, SLOT(simulationButtonPressed()));
-    connect(this, SIGNAL(activateButtons()), resultWidget,  SLOT(activateButtons()));
+    /* Sygnaly wywolywane po przycisnieciu przycisku rozpoczecia symulacji */
+    connect(resultWidget, SIGNAL(beginStepSimulationClicked()), this, SLOT(stepSimulationButtonPressed()));
+    connect(resultWidget, SIGNAL(beginContinousSimulationClicked()), this, SLOT(continousSimulationButtonPressed()));
+    /* Slot odpowiadajacy za zmiane przycisku */
+    connect(this, SIGNAL(activateStepButtons()), resultWidget,  SLOT(activateStepButtons()));
+    connect(this, SIGNAL(activateContinousButtons()), resultWidget, SLOT(activateContinousButtons()));
 }
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)

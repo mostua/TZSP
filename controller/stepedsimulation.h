@@ -5,19 +5,21 @@
 #include <QMutex>
 #include <QWaitCondition>
 #include <QDebug>
+#include <ctime>
+#include <cstdlib>
 #include "../model/model.h"
 
-
-class stepedSimulation : public QThread
+class StepedSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit stepedSimulation(QObject *parent = 0);
+    explicit StepedSimulation(QObject *parent = 0);
 
 signals:
-
+    void stepSimulationStarted();
 public slots:
     void run();
+    void nextStep();
 private:
     QMutex saveIsWorking;
     //QMutexLocker lockerIsWorking;

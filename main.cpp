@@ -8,8 +8,10 @@ int main(int argc, char *argv[])
     MainWindow w;
     Controller controller;
 
-    QObject::connect(&controller, SIGNAL(simulationStarted()), &w, SIGNAL(activateButtons()));
-    QObject::connect(&w, SIGNAL(startSimulation(Settings)), &controller, SLOT(beginSimulation(Settings)));
+    QObject::connect(&controller, SIGNAL(stepSimulationStarted()), &w, SIGNAL(activateStepButtons()));
+    QObject::connect(&controller, SIGNAL(continousSimulationStarted()), &w, SIGNAL(activateContinousButtons()));
+    QObject::connect(&w, SIGNAL(startStepSimulation(Settings)), &controller, SLOT(beginStepSimulation(Settings)));
+    QObject::connect(&w, SIGNAL(startContinousSimulation(Settings)), &controller, SLOT(beginContinousSimulation(Settings)));
     w.show();
     return a.exec();
 }

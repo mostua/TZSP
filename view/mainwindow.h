@@ -13,11 +13,11 @@
 #include <QTableWidget>
 #include <QTextEdit>
 #include <QVBoxLayout>
-#include <libraries/qcustomplot.h>
+#include "../libraries/qcustomplot.h"
 #include <QDebug>
 #include "options.h"
 #include "results.h"
-#include "model/settings.h"
+#include "../model/settings.h"
 
 class MainWindow : public QMainWindow
 {

@@ -7,9 +7,9 @@
 #include <QRadioButton>
 #include <QSpinBox>
 #include <QPushButton>
-#include "libraries/qcustomplot.h"
-#include "model/model.h"
-#include "model/settings.h"
+#include "../libraries/qcustomplot.h"
+#include "../model/model.h"
+#include "../model/settings.h"
 
 class Results : public QWidget
 {

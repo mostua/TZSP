@@ -21,10 +21,10 @@ public slots:
     void run();
     void nextStep();
 private:
-    QMutex saveIsWorking;
+    QMutex mutexIsWorking;
     //QMutexLocker lockerIsWorking;
     QWaitCondition canStartWorking;
-    bool isWorking;
+    bool isWorkingValue;
 };
 
 #endif // STEPEDSIMULATION_H

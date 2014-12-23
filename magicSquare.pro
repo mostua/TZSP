@@ -15,8 +15,6 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         view/mainwindow.cpp \
-    model/testMutation.cpp \
-    model/mainModel.cpp \
     model/model.cpp \
     controller/controller.cpp \
     libraries/qcustomplot.cpp \
@@ -24,7 +22,12 @@ SOURCES += main.cpp\
     view/results.cpp \
     model/settings.cpp \
     controller/continuoussimulation.cpp \
-    controller/stepedsimulation.cpp
+    controller/stepedsimulation.cpp \
+    model/square.cpp \
+    model/population.cpp \
+    model/mutation.cpp \
+    model/reproduction.cpp \
+    model/fitness.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \

@@ -7,10 +7,9 @@
 #include "reproduction.h"
 #include "mutation.h"
 
-template<unsigned int size>
 struct Model
 {
-    Population<size> * population;
+    Population * population;
 };
 
 const int MIN_SQUARE_SIZE = 3;

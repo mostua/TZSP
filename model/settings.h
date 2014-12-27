@@ -1,6 +1,13 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
+#include "reproduction.h"
+#include "mutation.h"
+#include "fitness.h"
+#include "square.h"
+
+
+
 class Settings
 {
 
@@ -18,8 +25,11 @@ public:
     int getMi() const;
     selectionType getSelectionTypeValue() const;
     squareType getSquareTypeValue() const;
+    fitness::fitnessFunction getSquareTypeFunction() const;
     reproductionType getReproductionTypeValue() const;
+    reproduction::reproductionFunction getReproductionTypeFunction() const;
     mutationType getMutationTypeValue() const;
+    mutation::mutationFunction getMutationTypeFunction() const;
     simulationType getSimulationTypeValue() const;
     int getSimulationParameter() const;
 

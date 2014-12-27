@@ -1,6 +1,6 @@
 #include "mutation.h"
 
-Square* mutation::swapToPoints(const Square * square)
+Square* mutation::swapTwoPoints(const Square * square)
 {
    Square * result = new Square(*square);
     int size = square->getSize();
@@ -16,7 +16,7 @@ Square* mutation::swapToPoints(const Square * square)
     return result;
 }
 
-Square* mutation::swapToColumns(const Square * square)
+Square* mutation::swapTwoColumns(const Square * square)
 {
     Square * result = new Square(*square);
     int columna, columnb;
@@ -32,7 +32,7 @@ Square* mutation::swapToColumns(const Square * square)
     return result;
 }
 
-Square* mutation::swapToRows(const Square * square)
+Square* mutation::swapTwoRows(const Square * square)
 {
     Square * result = new Square(*square);
     int rowa, rowb;

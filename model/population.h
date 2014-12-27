@@ -34,7 +34,6 @@ public:
 	void addNewIndividuals(int howMany);
     //metoda zwraca przystosowanie osobnika z wykorzystaniem funkcji przystosowania podanej w konstruktorze
     int countFitness(const Square *invid);
-
 };
 
 

@@ -13,11 +13,12 @@
 #include <QTableWidget>
 #include <QTextEdit>
 #include <QVBoxLayout>
-#include "../libraries/qcustomplot.h"
 #include <QDebug>
 #include "options.h"
 #include "results.h"
+#include "thebestlist.h"
 #include "../model/settings.h"
+#include "../libraries/qcustomplot.h"
 
 class MainWindow : public QMainWindow
 {
@@ -46,12 +47,12 @@ private:
     QHBoxLayout *centralWidgetLayout;
     Options *optionWidget;
     Results *resultWidget;
+    TheBestList *theBestListWidget;
     /*tab layout*/
     QTabWidget *tabLayout;
     /*central layout elements*/
     QMenu *fileMenu;
-    /*tab individuals */
-    QTableWidget *squareResultTable;
+
     /*actions*/
     QAction *saveResults;
     /*logically devided create functions */

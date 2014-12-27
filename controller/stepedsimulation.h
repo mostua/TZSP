@@ -8,12 +8,14 @@
 #include <ctime>
 #include <cstdlib>
 #include "../model/model.h"
+#include "../model/settings.h"
+
 
 class StepedSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit StepedSimulation(QObject *parent = 0);
+    explicit StepedSimulation(Settings, QObject *parent = 0);
 
 signals:
     void stepSimulationStarted();
@@ -21,8 +23,8 @@ public slots:
     void run();
     void nextStep();
 private:
+    Settings settings;
     QMutex mutexIsWorking;
-    //QMutexLocker lockerIsWorking;
     QWaitCondition canStartWorking;
     bool isWorkingValue;
 };

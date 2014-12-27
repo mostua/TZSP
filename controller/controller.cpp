@@ -11,7 +11,7 @@ void Controller::beginContinousSimulation(Settings settings)
     if(isSimulationStarted == false)
     {
         isSimulationStarted = true;
-        continousSimulation = new ContinuousSimulation;
+        continousSimulation = new ContinuousSimulation(settings);
         continousSimulation->start();
     }
     else //wątek jest uruchomiony, co oznacza zatrzymanie, lub wznowienie watku
@@ -50,7 +50,7 @@ void Controller::beginStepSimulation(Settings settings)
     if(isSimulationStarted == false)
     {
         isSimulationStarted = true;
-        stepedSimulation = new StepedSimulation;
+        stepedSimulation = new StepedSimulation(settings);
         stepedSimulation->start();
     }
     else //watek jest juz uruchominy to oznacza kolejny krok

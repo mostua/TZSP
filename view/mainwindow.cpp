@@ -28,10 +28,10 @@ void MainWindow::createItemsForCentralWidget()
 {
     optionWidget = new Options;
     resultWidget = new Results;
+    theBestListWidget = new TheBestList;
     tabLayout->addTab(optionWidget, tr("Options"));
     tabLayout->addTab(resultWidget, tr("Results"));
-    squareResultTable = new QTableWidget(3,3);
-    tabLayout->addTab(squareResultTable, tr("Best indivuals"));
+    tabLayout->addTab(theBestListWidget, tr("Best indivuals"));
 }
 
 void MainWindow::continousSimulationButtonPressed()

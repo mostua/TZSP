@@ -2,7 +2,7 @@
 
 //przestrzen nazw zawierajaca funkcje reprodukcji
 
-pair<Square*, Square*> reproduction::reproductionFunction(const Square* parentA, const Square* parentB)
+pair<Square*, Square*> reproduction::childHasSameDiagonals(const Square* parentA, const Square* parentB)
 {
     //stworz dzieci jako kopie rodzicow
     Square* childA, * childB;

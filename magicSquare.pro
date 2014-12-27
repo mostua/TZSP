@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     model/population.cpp \
     model/mutation.cpp \
     model/reproduction.cpp \
-    model/fitness.cpp
+    model/fitness.cpp \
+    view/thebestlist.cpp
 
 HEADERS  += view/mainwindow.h \
     model/fitness.h \
@@ -42,7 +43,8 @@ HEADERS  += view/mainwindow.h \
     view/results.h \
     model/settings.h \
     controller/continuoussimulation.h \
-    controller/stepedsimulation.h
+    controller/stepedsimulation.h \
+    view/thebestlist.h
 
 FORMS    +=
 

@@ -1,8 +1,8 @@
 #include "continuoussimulation.h"
 
 
-ContinuousSimulation::ContinuousSimulation(QObject *parent) :
-    QThread(parent), isWorkingValue(false)
+ContinuousSimulation::ContinuousSimulation(Settings _settings, QObject *parent) :
+    QThread(parent), settings(_settings), isWorkingValue(false)
 {
 }
 
@@ -13,14 +13,14 @@ bool ContinuousSimulation::isWorking() const
 
 void ContinuousSimulation::run()
 {
-        srand(time(0));
+    srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = 2500;
+    int reproductionAvaiable = settings.getAlpha();
 
     Model model;
-    model.population = new Population(3,reproductionAvaiable, mutation::swapToPoints, fitness::onlyRowsAndColumns, reproduction::reproductionFunction);
-    Square best(3);
+    model.population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
+    Square best(settings.getSquareSize());
     int i = 1;
     QString textToShow;
     isWorkingValue = true;
@@ -28,13 +28,14 @@ void ContinuousSimulation::run()
     do
     {
         mutexIsWorking.lock();
-        model.population->generateNextPopulation(100);
+        model.population->generateNextPopulation(settings.getMi());
         best = model.population->getBest();
         textToShow.clear();
         textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model.population->countFitness(&best));
         qDebug() << textToShow;
         if(i % 100 == 0)
             model.population->addNewIndividuals(reproductionAvaiable);
+        i++;
         mutexIsWorking.unlock();
     } while (model.population->countFitness(&best) != 0);
     textToShow.clear();

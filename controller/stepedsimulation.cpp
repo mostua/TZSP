@@ -1,7 +1,7 @@
 #include "stepedsimulation.h"
 
-StepedSimulation::StepedSimulation(QObject *parent) :
-    QThread(parent), isWorkingValue(false)
+StepedSimulation::StepedSimulation(Settings _settings, QObject *parent) :
+    QThread(parent), settings(_settings), isWorkingValue(false)
 {
 }
 
@@ -10,11 +10,11 @@ void StepedSimulation::run()
     srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = 2500;
+    int reproductionAvaiable = settings.getAlpha();
 
     Model model;
-    model.population = new Population(3,reproductionAvaiable, mutation::swapToPoints, fitness::onlyRowsAndColumns, reproduction::reproductionFunction);
-    Square best(3);
+    model.population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
+    Square best(settings.getSquareSize());
     int i = 1;
     QString textToShow;
     isWorkingValue = true;
@@ -22,16 +22,21 @@ void StepedSimulation::run()
     do
     {
         mutexIsWorking.lock();
-        model.population->generateNextPopulation(100);
-        best = model.population->getBest();
-        textToShow.clear();
-        textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model.population->countFitness(&best));
-        qDebug() << textToShow;
-        if(i % 100 == 0)
-            model.population->addNewIndividuals(reproductionAvaiable);
+        for(int j = 0; j  < settings.getSimulationParameter(); ++j)
+        {
+            model.population->generateNextPopulation(settings.getMi());
+            best = model.population->getBest();
+            textToShow.clear();
+            textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model.population->countFitness(&best)) + " Population size: " + QString("%1").arg(model.population->getPopulationSize());
+            qDebug() << textToShow;
+            if(i % 100 == 0)
+                model.population->addNewIndividuals(reproductionAvaiable);
+            if(model.population->countFitness(&best) == 0)
+                break;
+        }
     } while (model.population->countFitness(&best) != 0);
     textToShow.clear();
-    textToShow = "Result: fitness = " + QString("%1").arg(model.population->countFitness(&best));
+    textToShow = "Result: fitness = " + QString("%1").arg(model.population->countFitness(&best)) + " Population size: " + QString("%1").arg(model.population->getPopulationSize());
     qDebug() << textToShow;
     //emit returnIteration(textToShow);
 }

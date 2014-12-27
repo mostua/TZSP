@@ -8,12 +8,13 @@
 #include <ctime>
 #include <cstdlib>
 #include "../model/model.h"
+#include "../model/settings.h"
 
 class ContinuousSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit ContinuousSimulation(QObject *parent = 0);
+    explicit ContinuousSimulation(Settings, QObject *parent = 0);
     bool isWorking() const;
 signals:
     void continousSimulationStarted();
@@ -23,8 +24,7 @@ public slots:
     void resume();
 private:
     QMutex mutexIsWorking;
-    //QMutexLocker lockerIsWorking;
-    //QWaitCondition canStartWorking;
+    Settings settings;
     bool isWorkingValue;
 };
 

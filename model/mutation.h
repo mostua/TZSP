@@ -7,15 +7,13 @@
 //przestrzen nazw zawierajaca wszystkie funkcje mutacji
 namespace mutation
 {
+    typedef Square* (*mutationFunction)(const Square *);
     //mutacja zmieniajace dwa punkty miedzy sob¹
-
-    Square* swapToPoints(const Square * square);
+    Square* swapTwoPoints(const Square * square);
     //mutacja zmieniajace dwie kolumny miedzy soba
-
-    Square* swapToColumns(const Square * square);
+    Square* swapTwoColumns(const Square * square);
     //mutacja zmieniajaca dwa wierszy miedzy soba
-
-    Square* swapToRows(const Square * square);
+    Square* swapTwoRows(const Square * square);
 }
 
 #endif

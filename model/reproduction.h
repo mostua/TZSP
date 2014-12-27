@@ -7,9 +7,9 @@
 //przestrzen nazw zawierajaca funkcje reprodukcji
 namespace reproduction
 {
-	//funkcja zwraca pare dzieci
-
-    pair<Square*, Square*> reproductionFunction(const Square* parentA, const Square* parentB);
+    typedef pair<Square*, Square*> (*reproductionFunction)(const Square* parentA, const Square* parentB);
+    //funkcja zwraca pare dzieci kazde z nich ma przekatne rodzica (jedno jednego, drugie drugiego)
+    pair<Square*, Square*> childHasSameDiagonals(const Square* parentA, const Square* parentB);
 }
 
 #endif

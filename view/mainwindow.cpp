@@ -1,20 +1,13 @@
 #include "mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
+MainWindow::MainWindow(Model *model, QWidget *parent) : QMainWindow(parent)
 {
-  //  setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)));
+    setMinimumSize(*(new QSize(MAIN_WINDOW_WIDTH, MAIN_WINDOW_HEIGHT)));
     tabLayout = new QTabWidget(this);
     setCentralWidget(tabLayout);
+    /* Creating items */
     createItemsForCentralWidget();
-
-    /*Creating actions*/
-    saveResults  = new QAction(tr("Save"), this);
-
-    /*Creating menus*/
-//    fileMenu = menuBar()->addMenu(tr("File"));
-//    fileMenu->addAction(saveResults);
-
-    /*Creating connections */
+    /* Creating connections */
     createConnections();
 }
 
@@ -58,10 +51,9 @@ void MainWindow::stepSimulationButtonPressed()
 
 void MainWindow::createConnections()
 {
-    /* Sygnaly wywolywane po przycisnieciu przycisku rozpoczecia symulacji */
     connect(resultWidget, SIGNAL(beginStepSimulationClicked()), this, SLOT(stepSimulationButtonPressed()));
     connect(resultWidget, SIGNAL(beginContinousSimulationClicked()), this, SLOT(continousSimulationButtonPressed()));
-    /* Slot odpowiadajacy za zmiane przycisku */
+    connect(resultWidget, SIGNAL(reset()), this, SIGNAL(resetSimulation()));
     connect(this, SIGNAL(activateStepButtons()), resultWidget,  SLOT(activateStepButtons()));
     connect(this, SIGNAL(activateContinousButtons()), resultWidget, SLOT(activateContinousButtons()));
 }

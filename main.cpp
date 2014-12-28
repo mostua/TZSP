@@ -1,3 +1,4 @@
+#include "model/model.h"
 #include "view/mainwindow.h"
 #include "controller/controller.h"
 #include <QApplication>
@@ -5,14 +6,16 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    MainWindow w;
-    Controller controller;
+    Model model;
+    MainWindow view(&model);
+    Controller controller(&model);
 
-    QObject::connect(&controller, SIGNAL(stepSimulationStarted()), &w, SIGNAL(activateStepButtons()));
-    QObject::connect(&controller, SIGNAL(continousSimulationStarted()), &w, SIGNAL(activateContinousButtons()));
-    QObject::connect(&w, SIGNAL(startStepSimulation(Settings)), &controller, SLOT(beginStepSimulation(Settings)));
-    QObject::connect(&w, SIGNAL(startContinousSimulation(Settings)), &controller, SLOT(beginContinousSimulation(Settings)));
-    w.show();
+    QObject::connect(&controller, SIGNAL(stepSimulationStarted()), &view, SIGNAL(activateStepButtons()));
+    QObject::connect(&controller, SIGNAL(continousSimulationStarted()), &view, SIGNAL(activateContinousButtons()));
+    QObject::connect(&view, SIGNAL(startStepSimulation(Settings)), &controller, SLOT(beginStepSimulation(Settings)));
+    QObject::connect(&view, SIGNAL(startContinousSimulation(Settings)), &controller, SLOT(beginContinousSimulation(Settings)));
+    QObject::connect(&view, SIGNAL(resetSimulation()), &controller, SLOT(simulationReset()));
+    view.show();
     return a.exec();
 }
 

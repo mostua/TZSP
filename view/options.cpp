@@ -3,7 +3,7 @@
 Options::Options(QWidget *parent) :
     QWidget(parent)
 {
-    alpha = QChar(0xb1, 0x03);
+    lambda = QChar(0xbb, 0x03);
     mi = QChar(0xbc, 0x03);
     createWidgetItems();
     setWidgetLayout();
@@ -19,7 +19,7 @@ void Options::createWidgetItems()
     squareSizeBox->setSingleStep(1);
     squareSizeBox->setValue(MIN_SQUARE_SIZE);
     /*Suwak do wyboru wielkosci parametru alpha */
-    alphaSizeText = new QLabel(QString(alpha) + tr(" parameter value:"));
+    alphaSizeText = new QLabel(QString(lambda) + tr(" parameter value:"));
     alphaSizeBox = new QSpinBox();
     alphaSizeBox->setRange(MIN_ALPHA_VALUE,MAX_ALPHA_VALUE);
     alphaSizeBox->setSingleStep(1);
@@ -31,15 +31,15 @@ void Options::createWidgetItems()
     miSizeBox->setSingleStep(1);
     miSizeBox->setValue(MIN_MI_VALUE);
     /*Grupa przyciskow do wyboru magicznego kwadratu */
-    squareTypeBox = new QGroupBox(tr("Square Type Box"));
+    squareTypeBox = new QGroupBox(tr("Square Type"));
     squareTypeButtons[0] = new QRadioButton(tr("Diagonals are important"));
     squareTypeButtons[1] = new QRadioButton(tr("Diagonals are not important"));
     squareTypeButtons[0]->setChecked(true);
 
     /*Grupa przyciskow do wyboru typu strategii */
     algorithmStrategyBox  = new QGroupBox(tr("Algorithm Strategy"));
-    algorithmStrategyButtons[0] = new QRadioButton(QString("%1 + %2").arg(alpha, mi));
-    algorithmStrategyButtons[1] = new QRadioButton(QString("(%1, %2)").arg(alpha, mi));
+    algorithmStrategyButtons[0] = new QRadioButton(QString("%1 + %2").arg(lambda, mi));
+    algorithmStrategyButtons[1] = new QRadioButton(QString("(%1, %2)").arg(lambda, mi));
     algorithmStrategyButtons[0]->setChecked(true);
 
     /*Grupa przyciskow do wyboru osobników do rozmnażania */

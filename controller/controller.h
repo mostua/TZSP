@@ -15,20 +15,23 @@ class Controller : public QObject
 {
     Q_OBJECT
 public:
-    explicit Controller(QObject *parent = 0);
+    explicit Controller(Model * model, QObject *parent = 0);
     ContinuousSimulation * continousSimulation;
     StepedSimulation * stepedSimulation;
 signals:
     void stepSimulationStarted();
     void continousSimulationStarted();
-/*    void pauseOrResumeSimulationSignal();*/
 public slots:
     void beginStepSimulation(Settings settings);
     void beginContinousSimulation(Settings settings);
-    void nextStep(); //slot wywolywany przy symulacji krokowej
-    void pause(); //slot wywolywany przy symulacji ciaglej
-    void restart();
+    void simulationReset();
+private slots:
+    void continousSimulationFinished();
+    void stepSimulationFinished();
 private:
+    Model * model;
+    enum startedSimulation{step,continous};
+    startedSimulation whichStarted;
     bool isSimulationStarted;
     void createConnections();
 };

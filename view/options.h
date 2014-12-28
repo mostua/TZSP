@@ -56,7 +56,7 @@ private:
     QSpinBox *miSizeBox;
     /*Literki greckie */
     QChar mi;
-    QChar alpha;
+    QChar lambda;
     void createWidgetItems();
     void setWidgetLayout();
 };

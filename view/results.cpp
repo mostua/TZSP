@@ -159,4 +159,5 @@ void Results::createConnections()
     connect(simulationOptionsButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapBeginButtons()));
     connect(beginButtonContinous, SIGNAL(clicked()), this, SIGNAL(beginContinousSimulationClicked()));
     connect(beginButtonStep, SIGNAL(clicked()), this, SIGNAL(beginStepSimulationClicked()));
+    connect(resetButton, SIGNAL(clicked()), this, SIGNAL(reset()));
 }

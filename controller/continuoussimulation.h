@@ -14,7 +14,8 @@ class ContinuousSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit ContinuousSimulation(Settings, QObject *parent = 0);
+    explicit ContinuousSimulation(Model * model, Settings, QObject *parent = 0);
+    ~ContinuousSimulation();
     bool isWorking() const;
 signals:
     void continousSimulationStarted();
@@ -22,10 +23,14 @@ public slots:
     void run();
     void pause();
     void resume();
+    void killMe();
 private:
     QMutex mutexIsWorking;
+    QMutex mutexEnd;
+    Model * model;
     Settings settings;
     bool isWorkingValue;
+    bool end;
 };
 
 #endif // CONTINUOUSSIMULATION_H

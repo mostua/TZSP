@@ -17,22 +17,48 @@ protected:
     Square* (*mutationFunction)(const Square *);
     int(*fitnessFunction)(const Square *);
     pair< Square*, Square*>(*reproductionFunction)(const Square *, const Square *);
+    int algorithmType; //0 - lambda + mi, 1 - lambda, mi
 public:
-	//konstruktor, tworzy populacje o zadanej wielkoscia, nastepnie wskazniki na funkcje odpowiadajace (odpowiednio) za mutacje, dopasowanie, reprodukcje
+    /*!
+     * \brief Population tworzy populacje o zadanej wielkoscia, nastepnie wskazniki na funkcje odpowiadajace (odpowiednio) za mutacje, dopasowanie, reprodukcje
+     */
     Population(int, int , Square*(*mut)(const Square*), int(*fit)(const Square*), pair< Square*, Square *>(*repr)(const Square *, const Square *));
-	//metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
+    /*!
+     * \brief generateNextPopulation metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
+     * \param howManyReproduces
+     */
     void generateNextPopulation(unsigned int howManyReproduces);
-	//metoda ustawia prawd. mutacji
+    /*!
+     * \brief setMutationPropability metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
+     * \param p licznik
+     * \param q mianownik
+     */
 	void setMutationPropability(int p, int q);
-	//metoda zwraca wielkosc populacji
+    /*!
+     * \brief getPopulationSize
+     * \return wielkość populacji
+     */
 	unsigned int getPopulationSize();
-	//metoda zwraca najlepszego osobnika
+    /*!
+     * \brief getBest
+     * \return najlepszy osobnik
+     */
     Square getBest();
-	//metoda zwraca srednia dopasowania
+    /*!
+     * \brief populationAverage
+     * \return średnie przystosowanie populacji
+     */
     double populationAverage();
-	//metoda doloswuje nowych osobnikow
+    /*!
+     * \brief addNewIndividuals  metoda doloswuje nowych osobnikow
+     * \param howMany liczba dolosowanych
+     */
 	void addNewIndividuals(int howMany);
-    //metoda zwraca przystosowanie osobnika z wykorzystaniem funkcji przystosowania podanej w konstruktorze
+    /*!
+     * \brief countFitness metoda zwraca przystosowanie osobnika z wykorzystaniem funkcji przystosowania podanej w konstruktorze
+     * \param invid kwadrat mierzony
+     * \return przystosowanie mierzane funkcja z konstruktora
+     */
     int countFitness(const Square *invid);
 };
 

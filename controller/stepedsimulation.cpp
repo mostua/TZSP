@@ -1,8 +1,15 @@
 #include "stepedsimulation.h"
 
-StepedSimulation::StepedSimulation(Settings _settings, QObject *parent) :
-    QThread(parent), settings(_settings), isWorkingValue(false)
+StepedSimulation::StepedSimulation(Model *model, Settings _settings, QObject *parent) :
+    QThread(parent), model(model), settings(_settings), isWorkingValue(false), end(false)
 {
+}
+
+
+StepedSimulation::~StepedSimulation()
+{
+    mutexIsWorking.unlock();
+    mutexEnd.unlock();
 }
 
 void StepedSimulation::run()
@@ -12,8 +19,7 @@ void StepedSimulation::run()
     //substitute
     int reproductionAvaiable = settings.getAlpha();
 
-    Model model;
-    model.population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
+    model->population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
     Square best(settings.getSquareSize());
     int i = 1;
     QString textToShow;
@@ -22,21 +28,25 @@ void StepedSimulation::run()
     do
     {
         mutexIsWorking.lock();
+        mutexEnd.lock();
+        if(end == true)
+            return;
+        mutexEnd.unlock();
         for(int j = 0; j  < settings.getSimulationParameter(); ++j)
         {
-            model.population->generateNextPopulation(settings.getMi());
-            best = model.population->getBest();
+            model->population->generateNextPopulation(settings.getMi());
+            best = model->population->getBest();
             textToShow.clear();
-            textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model.population->countFitness(&best)) + " Population size: " + QString("%1").arg(model.population->getPopulationSize());
+            textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
             qDebug() << textToShow;
             if(i % 100 == 0)
-                model.population->addNewIndividuals(reproductionAvaiable);
-            if(model.population->countFitness(&best) == 0)
+                model->population->addNewIndividuals(reproductionAvaiable);
+            if(model->population->countFitness(&best) == 0)
                 break;
         }
-    } while (model.population->countFitness(&best) != 0);
+    } while (model->population->countFitness(&best) != 0);
     textToShow.clear();
-    textToShow = "Result: fitness = " + QString("%1").arg(model.population->countFitness(&best)) + " Population size: " + QString("%1").arg(model.population->getPopulationSize());
+    textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
     qDebug() << textToShow;
     //emit returnIteration(textToShow);
 }
@@ -44,4 +54,13 @@ void StepedSimulation::run()
 void StepedSimulation::nextStep()
 {
     mutexIsWorking.unlock();
+}
+
+void StepedSimulation::killMe()
+{
+    mutexEnd.lock();
+    end = true;
+    mutexEnd.unlock();
+    if(mutexIsWorking.tryLock() == true)
+        mutexIsWorking.unlock();
 }

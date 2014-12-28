@@ -22,6 +22,7 @@ signals:
     void beginStepSimulationClicked();//sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji klikanej
     void beginContinousSimulationClicked(); //sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji ciaglej
     void continousSimulationPaused(); //sygnal do zatrzymania symulacji
+    void reset(); //sygnal resetujacy
     void nextStep(); //sygnal do wykonania nastepnego kroka
 public slots:
     void activateContinousButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji ciaglej

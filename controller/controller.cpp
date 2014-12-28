@@ -1,9 +1,10 @@
 #include "controller.h"
 
-Controller::Controller(QObject *parent) :
-    QObject(parent), isSimulationStarted(false)
+Controller::Controller(Model *model, QObject *parent) :
+    QObject(parent), model(model), isSimulationStarted(false)
 {
     srand(time(0));
+
 }
 
 void Controller::beginContinousSimulation(Settings settings)
@@ -11,10 +12,13 @@ void Controller::beginContinousSimulation(Settings settings)
     if(isSimulationStarted == false)
     {
         isSimulationStarted = true;
-        continousSimulation = new ContinuousSimulation(settings);
+        whichStarted = continous;
+        continousSimulation = new ContinuousSimulation(model, settings);
+        connect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
+        connect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
         continousSimulation->start();
     }
-    else //wątek jest uruchomiony, co oznacza zatrzymanie, lub wznowienie watku
+    else if(whichStarted == continous) //wątek jest uruchomiony (i dotyczy symulacji ciaglej), co oznacza zatrzymanie, lub wznowienie watku
     {
         if(continousSimulation->isWorking() == true)
             continousSimulation->pause();
@@ -23,25 +27,34 @@ void Controller::beginContinousSimulation(Settings settings)
     }
 }
 
-void Controller::nextStep()
+void Controller::simulationReset()
 {
-
+    if(isSimulationStarted == true)
+    {
+        if(whichStarted == continous){
+            continousSimulation->killMe();
+        }
+        if(whichStarted == step){ //ta metoda nie dziala dobrze
+            stepedSimulation->killMe();
+        }
+    }
 }
 
-void Controller::pause()
+void Controller::continousSimulationFinished()
 {
-
+    qDebug() << "disconnectingContinousSimulation";
+    disconnect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
+    disconnect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
+    isSimulationStarted = false;
+    delete continousSimulation;
 }
 
-void Controller::restart()
+void Controller::stepSimulationFinished()
 {
-
-}
-
-void Controller::createConnections()
-{
-    connect(continousSimulation, SIGNAL(continousSimulationStarted()), this, SIGNAL(continousSimulationStarted()));
-    connect(stepedSimulation, SIGNAL(stepSimulationStarted()), this, SIGNAL(stepSimulationStarted()));
+    disconnect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
+    disconnect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
+    isSimulationStarted = false;
+    delete stepedSimulation;
 }
 
 
@@ -50,10 +63,13 @@ void Controller::beginStepSimulation(Settings settings)
     if(isSimulationStarted == false)
     {
         isSimulationStarted = true;
-        stepedSimulation = new StepedSimulation(settings);
+        whichStarted = step;
+        stepedSimulation = new StepedSimulation(model, settings);
+        connect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
+        connect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
         stepedSimulation->start();
     }
-    else //watek jest juz uruchominy to oznacza kolejny krok
+    else if(whichStarted == step) //watek jest juz uruchominy (i dotyczy symulacji krokowej) to oznacza kolejny krok
     {
         stepedSimulation->nextStep();
     }

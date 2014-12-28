@@ -15,18 +15,21 @@ class StepedSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit StepedSimulation(Settings, QObject *parent = 0);
-
+    explicit StepedSimulation(Model * model, Settings, QObject *parent = 0);
+    ~StepedSimulation();
 signals:
     void stepSimulationStarted();
 public slots:
     void run();
     void nextStep();
+    void killMe();
 private:
+    Model * model;
     Settings settings;
     QMutex mutexIsWorking;
-    QWaitCondition canStartWorking;
+    QMutex mutexEnd;
     bool isWorkingValue;
+    bool end;
 };
 
 #endif // STEPEDSIMULATION_H

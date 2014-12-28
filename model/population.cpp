@@ -39,7 +39,6 @@ void Population::generateNextPopulation(unsigned int howManyReproduces)
             result.second = mutationFunction(result.second);
         population.push_back(result.first);
         population.push_back(result.second);
-
     }
 }
 

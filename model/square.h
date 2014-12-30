@@ -6,21 +6,28 @@
 using namespace std;
 
 
-/* Było wczesniej templatem, ale komplikowalo to niepotrzebnie niektore rzeczy */
+/*!
+ * \brief The Square class repezentuje kwadrat
+ */
 class Square
 {
 private:
-	//funkcja zwraca miejsce w tablicy dla danej pozycji
-    int placeInTable(unsigned int row, unsigned int column) const;
 
+    /*!
+     * \brief placeInTable funkcja zwraca miejsce w tablicy dla danej pozycji
+     * \param row wiersz
+     * \param column kolumna
+     * \return  numer w tablicy values
+     */
+    int placeInTable(unsigned int row, unsigned int column) const;
+    int(*fitnessFunction)(const Square *);
 protected:
 	int * values;
-
 public:
 	int id;
 	static int number;
     unsigned int size;
-    Square(unsigned int size);
+    Square(unsigned int size, int(*fitnessFunction)(const Square *));
     //konstruktor kopiujacy wersja referencyjna
     Square(const Square& x);
     //konstruktor kopiujacy wersja pointerowa
@@ -39,13 +46,22 @@ public:
 	//zamien miejscami dwa punktu
     void swapPoints(int ax, int ay, int bx, int by);
 	//porownanie przez rozszerzenie porownania na na kolejne wartosci, najpierw porownujemy wartosci [0][0], poznmiej [0][1] etc.
+    int countFitness() const;
     bool operator<(const Square& b) const;
-
     unsigned int getSize() const;
-
     friend ostream& operator<<(ostream &, const Square &);
+    struct cmp
+    {
+        bool operator()(const Square * a, const Square * b)
+        {
+            if(a->countFitness() != b->countFitness())
+            {
+                return a->countFitness() < b->countFitness();
+            }
+            return a->id < b->id;
+        }
+    };
 };
-
 
 
 //f. do wyswietlania kwadrata na standardowe wyjscie.

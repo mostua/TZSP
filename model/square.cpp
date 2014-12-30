@@ -9,8 +9,12 @@ int Square::placeInTable(unsigned int row, unsigned int column) const
     return row*size + column;
 }
 
-Square::Square(unsigned int _size) : size(_size)
+Square::Square(unsigned int _size, int (*fitnessFunction)(const Square *))  : size(_size), fitnessFunction(fitnessFunction)
 {
+    if(_size < 3)
+        throw "wrong size";
+    if(fitnessFunction == NULL)
+        throw "fitness function is needed";
     values = new int[size*size];
     id = number++;
     for (unsigned int i = 1; i <= size*size; ++i)
@@ -20,9 +24,11 @@ Square::Square(unsigned int _size) : size(_size)
 }
 
 
+
 Square::Square(const Square &x)
 {
     size = x.size;
+    fitnessFunction = x.fitnessFunction;
     values = new int[size*size];
     id = number++;
     for (unsigned int i = 0; i < size*size; ++i)
@@ -32,6 +38,7 @@ Square::Square(const Square &x)
 Square::Square(const Square *x)
 {
     size = x->size;
+    fitnessFunction =  x->fitnessFunction;
     values = new int[size*size];
     id = number++;
     for (unsigned int i = 0; i < size*size; ++i)
@@ -40,6 +47,10 @@ Square::Square(const Square *x)
 
 bool Square::operator==(const Square &x)
 {
+    if (size != x.size)
+        throw "diffrent sizes";
+    if(fitnessFunction != x.fitnessFunction)
+        throw "diffrent fitness functions";
     for (unsigned int i = 0; i < size*size; ++i)
         if (values[i] != x.values[i])
             return false;
@@ -59,6 +70,7 @@ const Square &Square::operator=(const Square &x)
         return x;
     for (unsigned int i = 0; i < size*size; ++i)
         values[i] = x.values[i];
+    fitnessFunction = x.fitnessFunction;
     return x;
 }
 
@@ -112,10 +124,19 @@ void Square::swapPoints(int ax, int ay, int bx, int by)
     swap(values[placeInTable(ax, ay)], values[placeInTable(bx, by)]);
 }
 
+int Square::countFitness() const
+{
+    return fitnessFunction(this);
+}
+
 bool Square::operator<(const Square &b) const
 {
     if(size != b.size)
         throw "diffrent sides sizes";
+    if(fitnessFunction != b.fitnessFunction)
+        throw "diffrent fitness functions";
+    if(fitnessFunction(this) != fitnessFunction(&b))
+        fitnessFunction(this) > fitnessFunction(&b);
     for (unsigned int i = 0; i < size; ++i)
     {
         for (unsigned int j = 0; j < size; ++j)
@@ -125,11 +146,11 @@ bool Square::operator<(const Square &b) const
     return id < b.id;
 }
 
+
 unsigned int Square::getSize() const
 {
     return size;
 }
-
 
 ostream &operator<<(ostream &os, const Square &square)
 {
@@ -142,3 +163,5 @@ ostream &operator<<(ostream &os, const Square &square)
     }
     return os;
 }
+
+

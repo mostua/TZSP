@@ -22,7 +22,7 @@ void StepedSimulation::run()
     int reproductionAvaiable = settings.getMi();
 
      model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction());
-    Square best(settings.getSquareSize());
+    Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
     isWorkingValue = true;

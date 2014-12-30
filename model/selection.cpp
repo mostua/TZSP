@@ -1,34 +1,35 @@
 #include "selection.h"
 
 
-vector<Square *> selection::rankingSelection(vector<Square *> candidates, unsigned int how_many, int (*fitnessFunction)(const Square *))
+vector<Square *> selection::rankingSelection(set<Square *, Square::cmp> candidates, unsigned int setSize, unsigned int howMany)
 {
     vector<Square *> result;
-    sort(candidates.begin(), candidates.end(), [fitnessFunction](const Square *a, const Square *b)->bool{ 	return (fitnessFunction(a) != fitnessFunction(b) ? fitnessFunction(a) < fitnessFunction(b) : a < b);  });
-    while(result.size() < how_many)
+    while(result.size() < howMany)
     {
-        for(size_t i = 0; i < candidates.size() &&  result.size() != how_many; ++i)
+        int i = 0;
+        for(auto it = candidates.begin(); it != candidates.end() &&  result.size() != howMany; ++it, ++i)
         {
-            if((rand() % candidates.size()) < (candidates.size() - i - 1))
+            if((rand() % setSize) < (setSize - i - 1))
             {
-                result.push_back(candidates[i]);
+                result.push_back(*it);
             }
         }
     }
     return result;
 }
 
-vector<Square *> selection::ruleteSelection(vector<Square *> candidates, unsigned int how_many, int (*fitnessFunction)(const Square *))
+
+vector< Square *> selection::ruleteSelection(set<Square *, Square::cmp> candidates, unsigned int setSize, unsigned int howMany)
 {
     vector<Square *> result;
-    sort(candidates.begin(), candidates.end(), [fitnessFunction](const Square *a, const Square *b)->bool{ 	return (fitnessFunction(a) != fitnessFunction(b) ? fitnessFunction(a) < fitnessFunction(b) : a < b);  });
-    while(result.size() < how_many)
+    while(result.size() < howMany)
     {
-        for(size_t i = 0; i < candidates.size() &&  result.size() != how_many; ++i)
+        int i = 0;
+        for(auto it = candidates.begin(); it != candidates.end() &&  result.size() != howMany; ++it, ++i)
         {
-            if((rand() % candidates.size()) < (candidates.size() - i - 1))
+            if((rand() % setSize) < (setSize - i - 1))
             {
-                result.push_back(candidates[i]);
+                result.push_back(*it);
             }
         }
     }

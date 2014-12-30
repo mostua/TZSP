@@ -24,7 +24,7 @@ void ContinuousSimulation::run()
     //substitute
     int reproductionAvaiable = settings.getMi();
     model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction());
-    Square best(settings.getSquareSize());
+    Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
     isWorkingValue = true;
@@ -39,7 +39,7 @@ void ContinuousSimulation::run()
         textToShow.clear();
         textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
         qDebug() << textToShow;
-        if(i % 100 == 0)
+        if(i % 100 == 10)
             model->population->addNewIndividuals(reproductionAvaiable);
         i++;
         mutexIsWorking.unlock();

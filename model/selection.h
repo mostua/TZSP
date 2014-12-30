@@ -8,9 +8,9 @@ using namespace std;
 
 namespace selection
 {
-    typedef  vector< Square *> (*selectionFunction)(vector<Square *>, unsigned int, int (*fitnessFunction)(const Square *));
-    vector< Square *> rankingSelection(vector<Square *> candidates, unsigned int howMany, int (*fitnessFunction)(const Square *));
-    vector< Square *> ruleteSelection(vector<Square *> candidates, unsigned int how_many, int (*fitnessFunction)(const Square *));
+    typedef  vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int);
+    vector< Square *> rankingSelection(set<Square *, Square::cmp> candidates, unsigned int setSize, unsigned int howMany);
+    vector< Square *> ruleteSelection(set<Square *, Square::cmp> candidates, unsigned int setSize, unsigned int how_many);
 }
 
 #endif // SELECTION_H

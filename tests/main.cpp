@@ -3,29 +3,17 @@
 #include <vector>
 #include <ctime>
 #include <set>
-#include "../../model/population.h"
-#include "../../model/square.h"
-#include "../../model/reproduction.h"
-#include "../../model/mutation.h"
-#include "../../model/fitness.h"
-
+#include "../model/population.h"
+#include "../model/square.h"
+#include "../model/reproduction.h"
+#include "../model/mutation.h"
+#include "../model/fitness.h"
+#include "../model/selection.h"
 using namespace std;
 
 
-void perform(int reproducesNumber, Population &population, Square best)
-{
-    int i = 1;
-    do
-    {
-        population.generateNextPopulation(reproducesNumber);
-        best = population.getBest();
-        cout << "Iteration " << i++ << " best far now " << population.countFitness(&best) << endl;
-        if(i % 100 == 0)
-            population.addNewIndividuals(reproducesNumber);
-    } while (population.countFitness(&best) != 0);
-    cout << "Result: fitness = " << population.countFitness(&best) << endl;
-    cout << best << endl;
-}
+Population *population;
+
 
 int main()
 {
@@ -38,26 +26,26 @@ int main()
     cin >> populationSize;
     cout << "Please give number of individuals abvaiable to reproduction" << endl;
     cin >> reproductionAvaiable;
-    try{
-        Population population(squareSize,reproductionAvaiable, mutation::swapToPoints, fitness::diagonalsAreImportant, reproduction::reproductionFunction);
-        Square best(squareSize);
-        perform(reproductionAvaiable, population, best);
-     }catch(const char * ex)
+    Square best(3,  fitness::diagonalsAreImportant);
+    try
+    {
+            population = new Population(squareSize, populationSize, reproductionAvaiable, mutation::swapTwoPoints, fitness::diagonalsAreImportant, selection::rankingSelection, reproduction::childHasSameDiagonals);
+
+            int i = 1;
+            do
+            {
+                population->generateNextPopulation();
+                best = population->getBest();
+                cout <<  "Iteration " << i++ << " best far now " << population->countFitness(&best) << " Population size: "  << population->getPopulationSize() << endl;
+                if(i % 100 == 0)
+                   population->addNewIndividuals(reproductionAvaiable);
+            } while (population->countFitness(&best) != 0);
+    }catch(const char * ex)
     {
         cout << ex;
     }
+    cout <<  "Finished, best " << population->countFitness(&best) << " Population size: "  << population->getPopulationSize() << endl;
 
-    /*
-    srand(time(0));
-    Square a(3);
-    a.randomFill();
-    cout << a;
-    cout << *mutation::swapToRows(&a);
-    Square b(4);
-    b.randomFill();
-    cout << b;
-    cout << *mutation::swapToColumns(&b);
-    cout <<	*mutation::swapToPoints(&a);*/
     system("pause");
 
 }

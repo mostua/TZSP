@@ -37,6 +37,13 @@ int Results::getSimulationParameter()
 
 }
 
+void Results::resetSimulationButtons()
+{
+    beginButtonContinous->setText(tr("Begin continous simulation"));
+    beginButtonStep->setText(tr("Begin step simulation"));
+    resetButton->setEnabled(false);
+}
+
 void Results::activateContinousButtons()
 {
     beginButtonContinous->setText(tr("Pause"));

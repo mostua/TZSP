@@ -5,6 +5,7 @@
 #include "mutation.h"
 #include "fitness.h"
 #include "square.h"
+#include "selection.h"
 
 
 
@@ -13,17 +14,17 @@ class Settings
 
 public:
     enum algorithmType {alphaPlusMi,alphaMi}; //rodzaj algorytmu
-    enum selectionType {ranking,random,best}; //rodzaj strategii
+    enum selectionType {ranking,rulete,best}; //rodzaj strategii
     enum squareType{diagonalsCount,diagonalsNotCount}; //rodzaj magicznego kwadratu
     enum reproductionType{saveDiagonals, saveColumns, saveRows}; //rodzaj rozmnazania
     enum mutationType{swapFields,swapRowsColumns}; //rodzaj mutacji
     enum simulationType{stepsByStep,fewStepsPerSecond}; //rodzaj symulacji, kilka krokow na jedno klikcnieie, kilka krokow na sekunde
-    Settings(int _squareSize, int _alpha, int _mi, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param);
+    Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param);
     int getSquareSize() const;
-    int getAlpha() const;
-    void setAlpha(int value);
     int getMi() const;
+    int getLambda() const;
     selectionType getSelectionTypeValue() const;
+    selection::selectionFunction getSelectionTypeFunction() const;
     squareType getSquareTypeValue() const;
     fitness::fitnessFunction getSquareTypeFunction() const;
     reproductionType getReproductionTypeValue() const;
@@ -35,7 +36,7 @@ public:
 
 private:
     int squareSize;
-    int alpha;
+    int lambda;
     int mi;
     selectionType selectionTypeValue;
     squareType squareTypeValue;

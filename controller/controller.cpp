@@ -11,6 +11,7 @@ void Controller::beginContinousSimulation(Settings settings)
 {
     if(isSimulationStarted == false)
     {
+        threadSaver.lock();
         isSimulationStarted = true;
         whichStarted = continous;
         continousSimulation = new ContinuousSimulation(model, settings);
@@ -38,6 +39,7 @@ void Controller::simulationReset()
             stepedSimulation->killMe();
         }
     }
+    emit simulationReseted();
 }
 
 void Controller::continousSimulationFinished()
@@ -47,6 +49,7 @@ void Controller::continousSimulationFinished()
     disconnect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
     isSimulationStarted = false;
     delete continousSimulation;
+    threadSaver.unlock();
 }
 
 void Controller::stepSimulationFinished()
@@ -55,6 +58,7 @@ void Controller::stepSimulationFinished()
     disconnect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
     isSimulationStarted = false;
     delete stepedSimulation;
+    threadSaver.unlock();
 }
 
 
@@ -62,6 +66,7 @@ void Controller::beginStepSimulation(Settings settings)
 {
     if(isSimulationStarted == false)
     {
+        threadSaver.lock();
         isSimulationStarted = true;
         whichStarted = step;
         stepedSimulation = new StepedSimulation(model, settings);

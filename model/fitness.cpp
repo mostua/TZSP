@@ -21,7 +21,6 @@ int fitness::onlyRowsAndColumns(const Square* square)
     return result;
 }
 
-
 int fitness::diagonalsAreImportant(const Square* square)
 {
     int result = 0;
@@ -43,3 +42,4 @@ int fitness::diagonalsAreImportant(const Square* square)
     result += abs(fitnessSum - diagonalSum);
     return result;
 }
+

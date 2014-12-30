@@ -27,6 +27,7 @@ signals:
 public slots:
     void activateContinousButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji ciaglej
     void activateStepButtons(); //slot uruchamiany przez mainWindow w momencie gdy controller uruchomi symulacje, trzeba zmienic przyciski dt. symulacji krokowej
+    void resetSimulationButtons(); //slot uruchamiany przez mainWIndow do resetowania przycisku rozpoczecia
 private slots:
     void swapCharts();
     void swapBeginButtons();

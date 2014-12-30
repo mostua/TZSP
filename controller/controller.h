@@ -21,6 +21,7 @@ public:
 signals:
     void stepSimulationStarted();
     void continousSimulationStarted();
+    void simulationReseted();
 public slots:
     void beginStepSimulation(Settings settings);
     void beginContinousSimulation(Settings settings);
@@ -29,6 +30,7 @@ private slots:
     void continousSimulationFinished();
     void stepSimulationFinished();
 private:
+    QMutex threadSaver;
     Model * model;
     enum startedSimulation{step,continous};
     startedSimulation whichStarted;

@@ -8,8 +8,10 @@ StepedSimulation::StepedSimulation(Model *model, Settings _settings, QObject *pa
 
 StepedSimulation::~StepedSimulation()
 {
-    mutexIsWorking.unlock();
-    mutexEnd.unlock();
+    if (mutexIsWorking.tryLock() == false)
+        mutexIsWorking.unlock();
+    if (mutexEnd.tryLock() == false)
+        mutexEnd.unlock();
 }
 
 void StepedSimulation::run()
@@ -17,9 +19,9 @@ void StepedSimulation::run()
     srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = settings.getAlpha();
+    int reproductionAvaiable = settings.getMi();
 
-    model->population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
+     model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction());
     Square best(settings.getSquareSize());
     int i = 1;
     QString textToShow;
@@ -34,7 +36,8 @@ void StepedSimulation::run()
         mutexEnd.unlock();
         for(int j = 0; j  < settings.getSimulationParameter(); ++j)
         {
-            model->population->generateNextPopulation(settings.getMi());
+            model->population->generateNextPopulation();
+            
             best = model->population->getBest();
             textToShow.clear();
             textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
@@ -53,7 +56,8 @@ void StepedSimulation::run()
 
 void StepedSimulation::nextStep()
 {
-    mutexIsWorking.unlock();
+    if (mutexIsWorking.tryLock() == false)
+        mutexIsWorking.unlock();
 }
 
 void StepedSimulation::killMe()
@@ -61,6 +65,6 @@ void StepedSimulation::killMe()
     mutexEnd.lock();
     end = true;
     mutexEnd.unlock();
-    if(mutexIsWorking.tryLock() == true)
+    if(mutexIsWorking.tryLock() == false)
         mutexIsWorking.unlock();
 }

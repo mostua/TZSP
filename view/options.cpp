@@ -45,8 +45,8 @@ void Options::createWidgetItems()
     /*Grupa przyciskow do wyboru osobników do rozmnażania */
     selectionTypeBox  = new QGroupBox(tr("Selection Type"));
     selectionTypeButtons[0] = new QRadioButton(tr("Ranking"));
-    selectionTypeButtons[1] = new QRadioButton(tr("Random"));
-    selectionTypeButtons[2] = new QRadioButton(tr("Propotional"));
+    selectionTypeButtons[1] = new QRadioButton(tr("Rulete"));
+    selectionTypeButtons[2] = new QRadioButton(tr("Best"));
     selectionTypeButtons[0]->setChecked(true);
 
     /*Grupa przycisków do wyboru rodzaju reprodukcji */
@@ -131,7 +131,7 @@ Settings::selectionType Options::getSelectionType()
     if(selectionTypeButtons[0]->isChecked())
         return Settings::ranking;
     if(selectionTypeButtons[1]->isChecked())
-        return Settings::random;
+        return Settings::rulete;
     if(selectionTypeButtons[2]->isChecked())
         return Settings::best;
     throw "nothing is checked in selection buttons";

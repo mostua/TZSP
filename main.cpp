@@ -12,9 +12,11 @@ int main(int argc, char *argv[])
 
     QObject::connect(&controller, SIGNAL(stepSimulationStarted()), &view, SIGNAL(activateStepButtons()));
     QObject::connect(&controller, SIGNAL(continousSimulationStarted()), &view, SIGNAL(activateContinousButtons()));
+    QObject::connect(&controller, SIGNAL(simulationReseted()), &view, SIGNAL(simulationReseted()));
     QObject::connect(&view, SIGNAL(startStepSimulation(Settings)), &controller, SLOT(beginStepSimulation(Settings)));
     QObject::connect(&view, SIGNAL(startContinousSimulation(Settings)), &controller, SLOT(beginContinousSimulation(Settings)));
     QObject::connect(&view, SIGNAL(resetSimulation()), &controller, SLOT(simulationReset()));
+
     view.show();
     return a.exec();
 }

@@ -10,26 +10,28 @@ using namespace std;
 class Population
 {
 protected:
-    int squareSize;
+    unsigned int squareSize;
+    unsigned int miValue;
+    unsigned int lambdaValue;
 	const int INF = 100000;
 	int pMutation, qMutation; //prawdopodbienstwo mutacji postaci p/q
     vector< Square* > population;
     Square* (*mutationFunction)(const Square *);
     int(*fitnessFunction)(const Square *);
     pair< Square*, Square*>(*reproductionFunction)(const Square *, const Square *);
+    vector< Square *> (*selectionFunction)(vector<Square *>, unsigned int, int (*fitnessFunction)(const Square *));
     int algorithmType; //0 - lambda + mi, 1 - lambda, mi
 public:
     /*!
      * \brief Population tworzy populacje o zadanej wielkoscia, nastepnie wskazniki na funkcje odpowiadajace (odpowiednio) za mutacje, dopasowanie, reprodukcje
      */
-    Population(int, int , Square*(*mut)(const Square*), int(*fit)(const Square*), pair< Square*, Square *>(*repr)(const Square *, const Square *));
+    Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(vector<Square *>, unsigned int, int (*fitnessFunction)(const Square *)), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *));
     /*!
-     * \brief generateNextPopulation metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
-     * \param howManyReproduces
+     * \brief generateNextPopulation metoda iteruje do nastepnej populacji
      */
-    void generateNextPopulation(unsigned int howManyReproduces);
+    void generateNextPopulation();
     /*!
-     * \brief setMutationPropability metoda iteruje do nastepnej populacji, howManyReproduces - ile sie rozmnaz
+     * \brief setMutationPropability metoda iteruje do nastepnej populacji
      * \param p licznik
      * \param q mianownik
      */
@@ -39,6 +41,11 @@ public:
      * \return wielkość populacji
      */
 	unsigned int getPopulationSize();
+    /*!
+    * \brief getIndividual
+    * \return i-ty osobnik
+    */
+    Square getIndividual(unsigned int which);
     /*!
      * \brief getBest
      * \return najlepszy osobnik

@@ -40,6 +40,7 @@ private slots:
      * \brief stepSimulationButtonPressed slot obslugujacy widgety, wyciaga z nich informacje i nadaje sygnal rozpoczecia symulacji krokowej
      */
     void stepSimulationButtonPressed();
+
 signals:
     /*!
      * \brief startContinousSimulation sygnał wyzwalany w momemncia przycisniecia rozpoczecia symulacji ciaglej
@@ -63,6 +64,10 @@ signals:
      * \brief resetSimulation sygnał uruchamiany przez widget i przepychany do controllera w momencie resetowania symulacji
      */
     void resetSimulation();
+    /*!
+     * \brief simulationReseted sygnał uruchamiany przez controller i przepychany do widzetu result
+     */
+    void simulationReseted();
 private:
     /*!
      * \brief MAIN_WINDOW_HEIGHT  domyślna wysokość okna

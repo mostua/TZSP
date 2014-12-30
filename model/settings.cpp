@@ -1,8 +1,8 @@
 #include "settings.h"
 
 
-Settings::Settings(int _squareSize, int _alpha, int _mi, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param)
-                   : squareSize(_squareSize), alpha(_alpha), mi(_mi), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param)
+Settings::Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param)
+                   : squareSize(_squareSize), mi(_mi), lambda(_lambda), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param)
 {
 }
 
@@ -10,19 +10,33 @@ int Settings::getSquareSize() const
 {
     return squareSize;
 }
-int Settings::getAlpha() const
-{
-    return alpha;
-}
-
 int Settings::getMi() const
 {
     return mi;
 }
 
+int Settings::getLambda() const
+{
+    return lambda;
+}
+
 Settings::selectionType Settings::getSelectionTypeValue() const
 {
     return selectionTypeValue;
+}
+
+selection::selectionFunction Settings::getSelectionTypeFunction() const
+{
+    switch (getSelectionTypeValue())
+    {
+    case ranking:
+        return selection::rankingSelection;
+    case rulete:
+        return selection::ruleteSelection;
+    case best:
+    default:
+        throw "not implemented";
+    }
 }
 
 Settings::squareType Settings::getSquareTypeValue() const

@@ -22,8 +22,8 @@ void ContinuousSimulation::run()
     srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = settings.getAlpha();
-    model->population = new Population(settings.getSquareSize(),reproductionAvaiable, settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getReproductionTypeFunction());
+    int reproductionAvaiable = settings.getMi();
+    model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction());
     Square best(settings.getSquareSize());
     int i = 1;
     QString textToShow;
@@ -34,7 +34,7 @@ void ContinuousSimulation::run()
         mutexIsWorking.lock();
         if(end == true)
             break;
-        model->population->generateNextPopulation(settings.getMi());
+        model->population->generateNextPopulation();
         best = model->population->getBest();
         textToShow.clear();
         textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());

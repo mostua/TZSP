@@ -41,6 +41,7 @@ void StepedSimulation::run()
             best = model->population->getBest();
             textToShow.clear();
             textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
+            emit drawFitnessGraph(i, best.countFitness(), model->population->populationAverage(), 0);
             qDebug() << textToShow;
             if(i % 100 == 0)
                 model->population->addNewIndividuals(reproductionAvaiable);

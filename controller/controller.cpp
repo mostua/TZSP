@@ -17,6 +17,7 @@ void Controller::beginContinousSimulation(Settings settings)
         continousSimulation = new ContinuousSimulation(model, settings);
         connect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
         connect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
+        connect(continousSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
         continousSimulation->start();
     }
     else if(whichStarted == continous) //wątek jest uruchomiony (i dotyczy symulacji ciaglej), co oznacza zatrzymanie, lub wznowienie watku
@@ -47,6 +48,7 @@ void Controller::continousSimulationFinished()
     qDebug() << "disconnectingContinousSimulation";
     disconnect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
     disconnect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
+    disconnect(continousSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
     isSimulationStarted = false;
     delete continousSimulation;
     threadSaver.unlock();
@@ -56,6 +58,7 @@ void Controller::stepSimulationFinished()
 {
     disconnect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
     disconnect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
+    disconnect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
     isSimulationStarted = false;
     delete stepedSimulation;
     threadSaver.unlock();
@@ -72,6 +75,7 @@ void Controller::beginStepSimulation(Settings settings)
         stepedSimulation = new StepedSimulation(model, settings);
         connect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
         connect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
+        connect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
         stepedSimulation->start();
     }
     else if(whichStarted == step) //watek jest juz uruchominy (i dotyczy symulacji krokowej) to oznacza kolejny krok

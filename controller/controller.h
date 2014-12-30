@@ -22,6 +22,7 @@ signals:
     void stepSimulationStarted();
     void continousSimulationStarted();
     void simulationReseted();
+    void drawFitnessGraph(double iteration, double best, double average, int graph);
 public slots:
     void beginStepSimulation(Settings settings);
     void beginContinousSimulation(Settings settings);

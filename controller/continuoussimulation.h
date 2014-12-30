@@ -19,6 +19,7 @@ public:
     bool isWorking() const;
 signals:
     void continousSimulationStarted();
+    void drawFitnessGraph(double iteration, double best, double average, int graph);
 public slots:
     void run();
     void pause();

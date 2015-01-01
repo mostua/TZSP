@@ -6,6 +6,7 @@
 #include <QTableWidget>
 #include <QGridLayout>
 #include <QHeaderView>
+#include <QDebug>
 
 class TheBestList : public QWidget
 {
@@ -13,6 +14,9 @@ class TheBestList : public QWidget
 public:
     explicit TheBestList(QWidget *parent = 0);
 signals:
+
+public slots:
+    void squareSizeChanged(int);
 
 private:
     /* tabelka z lista magicznych kwadratow */

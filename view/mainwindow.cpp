@@ -57,6 +57,7 @@ void MainWindow::createConnections()
     connect(this, SIGNAL(activateStepButtons()), resultWidget,  SLOT(activateStepButtons()));
     connect(this, SIGNAL(activateContinousButtons()), resultWidget, SLOT(activateContinousButtons()));
     connect(this, SIGNAL(resetSimulation()), resultWidget, SLOT(resetSimulationButtons()));
+    connect(optionWidget, SIGNAL(squareSizeChanged(int)), theBestListWidget, SLOT(squareSizeChanged(int)));
 }
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)

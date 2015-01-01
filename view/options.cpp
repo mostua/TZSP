@@ -7,7 +7,7 @@ Options::Options(QWidget *parent) :
     mi = QChar(0xbc, 0x03);
     createWidgetItems();
     setWidgetLayout();
-
+    createConnections();
 }
 
 void Options::createWidgetItems()
@@ -61,6 +61,11 @@ void Options::createWidgetItems()
     mutationTypeButtons[0] = new QRadioButton(tr("Swap random fields"));
     mutationTypeButtons[1] = new QRadioButton(tr("Swap row/column"));
     mutationTypeButtons[0]->setChecked(true);
+}
+
+void Options::createConnections()
+{
+    connect(squareSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(squareSizeChanged(int)));
 }
 
 

@@ -28,7 +28,7 @@ public:
     int getMi();
     int getSquareSize();
 signals:
-
+    void squareSizeChanged(int);
 public slots:
 
 private:
@@ -58,6 +58,7 @@ private:
     QChar mi;
     QChar lambda;
     void createWidgetItems();
+    void createConnections();
     void setWidgetLayout();
 };
 

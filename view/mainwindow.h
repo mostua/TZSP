@@ -29,7 +29,7 @@ public:
     ~MainWindow();
 
 public slots:
-    void drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph);
+    void drawNumberOfIndivuals(vectorPairs numberOfIndivuals, int graph);
     void drawFitnessGraph(double iteration, double best, double average, int graph);
 private slots:
     /*!
@@ -68,6 +68,11 @@ signals:
      * \brief simulationReseted sygnał uruchamiany przez controller i przepychany do widzetu result
      */
     void simulationReseted();
+    /*!
+     * \brief updateBest sygnał przepychany z kontrolera do karty z wynikami
+     * \param best lista kwadratow do wyswietlenia
+     */
+    void updateBest(vectorSquares best);
 private:
     /*!
      * \brief MAIN_WINDOW_HEIGHT  domyślna wysokość okna

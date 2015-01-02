@@ -20,6 +20,8 @@ public:
 signals:
     void continousSimulationStarted();
     void drawFitnessGraph(double iteration, double best, double average, int graph);
+    void drawNumberOfIndivuals(vectorPairs, int graph);
+    void updateBest(vectorSquares best);
 public slots:
     void run();
     void pause();

@@ -49,8 +49,8 @@ private:
     QLabel *squareSizeText;
     QSpinBox *squareSizeBox;
     /*Formularz do wyboru parametru alpha */
-    QLabel *alphaSizeText;
-    QSpinBox *alphaSizeBox;
+    QLabel *lambdaSizeText;
+    QSpinBox *lambdaSizeBox;
     /*Formularz do wyboru parametru mi */
     QLabel *miSizeText;
     QSpinBox *miSizeBox;

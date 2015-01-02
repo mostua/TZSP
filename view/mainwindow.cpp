@@ -58,6 +58,7 @@ void MainWindow::createConnections()
     connect(this, SIGNAL(activateContinousButtons()), resultWidget, SLOT(activateContinousButtons()));
     connect(this, SIGNAL(resetSimulation()), resultWidget, SLOT(resetSimulationButtons()));
     connect(optionWidget, SIGNAL(squareSizeChanged(int)), theBestListWidget, SLOT(squareSizeChanged(int)));
+    connect(this, SIGNAL(updateBest(vectorSquares)), theBestListWidget, SLOT(updateBest(vectorSquares)));
 }
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)
@@ -65,7 +66,8 @@ void MainWindow::drawFitnessGraph(double iteration, double best, double average,
 
 }
 
-void MainWindow::drawNumberofIndivuals(QVector<double> fitness, QVector<double> numberOfIndivuals, int graph)
+void MainWindow::drawNumberOfIndivuals(vectorPairs numberOfIndivuals, int graph)
 {
 
 }
+

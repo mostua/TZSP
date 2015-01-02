@@ -19,17 +19,17 @@ void Options::createWidgetItems()
     squareSizeBox->setSingleStep(1);
     squareSizeBox->setValue(MIN_SQUARE_SIZE);
     /*Suwak do wyboru wielkosci parametru alpha */
-    alphaSizeText = new QLabel(QString(lambda) + tr(" parameter value:"));
-    alphaSizeBox = new QSpinBox();
-    alphaSizeBox->setRange(MIN_ALPHA_VALUE,MAX_ALPHA_VALUE);
-    alphaSizeBox->setSingleStep(1);
-    alphaSizeBox->setValue(MIN_ALPHA_VALUE);
+    lambdaSizeText = new QLabel(QString(lambda) + tr(" parameter value:"));
+    lambdaSizeBox = new QSpinBox();
+    lambdaSizeBox->setRange(MIN_LAMBDA_VALUE,MAX_LAMBDA_VALUE);
+    lambdaSizeBox->setSingleStep(1);
+    lambdaSizeBox->setValue(DEFAULT_LAMBDA_VALUE);
     /*Suwak do wyboru wielkosci parametru mi*/
     miSizeText = new QLabel(QString(mi) + tr(" parameter value:"));
     miSizeBox = new QSpinBox();
     miSizeBox->setRange(MIN_MI_VALUE,MAX_MI_VALUE);
     miSizeBox->setSingleStep(1);
-    miSizeBox->setValue(MIN_MI_VALUE);
+    miSizeBox->setValue(DEFAULT_MI_VALUE);
     /*Grupa przyciskow do wyboru magicznego kwadratu */
     squareTypeBox = new QGroupBox(tr("Square Type"));
     squareTypeButtons[0] = new QRadioButton(tr("Diagonals are important"));
@@ -78,8 +78,8 @@ void Options::setWidgetLayout()
     optionLayout->addWidget(squareSizeText, 0, 0);
     optionLayout->addWidget(squareSizeBox, 0, 1);
     /*Niżej przyciski dotyczace parametrów alpha i mi */
-    optionLayout->addWidget(alphaSizeText, 1, 0);
-    optionLayout->addWidget(alphaSizeBox, 1, 1);
+    optionLayout->addWidget(lambdaSizeText, 1, 0);
+    optionLayout->addWidget(lambdaSizeBox, 1, 1);
     optionLayout->addWidget(miSizeText, 2, 0);
     optionLayout->addWidget(miSizeBox, 2, 1);
 
@@ -173,8 +173,8 @@ Settings::reproductionType Options::getReproductionType()
 
 int Options::getAlpha()
 {
-    int result = alphaSizeBox->value();
-    if(result < MIN_ALPHA_VALUE || result > MAX_ALPHA_VALUE)
+    int result = lambdaSizeBox->value();
+    if(result < MIN_LAMBDA_VALUE || result > MAX_LAMBDA_VALUE)
         throw "alpha size out of range";
     return result;
 }

@@ -105,6 +105,17 @@ public:
      * \return przystosowanie mierzane funkcja z konstruktora
      */
     int countFitness(const Square *invid);
+    /*!
+     * \brief howManySpecificFitness metoda liczy ile jest osobnikow o danym przystosowaniu
+     * \return wektor par (przystosowanie, liczba osobników, która ma to przystosowanie)
+     */
+    vector<pair<int,int>> howManySpecificFitness();
+    /*!
+     * \brief getSomeBest metoda zwraca x najlepszych osobnikow
+     * \param howMany jest xem
+     * \return vector najlepszych osobnikow
+     */
+    vector< pair<int, pair<int, vector<int> > > > getSomeBest(int howMany);
 };
 
 

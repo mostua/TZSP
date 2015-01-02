@@ -90,3 +90,35 @@ int Population::countFitness(const Square *invid)
 {
     return fitnessFunction(invid);
 }
+
+vector< pair<int, int> > Population::howManySpecificFitness()
+{
+    vector< pair<int,int> > result;
+    int fitness, howMany;
+    for (auto it = population.begin(); it != population.end(); )
+    {
+        fitness = (*it)->countFitness();
+        howMany = 1;
+        it++;
+        while(it != population.end() && (*it)->countFitness() == fitness)
+        {
+            howMany++, it++;
+        }
+        result.push_back(make_pair(fitness, howMany));
+    }
+    return result;
+}
+
+vector< pair<int, pair<int, vector<int> > > > Population::getSomeBest(int howMany)
+{
+    vector< pair<int, pair<int, vector<int> > > > result;
+    for(auto it = population.begin(); it != population.end() && howMany > 0; howMany--, it++)
+    {
+        vector< int > temp((*it)->getSize() * (*it)->getSize());
+        for(unsigned int i = 0; i < (*it)->getSize(); ++i)
+            for(unsigned int j = 0; j < (*it)->getSize(); ++j)
+                temp[i*(*it)->getSize() + j] = (*it)->get(i, j);
+        result.push_back(make_pair((*it)->id, make_pair((*it)->countFitness(), temp)));
+    }
+    return result;
+}

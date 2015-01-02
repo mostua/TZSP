@@ -6,6 +6,7 @@
 #include <ctime>
 #include "../model/model.h"
 #include "../model/settings.h"
+#include "../model/square.h"
 #include "continuoussimulation.h"
 #include "stepedsimulation.h"
 
@@ -23,6 +24,8 @@ signals:
     void continousSimulationStarted();
     void simulationReseted();
     void drawFitnessGraph(double iteration, double best, double average, int graph);
+    void drawNumberOfIndivuals(vectorPairs, int graph);
+    void updateBest(vectorSquares best);
 public slots:
     void beginStepSimulation(Settings settings);
     void beginContinousSimulation(Settings settings);

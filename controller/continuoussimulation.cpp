@@ -8,8 +8,10 @@ ContinuousSimulation::ContinuousSimulation(Model *model, Settings _settings, QOb
 
 ContinuousSimulation::~ContinuousSimulation()
 {
-    mutexIsWorking.unlock();
-    mutexEnd.unlock();
+    if (mutexIsWorking.tryLock() == false)
+        mutexIsWorking.unlock();
+    if (mutexEnd.tryLock() == false)
+        mutexEnd.unlock();
 }
 
 bool ContinuousSimulation::isWorking() const
@@ -39,6 +41,8 @@ void ContinuousSimulation::run()
         textToShow.clear();
         textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
         emit drawFitnessGraph(i, best.countFitness(), model->population->populationAverage(), 0);
+        emit drawNumberOfIndivuals(model->population->howManySpecificFitness(), 0);
+        emit updateBest(model->population->getSomeBest(HOW_MANY_BEST_SHOW));
         qDebug() << textToShow;
         if(i % 100 == 10)
             model->population->addNewIndividuals(reproductionAvaiable);

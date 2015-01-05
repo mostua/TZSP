@@ -27,7 +27,7 @@ vector< Square *> selection::ruleteSelection(set<Square *, Square::cmp> candidat
         int i = 0;
         for(auto it = candidates.begin(); it != candidates.end() &&  result.size() != howMany; ++it, ++i)
         {
-            if(double(rand() % 100)/100.0 < 1 - double((*it)->countFitness() - (*candidates.begin())->countFitness()) / double((*candidates.begin())->countFitness()))
+            if((rand() % 100) < 100 - 100*((*it)->countFitness() - (*candidates.begin())->countFitness())/((*it)->countFitness()))
             {
                 result.push_back(*it);
             }

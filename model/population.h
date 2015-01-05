@@ -33,6 +33,7 @@ protected:
      * \brief population set przechowuje populacje posortowana według funkcji przystosowania, każde dodanie osobników powinno wiązać się z naprawieniem posortowania
      */
     set< Square*, Square::cmp> population;
+
     /*!
      * \brief setSize rozmiar populacji
      */

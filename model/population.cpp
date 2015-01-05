@@ -47,7 +47,6 @@ void Population::generateNextPopulation()
             result.second = mutationFunction(result.second);
         children.push_back(result.first);
         children.push_back(result.second);
-        cout << "Mut pro" << result.first->mutationPropability;
     }
     if(algorithmType == 1)
     {
@@ -112,7 +111,7 @@ void Population::addNewIndividuals(int howMany)
     for (int i = 0; i < howMany; ++i)
     {
         //TODO poprawić
-        temp = new Square(squareSize, fitnessFunction, minSigma+maxSigma/2);
+        temp = new Square(squareSize, fitnessFunction, (minSigma+maxSigma)/2);
         qDebug() << temp->mutationPropability;
         temp->randomFill();
         population.insert(temp);

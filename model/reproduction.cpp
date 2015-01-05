@@ -43,8 +43,8 @@ pair<Square*, Square*> reproduction::childHasSameDiagonals(const Square* parentA
         y = parentA->get(size - i - 1, i);
         childB->swapValues(x, y);
     }
-    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
-    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
+    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
+    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
     //zwroc pare dzieci
     return make_pair(childA, childB);
 }
@@ -94,8 +94,8 @@ pair<Square *, Square *> reproduction::childHasSameColumns(const Square *parentA
             }
         }
     }
-    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
-    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
+    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
+    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
 
     //zwroc pare dzieci
     return make_pair(childA, childB);
@@ -146,8 +146,8 @@ pair<Square *, Square *> reproduction::childHasSameRows(const Square *parentA, c
         }
     }
     //zwroc pare dzieci
-    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
-    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2;
+    childA->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
+    childB->mutationPropability = (parentA->mutationPropability + parentB->mutationPropability)/2.0;
 
     return make_pair(childA, childB);
 }

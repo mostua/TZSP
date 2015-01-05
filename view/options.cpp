@@ -55,6 +55,8 @@ void Options::createWidgetItems()
     algorithmStrategyBox  = new QGroupBox(tr("Algorithm Strategy"));
     algorithmStrategyButtons[0] = new QRadioButton(QString("%1 + %2").arg(lambda, mi));
     algorithmStrategyButtons[1] = new QRadioButton(QString("(%1, %2)").arg(lambda, mi));
+    //algorytm (lambda, mi) nie zakodowany w 100%
+    algorithmStrategyButtons[1]->setDisabled(true);
     algorithmStrategyButtons[0]->setChecked(true);
 
     /*Grupa przyciskow do wyboru osobników do rozmnażania */

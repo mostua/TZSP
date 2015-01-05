@@ -82,7 +82,7 @@ void Controller::beginStepSimulation(Settings settings)
         connect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
         connect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
         connect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
-        connect(stepedSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
+        connect(stepedSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
         connect(stepedSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
         stepedSimulation->start();
     }

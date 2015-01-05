@@ -63,11 +63,11 @@ void MainWindow::createConnections()
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)
 {
-
+    qDebug() << "worksDrawFitness";
 }
 
 void MainWindow::drawNumberOfIndivuals(vectorPairs numberOfIndivuals, int graph)
 {
-
+    qDebug() << "worksDrawNumbers";
 }
 

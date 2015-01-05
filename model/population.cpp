@@ -41,20 +41,19 @@ void Population::generateNextPopulation()
     {
         pair<Square*,Square*> result = reproductionFunction(reproducers.at(2 * i), reproducers.at(2 * i + 1));
         //z danym prawd. mutujemy dzieci
-        if (rand() % 100 < (int)(result.first->mutationPropabilty*100))
+        if (rand() % 100 < (int)(result.first->mutationPropability*100))
             result.first = mutationFunction(result.first);
-        if (rand() % 100 < (int)(result.second->mutationPropabilty*100))
+        if (rand() % 100 < (int)(result.second->mutationPropability*100))
             result.second = mutationFunction(result.second);
         children.push_back(result.first);
         children.push_back(result.second);
-        cout << "Mut pro" << result.first->mutationPropabilty;
+        cout << "Mut pro" << result.first->mutationPropability;
     }
     if(algorithmType == 1)
     {
         population.clear();
         setSize = 0;
     }
-    //TODO w zależoności od rodzaju algorytmu, albo dodajemu na koncu ale tworzymy nowa populacje
     for(Square * e : children){
         population.insert(e);
         setSize++;
@@ -114,6 +113,7 @@ void Population::addNewIndividuals(int howMany)
     {
         //TODO poprawić
         temp = new Square(squareSize, fitnessFunction, minSigma+maxSigma/2);
+        qDebug() << temp->mutationPropability;
         temp->randomFill();
         population.insert(temp);
         setSize++;

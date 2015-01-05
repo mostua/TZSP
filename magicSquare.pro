@@ -14,7 +14,7 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        view/mainwindow.cpp \
+    view/mainwindow.cpp \
     model/model.cpp \
     controller/controller.cpp \
     libraries/qcustomplot.cpp \

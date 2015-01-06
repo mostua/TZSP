@@ -63,7 +63,7 @@ void MainWindow::createConnections()
 
 void MainWindow::drawFitnessGraph(double iteration, double best, double average, int graph)
 {
-    qDebug() << "worksDrawFitness";
+    resultWidget->drawFitnessOnIterationChart(iteration,best,average,graph);
 }
 
 void MainWindow::drawNumberOfIndivuals(vectorPairs numberOfIndivuals, int graph)

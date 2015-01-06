@@ -42,6 +42,7 @@ void Results::resetSimulationButtons()
     beginButtonContinous->setText(tr("Begin continous simulation"));
     beginButtonStep->setText(tr("Begin step simulation"));
     resetButton->setEnabled(false);
+    fitnessOnIterationChart->clearGraphs();
 }
 
 void Results::activateContinousButtons()
@@ -87,6 +88,9 @@ void Results::createWidgetItems()
     fitnessOnIterationChart = new QCustomPlot();
     fitnessOnIterationChart->yAxis->setLabel(tr("fitness"));
     fitnessOnIterationChart->xAxis->setLabel(tr("iteration"));
+    fitnessOnIterationChart->xAxis->setRange(0,10);
+    fitnessOnIterationChart->yAxis->setRange(0,9);
+    fitnessOnIterationChart->legend->setVisible(true);
     numberOnFitnessChart = new QCustomPlot();
     numberOnFitnessChart->xAxis->setLabel(tr("fitness"));
     numberOnFitnessChart->yAxis->setLabel(tr("number"));
@@ -167,4 +171,38 @@ void Results::createConnections()
     connect(beginButtonContinous, SIGNAL(clicked()), this, SIGNAL(beginContinousSimulationClicked()));
     connect(beginButtonStep, SIGNAL(clicked()), this, SIGNAL(beginStepSimulationClicked()));
     connect(resetButton, SIGNAL(clicked()), this, SIGNAL(reset()));
+}
+
+void Results::drawFitnessOnIterationChart(double iteration, double best, double average, int graph)
+{
+    /*making the neccesary amount of graphs*/
+    if(2*graph > fitnessOnIterationChart->graphCount() - 2)
+    {
+        /*adding nessecary amount of graphs*/
+        for(int i = 2*graph - fitnessOnIterationChart->graphCount() + 2; i > 0; i=i-2)
+        {
+            fitnessOnIterationChart->addGraph();
+            fitnessOnIterationChart->graph()->setName(tr("best " + graph));
+            fitnessOnIterationChart->graph()->setPen(QPen(QColor(255, 0, 0)));
+            fitnessOnIterationChart->addGraph();
+            fitnessOnIterationChart->graph()->setName(tr("average " + graph));
+            fitnessOnIterationChart->graph()->setPen(QPen(QColor(255, 255, 0)));
+        }
+    }
+
+    /*checking ranges of graph, if too small we expand it*/
+    if(fitnessOnIterationChart->yAxis->range().size() < best || fitnessOnIterationChart->yAxis->range().size() < average)
+        fitnessOnIterationChart->yAxis->setRange(0.0, average + 1.0);
+    if(fitnessOnIterationChart->xAxis->range().size() < iteration)
+        fitnessOnIterationChart->xAxis->scaleRange(2.0,1.0);
+
+    /*adding new data to graph*/
+    fitnessOnIterationChart->graph(graph)->addData(iteration, best);
+    fitnessOnIterationChart->graph(graph+1)->addData(iteration,average);
+    fitnessOnIterationChart->replot();
+}
+
+void Results::drawNumberOnFitnessChart(vectorPairs numberOfIndivuals, int graph)
+{
+
 }

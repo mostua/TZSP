@@ -23,7 +23,7 @@ void TheBestList::updateBest(vectorSquares best)
 {
 
     saved = best;
-    for(unsigned int i = 0; i < min(saved.size(), HOW_MANY_BEST_SHOW); i++)
+    for(unsigned int i = 0; i < min((unsigned)saved.size(), (unsigned)HOW_MANY_BEST_SHOW); i++)
     {
         individualList->setItem(i, 0, new QTableWidgetItem(QString("%1").arg(saved[i].first)));
         individualList->setItem(i, 1, new QTableWidgetItem(QString("%1").arg(saved[i].second.first)));

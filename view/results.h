@@ -18,6 +18,8 @@ public:
     explicit Results(QWidget *parent = 0);
     Settings::simulationType getSimulationType();
     int getSimulationParameter();
+    void drawFitnessOnIterationChart(double iteration, double best, double average, int graph);
+    void drawNumberOnFitnessChart(vectorPairs numberOfIndivuals, int graph);
 signals:
     void beginStepSimulationClicked();//sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji klikanej
     void beginContinousSimulationClicked(); //sygnal parsowany dalej oznaczajacy przycisniecie przycisku startu symulacji ciaglej

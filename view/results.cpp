@@ -94,6 +94,9 @@ void Results::createWidgetItems()
     numberOnFitnessChart = new QCustomPlot();
     numberOnFitnessChart->xAxis->setLabel(tr("fitness"));
     numberOnFitnessChart->yAxis->setLabel(tr("number"));
+    fitnessOnIterationChart->xAxis->setRange(0,10);
+    fitnessOnIterationChart->yAxis->setRange(0,10);
+    fitnessOnIterationChart->legend->setVisible(true);
 }
 
 void Results::setWidgetLayout()
@@ -204,5 +207,20 @@ void Results::drawFitnessOnIterationChart(double iteration, double best, double 
 
 void Results::drawNumberOnFitnessChart(vectorPairs numberOfIndivuals, int graph)
 {
+    /*adding nessecary amount of graphs*/
+    if(graph > numberOnFitnessChart->graphCount() - 1)
+    {
+        for(int i = graph - numberOnFitnessChart->graphCount() + 1; i > 0; i=i-1)
+        {
+            numberOnFitnessChart->addGraph();
+            numberOnFitnessChart->graph()->setName(tr("graph " + graph));
+            numberOnFitnessChart->graph()->setPen(QPen(QColor(255, 0, 0)));
+        }
+    }
 
+    for(vectorPairs::iterator it = numberOfIndivuals.begin(); it != numberOfIndivuals.end(); ++it)
+    {
+
+        //numberOnFitnessChart->graph(graph)->addData(*it.first, *it.second);
+    }
 }

@@ -1,23 +1,37 @@
 #include "continuoussimulation.h"
 
 
-ContinuousSimulation::ContinuousSimulation(Model *model, Settings _settings, QObject *parent) :
-    QThread(parent), model(model), settings(_settings), isWorkingValue(false), end(false)
+ContinuousSimulation::ContinuousSimulation(Model *model, QObject *parent) :
+    QThread(parent), model(model), isWorkingValue(false), end(false)
 {
+
 }
 
 ContinuousSimulation::~ContinuousSimulation()
 {
-    if (mutexIsWorking.tryLock() == false)
-        mutexIsWorking.unlock();
-    if (mutexEnd.tryLock() == false)
-        mutexEnd.unlock();
+    clear();
 }
 
 bool ContinuousSimulation::isWorking() const
 {
     return isWorkingValue;
 }
+
+void ContinuousSimulation::setSettings(Settings _settings)
+{
+    settings = _settings;
+}
+
+void ContinuousSimulation::clear()
+{
+    if (mutexIsWorking.tryLock() == false)
+        mutexIsWorking.unlock();
+    if (mutexEnd.tryLock() == false)
+        mutexEnd.unlock();
+    isWorkingValue = false;
+    end = false;
+}
+
 
 void ContinuousSimulation::run()
 {
@@ -52,6 +66,7 @@ void ContinuousSimulation::run()
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best));
     qDebug() << textToShow;
+    return;
 }
 
 void ContinuousSimulation::pause()

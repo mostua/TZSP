@@ -4,7 +4,9 @@ Controller::Controller(Model *model, QObject *parent) :
     QObject(parent), model(model), isSimulationStarted(false)
 {
     srand(time(0));
-
+    continousSimulation = new ContinuousSimulation(model);
+    stepedSimulation = new StepedSimulation(model);
+    createConnections();
 }
 
 void Controller::beginContinousSimulation(Settings settings)
@@ -14,12 +16,7 @@ void Controller::beginContinousSimulation(Settings settings)
         threadSaver.lock();
         isSimulationStarted = true;
         whichStarted = continous;
-        continousSimulation = new ContinuousSimulation(model, settings);
-        connect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
-        connect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
-        connect(continousSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
-        connect(continousSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
-        connect(continousSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
+        continousSimulation->setSettings(settings);
         continousSimulation->start();
     }
     else if(whichStarted == continous) //wątek jest uruchomiony (i dotyczy symulacji ciaglej), co oznacza zatrzymanie, lub wznowienie watku
@@ -42,32 +39,43 @@ void Controller::simulationReset()
             stepedSimulation->killMe();
         }
     }
-    emit simulationReseted();
+
 }
 
 void Controller::continousSimulationFinished()
 {
     qDebug() << "disconnectingContinousSimulation";
-    disconnect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
-    disconnect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
-    disconnect(continousSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
-    disconnect(continousSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
-    disconnect(continousSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
-    isSimulationStarted = false;
-    delete continousSimulation;
+    continousSimulation->clear();
     threadSaver.unlock();
+    isSimulationStarted = false;
+    emit simulationReseted();
 }
 
 void Controller::stepSimulationFinished()
 {
-    disconnect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
-    disconnect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
-    disconnect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
-    disconnect(stepedSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs ,int)));
-    disconnect(stepedSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
-    isSimulationStarted = false;
-    delete stepedSimulation;
+    qDebug() << "disconnectingStepedSimulation";
+    stepedSimulation->clear();
     threadSaver.unlock();
+    isSimulationStarted = false;
+    emit simulationReseted();
+}
+
+void Controller::createConnections()
+{
+    /* Połączenia symulacji ciągłej */
+    connect(continousSimulation, SIGNAL(started()), this, SIGNAL(continousSimulationStarted()));
+    connect(continousSimulation, SIGNAL(finished()), this, SLOT(continousSimulationFinished()));
+    connect(continousSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
+    connect(continousSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
+    connect(continousSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
+
+
+    /* Połączenia symulacji krokowej */
+    connect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
+    connect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
+    connect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
+    connect(stepedSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
+    connect(stepedSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
 }
 
 
@@ -78,13 +86,9 @@ void Controller::beginStepSimulation(Settings settings)
         threadSaver.lock();
         isSimulationStarted = true;
         whichStarted = step;
-        stepedSimulation = new StepedSimulation(model, settings);
-        connect(stepedSimulation, SIGNAL(started()), this, SIGNAL(stepSimulationStarted()));
-        connect(stepedSimulation, SIGNAL(finished()), this, SLOT(stepSimulationFinished()));
-        connect(stepedSimulation, SIGNAL(drawFitnessGraph(double,double,double,int)), this, SIGNAL(drawFitnessGraph(double,double,double,int)));
-        connect(stepedSimulation, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)), this, SIGNAL(drawNumberOfIndivuals(vectorPairs,int)));
-        connect(stepedSimulation, SIGNAL(updateBest(vectorSquares)), this, SIGNAL(updateBest(vectorSquares)));
+        stepedSimulation->setSettings(settings);
         stepedSimulation->start();
+
     }
     else if(whichStarted == step) //watek jest juz uruchominy (i dotyczy symulacji krokowej) to oznacza kolejny krok
     {

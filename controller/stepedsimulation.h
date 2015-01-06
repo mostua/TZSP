@@ -15,7 +15,9 @@ class StepedSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit StepedSimulation(Model * model, Settings, QObject *parent = 0);
+    explicit StepedSimulation(Model * model, QObject *parent = 0);
+    void setSettings(Settings);
+    void clear();
     ~StepedSimulation();
 signals:
     void stepSimulationStarted();

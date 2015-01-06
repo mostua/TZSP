@@ -20,6 +20,7 @@ public:
     enum mutationType{swapFields,swapRowsColumns}; //rodzaj mutacji
     enum simulationType{stepsByStep,fewStepsPerSecond}; //rodzaj symulacji, kilka krokow na jedno klikcnieie, kilka krokow na sekunde
     Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param);
+    Settings();
     int getSquareSize() const;
     int getMi() const;
     int getLambda() const;
@@ -33,7 +34,6 @@ public:
     mutation::mutationFunction getMutationTypeFunction() const;
     simulationType getSimulationTypeValue() const;
     int getSimulationParameter() const;
-
 private:
     int squareSize;
     int lambda;

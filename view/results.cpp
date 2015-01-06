@@ -221,6 +221,6 @@ void Results::drawNumberOnFitnessChart(vectorPairs numberOfIndivuals, int graph)
     for(vectorPairs::iterator it = numberOfIndivuals.begin(); it != numberOfIndivuals.end(); ++it)
     {
 
-        //numberOnFitnessChart->graph(graph)->addData(*it.first, *it.second);
+        numberOnFitnessChart->graph(graph)->addData((*it).first, (*it).second);
     }
 }

@@ -14,9 +14,11 @@ class ContinuousSimulation : public QThread
 {
     Q_OBJECT
 public:
-    explicit ContinuousSimulation(Model * model, Settings, QObject *parent = 0);
+    explicit ContinuousSimulation(Model * model, QObject *parent = 0);
     ~ContinuousSimulation();
     bool isWorking() const;
+    void setSettings(Settings);
+    void clear();
 signals:
     void continousSimulationStarted();
     void drawFitnessGraph(double iteration, double best, double average, int graph);
@@ -27,6 +29,7 @@ public slots:
     void pause();
     void resume();
     void killMe();
+
 private:
     QMutex mutexIsWorking;
     QMutex mutexEnd;

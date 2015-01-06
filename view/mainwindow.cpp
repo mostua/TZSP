@@ -68,6 +68,6 @@ void MainWindow::drawFitnessGraph(double iteration, double best, double average,
 
 void MainWindow::drawNumberOfIndivuals(vectorPairs numberOfIndivuals, int graph)
 {
-    qDebug() << "worksDrawNumbers";
+    resultWidget->drawNumberOnFitnessChart(numberOfIndivuals, graph);
 }
 

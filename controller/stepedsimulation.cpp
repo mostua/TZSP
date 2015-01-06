@@ -1,17 +1,29 @@
 #include "stepedsimulation.h"
 
-StepedSimulation::StepedSimulation(Model *model, Settings _settings, QObject *parent) :
-    QThread(parent), model(model), settings(_settings), isWorkingValue(false), end(false)
+StepedSimulation::StepedSimulation(Model *model, QObject *parent) :
+    QThread(parent), model(model), isWorkingValue(false), end(false)
 {
 }
 
+void StepedSimulation::setSettings(Settings _settings)
+{
+    settings = _settings;
+}
 
-StepedSimulation::~StepedSimulation()
+void StepedSimulation::clear()
 {
     if (mutexIsWorking.tryLock() == false)
         mutexIsWorking.unlock();
     if (mutexEnd.tryLock() == false)
         mutexEnd.unlock();
+    isWorkingValue = false;
+    end = false;
+}
+
+
+StepedSimulation::~StepedSimulation()
+{
+    clear();
 }
 
 void StepedSimulation::run()
@@ -54,6 +66,8 @@ void StepedSimulation::run()
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
     qDebug() << textToShow;
+    mutexIsWorking.unlock();
+    return;
 }
 
 void StepedSimulation::nextStep()

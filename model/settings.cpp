@@ -6,6 +6,11 @@ Settings::Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, sq
 {
 }
 
+Settings::Settings()
+{
+
+}
+
 int Settings::getSquareSize() const
 {
     return squareSize;

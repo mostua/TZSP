@@ -30,7 +30,7 @@ void MainWindow::createItemsForCentralWidget()
 void MainWindow::continousSimulationButtonPressed()
 {
     try{
-        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getAlpha(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter());
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType());
         emit startContinousSimulation(msg);
     }catch(char const * e)
     {
@@ -41,7 +41,7 @@ void MainWindow::continousSimulationButtonPressed()
 void MainWindow::stepSimulationButtonPressed()
 {
     try{
-        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getAlpha(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter());
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType());
         emit startStepSimulation(msg);
     }catch(char const * e)
     {

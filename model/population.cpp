@@ -1,6 +1,6 @@
 #include "population.h"
 
-Population::Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *)) : squareSize(squareSize), miValue(miValue), lambdaValue(lambdaValue), mutationFunction(mutationFunction), fitnessFunction(fitnessFunction), selectionFunction(selectionFunction), reproductionFunction(reproductionFunction)
+Population::Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *), int _algorithmType) : squareSize(squareSize), miValue(miValue), lambdaValue(lambdaValue), mutationFunction(mutationFunction), fitnessFunction(fitnessFunction), selectionFunction(selectionFunction), reproductionFunction(reproductionFunction), algorithmType(_algorithmType)
 {
     if (squareSize <= 0)
     {
@@ -9,6 +9,10 @@ Population::Population(unsigned int squareSize, unsigned int miValue, unsigned i
     if (miValue <= 0)
     {
         throw "population should has individuals";
+    }
+    if (algorithmType != 0 && algorithmType != 1)
+    {
+        throw "only two types of algorithm";
     }
     setSize = 0;
     addNewIndividuals(miValue);
@@ -34,10 +38,24 @@ void Population::generateNextPopulation()
         children.push_back(result.first);
         children.push_back(result.second);
     }
+    if(algorithmType == 1)
+    {
+        population.clear();
+        setSize = 0;
+    }
     //TODO w zależoności od rodzaju algorytmu, albo dodajemu na koncu ale tworzymy nowa populacje
     for(Square * e : children){
         population.insert(e);
         setSize++;
+    }
+}
+
+void Population::cutPopulationToSomeBest(unsigned int howMany)
+{
+    while(setSize > howMany)
+    {
+        population.erase(population.rbegin().base());
+        setSize--;
     }
 }
 

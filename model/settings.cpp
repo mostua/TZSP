@@ -1,8 +1,8 @@
 #include "settings.h"
 
 
-Settings::Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param)
-                   : squareSize(_squareSize), mi(_mi), lambda(_lambda), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param)
+Settings::Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param, algorithmType _alg)
+                   : squareSize(_squareSize), mi(_mi), lambda(_lambda), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param), algorithmTypeValue(_alg)
 {
 }
 
@@ -40,7 +40,7 @@ selection::selectionFunction Settings::getSelectionTypeFunction() const
         return selection::ruleteSelection;
     case best:
     default:
-        throw "not implemented";
+        return selection::bestSelection;
     }
 }
 
@@ -73,9 +73,10 @@ reproduction::reproductionFunction Settings::getReproductionTypeFunction() const
     case saveDiagonals:
         return reproduction::childHasSameDiagonals;
     case saveColumns:
+        return reproduction::childHasSameColumns;
     case saveRows:
     default:
-        throw "not implemented";
+        return reproduction::childHasSameRows;
     }
 }
 
@@ -104,5 +105,10 @@ Settings::simulationType Settings::getSimulationTypeValue() const
 int Settings::getSimulationParameter() const
 {
     return simulationParameter;
+}
+
+Settings::algorithmType Settings::getAlgorithmType() const
+{
+    return algorithmTypeValue;
 }
 

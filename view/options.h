@@ -24,7 +24,7 @@ public:
     Settings::algorithmType getAlgorithmType();
     Settings::mutationType getMutationType();
     Settings::reproductionType getReproductionType();
-    int getAlpha();
+    int getLambda();
     int getMi();
     int getSquareSize();
 signals:

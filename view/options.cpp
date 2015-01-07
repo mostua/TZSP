@@ -148,7 +148,7 @@ Settings::algorithmType Options::getAlgorithmType()
         return Settings::alphaPlusMi;
     if(algorithmStrategyButtons[1]->isChecked())
         return Settings::alphaMi;
-    throw "nothin is checked in strategy buttons";
+    throw "nothing is checked in algorithm buttons";
 }
 
 Settings::mutationType Options::getMutationType()
@@ -171,7 +171,7 @@ Settings::reproductionType Options::getReproductionType()
     throw "nothing is checked in reproductionType";
 }
 
-int Options::getAlpha()
+int Options::getLambda()
 {
     int result = lambdaSizeBox->value();
     if(result < MIN_LAMBDA_VALUE || result > MAX_LAMBDA_VALUE)

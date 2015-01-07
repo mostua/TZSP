@@ -19,7 +19,7 @@ int main()
 {
 
     srand((unsigned int)(time(NULL)));
-    unsigned int  squareSize, populationSize, reproductionAvaiable;
+    /*unsigned int  squareSize, populationSize, reproductionAvaiable;
     cout << "Please give square size: " << endl;
     cin >> squareSize;
     cout << "Please give begin population size: " << endl;
@@ -46,6 +46,17 @@ int main()
     }
     cout <<  "Finished, best " << population->countFitness(&best) << " Population size: "  << population->getPopulationSize() << endl;
 
-    system("pause");
+    system("pause");*/
+
+    Square a(3, fitness::diagonalsAreImportant);
+    Square b(3, fitness::diagonalsAreImportant);
+    a.randomFill();
+    b.randomFill();
+    cout << a << endl;
+    cout << b << endl;
+    pair<Square*, Square*> result = reproduction::childHasSameColumns(&a, &b);
+
+    cout << *result.first << endl;
+    cout << *result.second << endl;
 
 }

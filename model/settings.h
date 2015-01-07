@@ -19,7 +19,7 @@ public:
     enum reproductionType{saveDiagonals, saveColumns, saveRows}; //rodzaj rozmnazania
     enum mutationType{swapFields,swapRowsColumns}; //rodzaj mutacji
     enum simulationType{stepsByStep,fewStepsPerSecond}; //rodzaj symulacji, kilka krokow na jedno klikcnieie, kilka krokow na sekunde
-    Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param);
+    Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param, algorithmType _alg);
     Settings();
     int getSquareSize() const;
     int getMi() const;
@@ -34,6 +34,7 @@ public:
     mutation::mutationFunction getMutationTypeFunction() const;
     simulationType getSimulationTypeValue() const;
     int getSimulationParameter() const;
+    algorithmType getAlgorithmType() const;
 private:
     int squareSize;
     int lambda;
@@ -44,6 +45,7 @@ private:
     mutationType mutationTypeValue;
     simulationType simulationTypeValue;
     int simulationParameter;
+    algorithmType algorithmTypeValue;
 };
 
 #endif // SETTINGS_H

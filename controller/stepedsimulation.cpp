@@ -1,8 +1,11 @@
 #include "stepedsimulation.h"
 
 StepedSimulation::StepedSimulation(Model *model, QObject *parent) :
-    QThread(parent), model(model), isWorkingValue(false), end(false)
+    QThread(parent), model(model), isWorkingValue(false), end(false), isLocked(false)
 {
+    mutexIsWorking = new QMutex;
+    mutexEnd = new QMutex;
+    mutexIsLocked = new QMutex;
 }
 
 void StepedSimulation::setSettings(Settings _settings)
@@ -12,11 +15,14 @@ void StepedSimulation::setSettings(Settings _settings)
 
 void StepedSimulation::clear()
 {
-    if (mutexIsWorking.tryLock() == false)
-        mutexIsWorking.unlock();
-    if (mutexEnd.tryLock() == false)
-        mutexEnd.unlock();
+    delete mutexIsWorking;
+    delete mutexEnd;
+    delete mutexIsLocked;
+    mutexIsWorking = new QMutex;
+    mutexEnd = new QMutex;
+    mutexIsLocked = new QMutex;
     isWorkingValue = false;
+    isLocked = false;
     end = false;
 }
 
@@ -32,24 +38,30 @@ void StepedSimulation::run()
     qDebug() << "Thread started";
     //substitute
     int reproductionAvaiable = settings.getMi();
-
      model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction());
     Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
     isWorkingValue = true;
+    bool localEnd = false;
     emit stepSimulationStarted();
     do
     {
-        mutexIsWorking.lock();
-        mutexEnd.lock();
+        mutexIsWorking->lock();
+        mutexIsLocked->lock();
+        isLocked = true;
+        mutexIsLocked->unlock();
+        mutexEnd->lock();
         if(end == true)
-            return;
-        mutexEnd.unlock();
+            localEnd = true;
+        mutexEnd->unlock();
+        if(localEnd == true)
+        {
+            break;
+        }
         for(int j = 0; j  < settings.getSimulationParameter(); ++j)
         {
             model->population->generateNextPopulation();
-            
             best = model->population->getBest();
             textToShow.clear();
             textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
@@ -66,21 +78,24 @@ void StepedSimulation::run()
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
     qDebug() << textToShow;
-    mutexIsWorking.unlock();
+    mutexIsWorking->unlock();
     return;
 }
 
 void StepedSimulation::nextStep()
 {
-    if (mutexIsWorking.tryLock() == false)
-        mutexIsWorking.unlock();
+    mutexIsLocked->lock();
+    if (isLocked == true)
+    {
+        isLocked = false;
+        mutexIsWorking->unlock();
+    }
+    mutexIsLocked->unlock();
 }
 
 void StepedSimulation::killMe()
 {
-    mutexEnd.lock();
+    mutexEnd->lock();
     end = true;
-    mutexEnd.unlock();
-    if(mutexIsWorking.tryLock() == false)
-        mutexIsWorking.unlock();
+    mutexEnd->unlock();
 }

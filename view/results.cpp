@@ -39,6 +39,7 @@ int Results::getSimulationParameter()
 
 void Results::resetSimulationButtons()
 {
+    qDebug() << "resetSimulationButtons";
     beginButtonContinous->setText(tr("Begin continous simulation"));
     beginButtonStep->setText(tr("Begin step simulation"));
     resetButton->setEnabled(false);
@@ -47,12 +48,14 @@ void Results::resetSimulationButtons()
 
 void Results::activateContinousButtons()
 {
+    qDebug() << "activateContinousButtons";
     beginButtonContinous->setText(tr("Pause"));
     resetButton->setEnabled(true);
 }
 
 void Results::activateStepButtons()
 {
+    qDebug() << "activateStepButtons";
     beginButtonStep->setText(tr("Next step"));
     resetButton->setEnabled(true);
 }
@@ -173,7 +176,7 @@ void Results::createConnections()
     connect(simulationOptionsButtons[1], SIGNAL(toggled(bool)), this, SLOT(swapBeginButtons()));
     connect(beginButtonContinous, SIGNAL(clicked()), this, SIGNAL(beginContinousSimulationClicked()));
     connect(beginButtonStep, SIGNAL(clicked()), this, SIGNAL(beginStepSimulationClicked()));
-    connect(resetButton, SIGNAL(clicked()), this, SIGNAL(reset()));
+    connect(resetButton, SIGNAL(clicked()), this, SIGNAL(resetRequest()));
 }
 
 void Results::drawFitnessOnIterationChart(double iteration, double best, double average, int graph)

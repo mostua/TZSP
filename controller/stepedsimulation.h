@@ -31,10 +31,12 @@ public slots:
 private:
     Model * model;
     Settings settings;
-    QMutex mutexIsWorking;
-    QMutex mutexEnd;
+    QMutex *mutexIsWorking;
+    QMutex *mutexEnd;
+    QMutex *mutexIsLocked;
     bool isWorkingValue;
     bool end;
+    bool isLocked;
 };
 
 #endif // STEPEDSIMULATION_H

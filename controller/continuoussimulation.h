@@ -31,9 +31,9 @@ public slots:
     void killMe();
 
 private:
-    QMutex mutexIsWorking;
-    QMutex mutexEnd;
-    Model * model;
+    QMutex *mutexIsWorking;
+    QMutex *mutexEnd;
+    Model *model;
     Settings settings;
     bool isWorkingValue;
     bool end;

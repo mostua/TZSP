@@ -4,7 +4,8 @@
 ContinuousSimulation::ContinuousSimulation(Model *model, QObject *parent) :
     QThread(parent), model(model), isWorkingValue(false), end(false)
 {
-
+    mutexIsWorking = new QMutex;
+    mutexEnd = new QMutex;
 }
 
 ContinuousSimulation::~ContinuousSimulation()
@@ -24,10 +25,10 @@ void ContinuousSimulation::setSettings(Settings _settings)
 
 void ContinuousSimulation::clear()
 {
-    if (mutexIsWorking.tryLock() == false)
-        mutexIsWorking.unlock();
-    if (mutexEnd.tryLock() == false)
-        mutexEnd.unlock();
+    delete mutexIsWorking;
+    delete mutexEnd;
+    mutexIsWorking = new QMutex;
+    mutexEnd = new QMutex;
     isWorkingValue = false;
     end = false;
 }
@@ -43,13 +44,22 @@ void ContinuousSimulation::run()
     Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
-    isWorkingValue = true;
+
+    bool localEnd = false;
     emit continousSimulationStarted();
     do
     {
-        mutexIsWorking.lock();
+        mutexIsWorking->lock();
+        isWorkingValue = true;
+        mutexEnd->lock();
         if(end == true)
+            localEnd = true;
+        mutexEnd->unlock();
+        if(localEnd)
+        {
+            mutexIsWorking->unlock();
             break;
+        }
         model->population->generateNextPopulation();
         best = model->population->getBest();
         textToShow.clear();
@@ -61,7 +71,7 @@ void ContinuousSimulation::run()
         if(i % 100 == 10)
             model->population->addNewIndividuals(reproductionAvaiable);
         i++;
-        mutexIsWorking.unlock();
+        mutexIsWorking->unlock();
     } while (model->population->countFitness(&best) != 0);
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best));
@@ -71,21 +81,24 @@ void ContinuousSimulation::run()
 
 void ContinuousSimulation::pause()
 {
-    mutexIsWorking.lock();
+    mutexIsWorking->lock();
     isWorkingValue = false;
 }
 
 void ContinuousSimulation::killMe()
 {
     qDebug() << "Continous Kill Me";
-    mutexIsWorking.lock();
+    mutexEnd->lock();
     end = true;
-    mutexIsWorking.unlock();
+    if(isWorkingValue == false)
+        resume();
+    mutexEnd->unlock();
+
 }
 
 
 void ContinuousSimulation::resume()
 {
     isWorkingValue = true;
-    mutexIsWorking.unlock();
+    mutexIsWorking->unlock();
 }

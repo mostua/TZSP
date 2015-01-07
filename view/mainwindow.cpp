@@ -53,10 +53,11 @@ void MainWindow::createConnections()
 {
     connect(resultWidget, SIGNAL(beginStepSimulationClicked()), this, SLOT(stepSimulationButtonPressed()));
     connect(resultWidget, SIGNAL(beginContinousSimulationClicked()), this, SLOT(continousSimulationButtonPressed()));
-    connect(resultWidget, SIGNAL(reset()), this, SIGNAL(resetSimulation()));
+    connect(resultWidget, SIGNAL(resetRequest()), this, SIGNAL(resetSimulation()));
     connect(this, SIGNAL(activateStepButtons()), resultWidget,  SLOT(activateStepButtons()));
     connect(this, SIGNAL(activateContinousButtons()), resultWidget, SLOT(activateContinousButtons()));
     connect(this, SIGNAL(resetSimulation()), resultWidget, SLOT(resetSimulationButtons()));
+    connect(this, SIGNAL(simulationReseted()), resultWidget, SLOT(resetSimulationButtons()));
     connect(optionWidget, SIGNAL(squareSizeChanged(int)), theBestListWidget, SLOT(squareSizeChanged(int)));
     connect(this, SIGNAL(updateBest(vectorSquares)), theBestListWidget, SLOT(updateBest(vectorSquares)));
 }

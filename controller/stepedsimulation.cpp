@@ -97,5 +97,6 @@ void StepedSimulation::killMe()
 {
     mutexEnd->lock();
     end = true;
+    nextStep();
     mutexEnd->unlock();
 }

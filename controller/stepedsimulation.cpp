@@ -51,16 +51,16 @@ void StepedSimulation::run()
         mutexIsLocked->lock();
         isLocked = true;
         mutexIsLocked->unlock();
-        mutexEnd->lock();
-        if(end == true)
-            localEnd = true;
-        mutexEnd->unlock();
-        if(localEnd == true)
-        {
-            break;
-        }
         for(int j = 0; j  < settings.getSimulationParameter(); ++j)
         {
+            mutexEnd->lock();
+            if(end == true)
+                localEnd = true;
+            mutexEnd->unlock();
+            if(localEnd == true)
+            {
+                break;
+            }
             model->population->generateNextPopulation();
             best = model->population->getBest();
             textToShow.clear();
@@ -74,10 +74,17 @@ void StepedSimulation::run()
             if(model->population->countFitness(&best) == 0)
                 break;
         }
+        if(localEnd == true)
+        {
+            break;
+        }
     } while (model->population->countFitness(&best) != 0);
     textToShow.clear();
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
     qDebug() << textToShow;
+    mutexIsLocked->lock();
+    isLocked = false;
+    mutexIsLocked->unlock();
     mutexIsWorking->unlock();
     return;
 }

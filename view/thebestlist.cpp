@@ -9,14 +9,14 @@ TheBestList::TheBestList(QWidget *parent)
 
 void TheBestList::squareSizeChanged(int value)
 {
-    if(squareResultTable->columnCount() < value)
-        squareResultTable->insertColumn(value - squareResultTable->columnCount());
-    if(squareResultTable->rowCount() < value)
-        squareResultTable->insertRow(value - squareResultTable->rowCount());
-    if(squareResultTable->columnCount() > value)
-        squareResultTable->removeColumn(squareResultTable->columnCount() - value);
-    if(squareResultTable->rowCount() > value)
-        squareResultTable->removeRow(squareResultTable->rowCount() - value );
+    while(squareResultTable->columnCount() < value)
+        squareResultTable->insertColumn(squareResultTable->columnCount());
+    while(squareResultTable->rowCount() < value)
+        squareResultTable->insertRow( squareResultTable->rowCount());
+    while(squareResultTable->columnCount() > value)
+        squareResultTable->removeColumn(squareResultTable->columnCount() - 1);
+    while(squareResultTable->rowCount() > value)
+        squareResultTable->removeRow(squareResultTable->rowCount() - 1);
 }
 
 void TheBestList::updateBest(vectorSquares best)

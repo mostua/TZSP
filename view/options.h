@@ -29,6 +29,11 @@ public:
     int getLambda();
     int getMi();
     int getSquareSize();
+    int getCutPopulationValue();
+    int getAddNewIndividualsInterval();
+    int getAddNewIndividualsValue();
+    double getMinSigma();
+    double getMaxSigma();
 signals:
     void squareSizeChanged(int);
 public slots:

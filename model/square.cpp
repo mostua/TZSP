@@ -9,7 +9,7 @@ int Square::placeInTable(unsigned int row, unsigned int column) const
     return row*size + column;
 }
 
-Square::Square(unsigned int _size, int (*fitnessFunction)(const Square *))  : size(_size), fitnessFunction(fitnessFunction)
+Square::Square(unsigned int _size, int (*fitnessFunction)(const Square *), double mutationPropability)  : size(_size), fitnessFunction(fitnessFunction)
 {
     if(_size < 3)
         throw "wrong size";
@@ -17,6 +17,7 @@ Square::Square(unsigned int _size, int (*fitnessFunction)(const Square *))  : si
         throw "fitness function is needed";
     values = new int[size*size];
     id = number++;
+    mutationPropability = mutationPropability;
     for (unsigned int i = 1; i <= size*size; ++i)
     {
         values[i - 1] = 0;
@@ -29,6 +30,7 @@ Square::Square(const Square &x)
 {
     size = x.size;
     fitnessFunction = x.fitnessFunction;
+    mutationPropabilty = x.mutationPropabilty;
     values = new int[size*size];
     id = number++;
     for (unsigned int i = 0; i < size*size; ++i)
@@ -39,6 +41,7 @@ Square::Square(const Square *x)
 {
     size = x->size;
     fitnessFunction =  x->fitnessFunction;
+    mutationPropabilty = x->mutationPropabilty;
     values = new int[size*size];
     id = number++;
     for (unsigned int i = 0; i < size*size; ++i)

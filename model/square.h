@@ -27,7 +27,8 @@ public:
 	int id;
 	static int number;
     unsigned int size;
-    Square(unsigned int size, int(*fitnessFunction)(const Square *));
+    double mutationPropabilty;
+    Square(unsigned int size, int(*fitnessFunction)(const Square *), double mutationPropability = 0.0f);
     //konstruktor kopiujacy wersja referencyjna
     Square(const Square& x);
     //konstruktor kopiujacy wersja pointerowa

@@ -63,7 +63,7 @@ public:
     /*!
      * \brief Population tworzy populacje o zadanej wielkoscia, nastepnie wskazniki na funkcje odpowiadajace (odpowiednio) za mutacje, dopasowanie, reprodukcje
      */
-    Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *), int _algorithmType);
+    Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, double minSigma, double maxSigma, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *), int _algorithmType);
     /*!
      * \brief generateNextPopulation metoda iteruje do nastepnej populacji
      */

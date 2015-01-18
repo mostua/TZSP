@@ -1,8 +1,8 @@
 #include "settings.h"
 
 
-Settings::Settings(int _squareSize, int _mi, int _lambda, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param, algorithmType _alg)
-                   : squareSize(_squareSize), mi(_mi), lambda(_lambda), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param), algorithmTypeValue(_alg)
+Settings::Settings(int _squareSize, int _mi, int _lambda, double minSigma, double maxSigma, selectionType _sel, squareType _sqr, reproductionType _rep, mutationType _mut, simulationType _sim, int param, algorithmType _alg, int limitPopulationValue, int addNewIndividualsInterval, int addNewIndividualsHowMany)
+                   : squareSize(_squareSize), mi(_mi), lambda(_lambda), minSigma(minSigma), maxSigma(maxSigma), selectionTypeValue(_sel), squareTypeValue(_sqr), reproductionTypeValue(_rep), mutationTypeValue(_mut), simulationTypeValue(_sim), simulationParameter(param), algorithmTypeValue(_alg), limitPopulationValue(limitPopulationValue), addNewIndividualsInterval(addNewIndividualsInterval), addNewIndividualsHowMany(addNewIndividualsHowMany)
 {
 }
 
@@ -23,6 +23,16 @@ int Settings::getMi() const
 int Settings::getLambda() const
 {
     return lambda;
+}
+
+double Settings::getMinSigma() const
+{
+    return minSigma;
+}
+
+double Settings::getMaxSigma() const
+{
+    return maxSigma;
 }
 
 Settings::selectionType Settings::getSelectionTypeValue() const
@@ -110,5 +120,20 @@ int Settings::getSimulationParameter() const
 Settings::algorithmType Settings::getAlgorithmType() const
 {
     return algorithmTypeValue;
+}
+
+int Settings::getLimitPopulationValue() const
+{
+    return limitPopulationValue;
+}
+
+int Settings::getAddNewIndividualsInterval() const
+{
+    return addNewIndividualsInterval;
+}
+
+int Settings::getAddNewIndividualsHowMany() const
+{
+    return addNewIndividualsHowMany;
 }
 

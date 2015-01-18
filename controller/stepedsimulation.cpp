@@ -37,8 +37,7 @@ void StepedSimulation::run()
     srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = settings.getMi();
-     model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction(), settings.getAlgorithmType() == Settings::algorithmType::alphaPlusMi ? 0 : 1);
+     model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMinSigma(), settings.getMaxSigma(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction(), settings.getAlgorithmType() == Settings::algorithmType::alphaPlusMi ? 0 : 1);
     Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
@@ -64,15 +63,18 @@ void StepedSimulation::run()
             model->population->generateNextPopulation();
             best = model->population->getBest();
             textToShow.clear();
-            textToShow = "Iteration " +  QString("%1").arg(i++) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
+            textToShow = "Iteration " +  QString("%1").arg(i) + " best far now " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
             emit drawFitnessGraph(i, best.countFitness(), model->population->populationAverage(), 0);
             emit drawNumberOfIndivuals(model->population->howManySpecificFitness(), 0);
             emit updateBest(model->population->getSomeBest(HOW_MANY_BEST_SHOW));
             qDebug() << textToShow;
-            if(i % 100 == 0)
-                model->population->addNewIndividuals(reproductionAvaiable);
+            if(settings.getAddNewIndividualsInterval() > 0 && i % settings.getAddNewIndividualsInterval() == 0)
+                model->population->addNewIndividuals(settings.getAddNewIndividualsHowMany());
+            if(settings.getLimitPopulationValue() > 0)
+                model->population->cutPopulationToSomeBest(settings.getLimitPopulationValue());
             if(model->population->countFitness(&best) == 0)
                 break;
+            i++;
         }
         if(localEnd == true)
         {

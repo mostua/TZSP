@@ -255,6 +255,37 @@ int Options::getSquareSize()
     return result;
 }
 
+int Options::getCutPopulationValue()
+{
+    if(cutPopulationCheckBox->isChecked() == true)
+        return cutPopulationValue->value();
+    return 0;
+}
+
+int Options::getAddNewIndividualsInterval()
+{
+    if(addRandomIndividualsCheckBox->isChecked() == true)
+        return addRandomIndividualsHowFrequentValue->value();
+    return 0;
+}
+
+int Options::getAddNewIndividualsValue()
+{
+    if(addRandomIndividualsCheckBox->isChecked() == true)
+        return addRandomIndividualsHowManyValue->value();
+    return 0;
+}
+
+double Options::getMinSigma()
+{
+    return (double)minPropabilitySlider->value()/100.0;
+}
+
+double Options::getMaxSigma()
+{
+    return (double)maxPropabilitySlider->value()/100.0;
+}
+
 void Options::setMinPropabilityValue(int value)
 {
     minPropabilityValue->setText(QString::number((float)value/100.0));

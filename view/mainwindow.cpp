@@ -30,7 +30,7 @@ void MainWindow::createItemsForCentralWidget()
 void MainWindow::continousSimulationButtonPressed()
 {
     try{
-        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType());
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getMinSigma(), optionWidget->getMaxSigma(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType(), optionWidget->getCutPopulationValue(), optionWidget->getAddNewIndividualsInterval(), optionWidget->getAddNewIndividualsValue());
         emit startContinousSimulation(msg);
     }catch(char const * e)
     {
@@ -41,7 +41,7 @@ void MainWindow::continousSimulationButtonPressed()
 void MainWindow::stepSimulationButtonPressed()
 {
     try{
-        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType());
+        Settings msg(optionWidget->getSquareSize(),optionWidget->getMi(), optionWidget->getLambda(), optionWidget->getMinSigma(), optionWidget->getMaxSigma(), optionWidget->getSelectionType(), optionWidget->getSquareType(), optionWidget->getReproductionType(), optionWidget->getMutationType(), resultWidget->getSimulationType(), resultWidget->getSimulationParameter(), optionWidget->getAlgorithmType(), optionWidget->getCutPopulationValue(), optionWidget->getAddNewIndividualsInterval(), optionWidget->getAddNewIndividualsValue());
         emit startStepSimulation(msg);
     }catch(char const * e)
     {

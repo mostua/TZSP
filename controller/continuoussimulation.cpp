@@ -39,8 +39,7 @@ void ContinuousSimulation::run()
     srand(time(0));
     qDebug() << "Thread started";
     //substitute
-    int reproductionAvaiable = settings.getMi();
-    model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction(), settings.getAlgorithmType() == Settings::algorithmType::alphaPlusMi ? 0 : 1);
+    model->population = new Population(settings.getSquareSize(), settings.getMi(), settings.getLambda(), settings.getMinSigma(), settings.getMaxSigma(), settings.getMutationTypeFunction(), settings.getSquareTypeFunction(), settings.getSelectionTypeFunction(), settings.getReproductionTypeFunction(), settings.getAlgorithmType() == Settings::algorithmType::alphaPlusMi ? 0 : 1);
     Square best(settings.getSquareSize(), settings.getSquareTypeFunction());
     int i = 1;
     QString textToShow;
@@ -68,8 +67,10 @@ void ContinuousSimulation::run()
         emit drawNumberOfIndivuals(model->population->howManySpecificFitness(), 0);
         emit updateBest(model->population->getSomeBest(HOW_MANY_BEST_SHOW));
         qDebug() << textToShow;
-        if(i % 100 == 10)
-            model->population->addNewIndividuals(reproductionAvaiable);
+        if(settings.getAddNewIndividualsInterval() > 0 && i % settings.getAddNewIndividualsInterval() == 0)
+            model->population->addNewIndividuals(settings.getAddNewIndividualsHowMany());
+        if(settings.getLimitPopulationValue() > 0)
+            model->population->cutPopulationToSomeBest(settings.getLimitPopulationValue());
         i++;
         mutexIsWorking->unlock();
     } while (model->population->countFitness(&best) != 0);

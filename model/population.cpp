@@ -1,6 +1,6 @@
 #include "population.h"
 
-Population::Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *), int _algorithmType) : squareSize(squareSize), miValue(miValue), lambdaValue(lambdaValue), mutationFunction(mutationFunction), fitnessFunction(fitnessFunction), selectionFunction(selectionFunction), reproductionFunction(reproductionFunction), algorithmType(_algorithmType)
+Population::Population(unsigned int squareSize, unsigned int miValue, unsigned int lambdaValue, double minSigma, double maxSigma, Square*(*mutationFunction)(const Square*), int(*fitnessFunction)(const Square*), vector< Square *> (*selectionFunction)(set<Square *, Square::cmp>, unsigned int, unsigned int), pair< Square*, Square* >(*reproductionFunction)(const Square *, const Square *), int _algorithmType) : squareSize(squareSize), miValue(miValue), lambdaValue(lambdaValue), mutationFunction(mutationFunction), fitnessFunction(fitnessFunction), selectionFunction(selectionFunction), reproductionFunction(reproductionFunction), algorithmType(_algorithmType)
 {
     if (squareSize <= 0)
     {
@@ -13,6 +13,14 @@ Population::Population(unsigned int squareSize, unsigned int miValue, unsigned i
     if (algorithmType != 0 && algorithmType != 1)
     {
         throw "only two types of algorithm";
+    }
+    if (minSigma < 0.0 || minSigma > 1.0)
+    {
+        throw "wrong min sigma";
+    }
+    if (maxSigma < 0.0 || maxSigma > 1.0)
+    {
+        throw "wrong max sigma";
     }
     setSize = 0;
     addNewIndividuals(miValue);
@@ -52,9 +60,13 @@ void Population::generateNextPopulation()
 
 void Population::cutPopulationToSomeBest(unsigned int howMany)
 {
+    auto it = population.end();
     while(setSize > howMany)
     {
-        population.erase(population.rbegin().base());
+
+        it = population.end();
+        --it;
+        population.erase(it);
         setSize--;
     }
 }

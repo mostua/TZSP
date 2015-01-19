@@ -15,12 +15,6 @@ void StepedSimulation::setSettings(Settings _settings)
 
 void StepedSimulation::clear()
 {
-    delete mutexIsWorking;
-    delete mutexEnd;
-    delete mutexIsLocked;
-    mutexIsWorking = new QMutex;
-    mutexEnd = new QMutex;
-    mutexIsLocked = new QMutex;
     isWorkingValue = false;
     isLocked = false;
     end = false;
@@ -85,9 +79,11 @@ void StepedSimulation::run()
     textToShow = "Result: fitness = " + QString("%1").arg(model->population->countFitness(&best)) + " Population size: " + QString("%1").arg(model->population->getPopulationSize());
     qDebug() << textToShow;
     mutexIsLocked->lock();
-    isLocked = false;
+    if(isLocked == true){
+        mutexIsWorking->unlock();
+        isLocked = false;
+    }
     mutexIsLocked->unlock();
-    mutexIsWorking->unlock();
     return;
 }
 

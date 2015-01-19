@@ -35,7 +35,7 @@ void Controller::simulationReset()
         if(whichStarted == continous){
             continousSimulation->killMe();
         }
-        if(whichStarted == step){ //ta metoda nie dziala dobrze
+        if(whichStarted == step){
             stepedSimulation->killMe();
         }
     }

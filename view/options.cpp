@@ -278,11 +278,13 @@ int Options::getAddNewIndividualsValue()
 
 double Options::getMinSigma()
 {
+    qDebug() << double((double)minPropabilitySlider->value())/100.0;
     return ((double)minPropabilitySlider->value())/100.0;
 }
 
 double Options::getMaxSigma()
 {
+    qDebug() << double((double)maxPropabilitySlider->value())/100.0;
     return ((double)maxPropabilitySlider->value())/100.0;
 }
 

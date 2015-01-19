@@ -6,7 +6,7 @@
 #include "fitness.h"
 #include "square.h"
 #include "selection.h"
-
+#include <QDebug>
 
 
 class Settings

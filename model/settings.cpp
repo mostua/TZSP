@@ -27,11 +27,13 @@ int Settings::getLambda() const
 
 double Settings::getMinSigma() const
 {
+    qDebug() << minSigma;
     return minSigma;
 }
 
 double Settings::getMaxSigma() const
 {
+    qDebug() << maxSigma;
     return maxSigma;
 }
 

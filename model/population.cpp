@@ -23,9 +23,10 @@ Population::Population(unsigned int squareSize, unsigned int miValue, unsigned i
         throw "wrong max sigma";
     }
     setSize = 0;
+    setMutationPropability(minSigma, maxSigma);
     addNewIndividuals(miValue);
     //wartosc prawd. mutacji domyslnie 1/2
-    setMutationPropability(minSigma, maxSigma);
+
 }
 
 
@@ -77,8 +78,8 @@ void Population::cutPopulationToSomeBest(unsigned int howMany)
 
 void Population::setMutationPropability(double minSigma, double maxSigma)
 {
-    minSigma = minSigma;
-    maxSigma = maxSigma;
+    this->minSigma = minSigma;
+    this->maxSigma = maxSigma;
 }
 
 

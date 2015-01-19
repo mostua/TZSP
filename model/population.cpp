@@ -25,12 +25,13 @@ Population::Population(unsigned int squareSize, unsigned int miValue, unsigned i
     setSize = 0;
     addNewIndividuals(miValue);
     //wartosc prawd. mutacji domyslnie 1/2
-    setMutationPropability(1, 2);
+    setMutationPropability(minSigma, maxSigma);
 }
 
 
 void Population::generateNextPopulation()
 {
+    qDebug() << minSigma << maxSigma;
     //sortujemy wg. wsp. dopasowania
     vector<Square *> reproducers = selectionFunction(population, setSize, lambdaValue);
     random_shuffle(reproducers.begin(), reproducers.end());
@@ -39,12 +40,13 @@ void Population::generateNextPopulation()
     {
         pair<Square*,Square*> result = reproductionFunction(reproducers.at(2 * i), reproducers.at(2 * i + 1));
         //z danym prawd. mutujemy dzieci
-        if (rand() % qMutation < pMutation)
+        if (rand() % 100 < (int)(result.first->mutationPropabilty*100))
             result.first = mutationFunction(result.first);
-        if (rand() % qMutation < pMutation)
+        if (rand() % 100 < (int)(result.second->mutationPropabilty*100))
             result.second = mutationFunction(result.second);
         children.push_back(result.first);
         children.push_back(result.second);
+        cout << "Mut pro" << result.first->mutationPropabilty;
     }
     if(algorithmType == 1)
     {
@@ -73,10 +75,10 @@ void Population::cutPopulationToSomeBest(unsigned int howMany)
 
 
 
-void Population::setMutationPropability(int p, int q)
+void Population::setMutationPropability(double minSigma, double maxSigma)
 {
-    pMutation = p;
-    qMutation = q;
+    minSigma = minSigma;
+    maxSigma = maxSigma;
 }
 
 
@@ -109,7 +111,8 @@ void Population::addNewIndividuals(int howMany)
         throw "wrong number of new individuals";
     for (int i = 0; i < howMany; ++i)
     {
-        temp = new Square(squareSize, fitnessFunction);
+        //TODO poprawić
+        temp = new Square(squareSize, fitnessFunction, minSigma+maxSigma/2);
         temp->randomFill();
         population.insert(temp);
         setSize++;

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <vector>
 #include <set>
+#include <QDebug>
 using namespace std;
 
 /*!
@@ -27,10 +28,7 @@ protected:
      */
     unsigned int lambdaValue;
 	const int INF = 100000;
-    /*!
-     * \brief pMutation, qMutation prawdopodobienstwo mutacji w postaci p/q (będzie wymienione na prawdopodobienstwo dla kazdego osobnika
-     */
-    int pMutation, qMutation;
+    double minSigma, maxSigma;
     /*!
      * \brief population set przechowuje populacje posortowana według funkcji przystosowania, każde dodanie osobników powinno wiązać się z naprawieniem posortowania
      */
@@ -77,7 +75,7 @@ public:
      * \param p licznik
      * \param q mianownik
      */
-	void setMutationPropability(int p, int q);
+    void setMutationPropability(double minSigma, double maxSigma);
     /*!
      * \brief getPopulationSize
      * \return wielkość populacji

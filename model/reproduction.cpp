@@ -43,6 +43,8 @@ pair<Square*, Square*> reproduction::childHasSameDiagonals(const Square* parentA
         y = parentA->get(size - i - 1, i);
         childB->swapValues(x, y);
     }
+    childA->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
+    childB->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
     //zwroc pare dzieci
     return make_pair(childA, childB);
 }
@@ -92,6 +94,8 @@ pair<Square *, Square *> reproduction::childHasSameColumns(const Square *parentA
             }
         }
     }
+    childA->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
+    childB->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
 
     //zwroc pare dzieci
     return make_pair(childA, childB);
@@ -142,5 +146,8 @@ pair<Square *, Square *> reproduction::childHasSameRows(const Square *parentA, c
         }
     }
     //zwroc pare dzieci
+    childA->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
+    childB->mutationPropabilty = (parentA->mutationPropabilty + parentB->mutationPropabilty)/2;
+
     return make_pair(childA, childB);
 }

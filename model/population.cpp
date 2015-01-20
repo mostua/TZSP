@@ -29,6 +29,12 @@ Population::Population(unsigned int squareSize, unsigned int miValue, unsigned i
 
 }
 
+Population::~Population()
+{
+    for(auto it = population.begin(); it != population.end(); ++it)
+        delete *it;
+}
+
 
 void Population::generateNextPopulation()
 {

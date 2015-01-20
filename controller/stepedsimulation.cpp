@@ -18,6 +18,12 @@ void StepedSimulation::clear()
     isWorkingValue = false;
     isLocked = false;
     end = false;
+    if(model->population)
+    {
+        qDebug() << "Clear steped simulation";
+        delete model->population;
+        model->population = 0;
+    }
 }
 
 

@@ -25,12 +25,13 @@ void ContinuousSimulation::setSettings(Settings _settings)
 
 void ContinuousSimulation::clear()
 {
-    delete mutexIsWorking;
-    delete mutexEnd;
-    mutexIsWorking = new QMutex;
-    mutexEnd = new QMutex;
     isWorkingValue = false;
     end = false;
+    if(model->population)
+    {
+        delete model->population;
+        model->population = 0;
+    }
 }
 
 

@@ -7,6 +7,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     Model model;
+    model.population = 0;
     MainWindow view(&model);
     Controller controller(&model);
     qRegisterMetaType<vectorSquares>("vectorSquares");

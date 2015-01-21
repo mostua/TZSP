@@ -1,0 +1,62 @@
+\documentclass[a4paper,twoside,10pt]{article}
+
+\usepackage[polish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage[T1]{fontenc}
+\usepackage{fullpage}
+\setlength{\parindent}{0pt}
+
+\renewcommand{\labelenumii}{\theenumii}
+\renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
+
+\author{Jan \textsc{Wiśniewski}, Adam \textsc{Mościcki}, Edwin \textsc{Jarosiński}}
+\title{Dokumentacja projektu z przedmiotu Podstawy Sztucznej Inteligencji}
+
+\begin{document}
+\maketitle
+ 
+\section{Cel projektu}
+	Celem projektu jest stworzenie aplikacji pozwalającej na generowanie "magicznych kwadratów" przy użyciu algorytmów ewolucyjnych.
+\section{Założenia wstępne}
+	Przyjmujemy następującą definicję magicznego kwadratu:
+ tablica składająca się z $ n $ wierszy i $ n $ kolumn $ (n>2) $, w którą wpisano $ \sqrt{n}{2} $ różnych nie powtarzających się dodatnich liczb naturalnych w ten sposób, że suma liczb w każdym wierszu, w każdej kolumnie i w każdej przekątnej jest taka sama. Dodatkowo zakładamy że liczby te mogą przyjmować wartości z przedziału $ <1,n^2> $	.
+	
+\section{Operator krzyżowania}
+	Najważniejszą decyzją do podjęcia przy realizacji algorytmu ewolucyjnego jest wybór operatora krzyżowania. Jako że w podstawowej reprezentacji magiczny kwadrat jest macierzą, a wartość funkcji dopasowania zależy od sum kolumn wierszy i przekątnych, należy bardzo dokładnie przeanalizować dostępne opcje. Po rozważeniu różnych możliwości zdecydowaliśmy się na implementację dwóch różnych operatorów:
+		\subsection{Zamiana przekątnych}
+		\begin{enumerate}
+			\item utworzenie dziecka - przepisanie pól rodzica A
+			\item wybór jeszcze nie wybranego pola rodzica B znajdującego się na jednej z jego przekątnych
+			\item przepisanie wybranego pola z rodzica B do odpowiadającego mu pola dziecka
+			\item jeżeli w dziecku występuje druga taka sama liczba jak ta właśnie pobrana od rodzica B to jest ona podmieniana na liczbę która została przez nią nadpisana
+			\item jeżeli rodzic B posiada jakieś nie wybrane pola na przekątnych to skok do punktu nr 2
+			\item koniec
+		\end{enumerate}
+		\subsection{zamiana wierszy albo kolumn}
+		Opisany algorytm operuje na kolumnach. Zamiana wierszy jest dokonywana analogicznie.
+		\begin{enumerate}
+			\item utworzenie dziecka - przepisanie pól rodzica A
+			\item losowy wybór $ \lfloor\frac{N}{2}\rfloor $ kolumn
+			\item wybór jeszcze nie wybranego pola rodzica B znajdującego się w wybranych kolumnach
+			\item przepisanie wybranego pola z rodzica B do odpowiadającego mu pola dziecka
+			\item jeżeli w dziecku występuje druga taka sama liczba jak ta właśnie pobrana od rodzica B to jest ona podmieniana na liczbę która została przez nią nadpisana
+			\item jeżeli rodzic B posiada jakieś nie wybrane pola na wybranych kolumnach to skok do punktu nr 3
+			\item koniec
+		\end{enumerate}
+		Niezależnie od metody krzyżowanie rodziców wartość $ \lambda $ dla dziecka jest wyliczana jako średnia arytmetyczna z wartości $ \lambda $ obojga rodziców.
+\section{Funkcja oceny}
+	\begin{itemize}
+		\item wyliczenie oczekiwanej wartości sum w kolumnach, wierszach i przekątnych: $ s = 1 + n^2 \frac{n}{2} $
+		\item policzenie sum w kolumnach, wierszach i przekątnych
+		\item policzenie dla każdej z tych sum wartości absolutnej z różnicy tej sumy i wartości oczekiwanej
+		\item zsumowanie wartości absolutnych
+	\end{itemize}
+
+\section{Testowanie}
+	Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody ruletki jako użytej metody selekcji. Skuteczność działania naszego algorytmu zdecydowanie poprawiała wymiana części populacji co jakiś czas.
+			
+\section{Wnioski}
+	Dla tablic o wielkości nie przekraczającej 6 da się bez większych problemów generować magiczne kwadraty. Z powodu problemów ze znalezieniem optymalnego operatora krzyżowania stosowanie algorytmów ewolucyjnych do tworzenia magicznych jest mało optymalne i nie powinno stanowić większego problemu znalezienie strategii heurystycznej radzącej sobie z tym problemem zdecydowanie lepiej.
+\end{document}
+

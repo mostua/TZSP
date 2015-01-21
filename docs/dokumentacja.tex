@@ -20,8 +20,29 @@
 	Celem projektu jest stworzenie aplikacji pozwalającej na generowanie "magicznych kwadratów" przy użyciu algorytmów ewolucyjnych.
 \section{Założenia wstępne}
 	Przyjmujemy następującą definicję magicznego kwadratu:
- tablica składająca się z $ n $ wierszy i $ n $ kolumn $ (n>2) $, w którą wpisano $ \sqrt{n}{2} $ różnych nie powtarzających się dodatnich liczb naturalnych w ten sposób, że suma liczb w każdym wierszu, w każdej kolumnie i w każdej przekątnej jest taka sama. Dodatkowo zakładamy że liczby te mogą przyjmować wartości z przedziału $ <1,n^2> $	.
-	
+ tablica składająca się z $ n $ wierszy i $ n $ kolumn $ (n>2) $, w którą wpisano $ n^2 $ różnych nie powtarzających się dodatnich liczb naturalnych (od 1 do $n^2$) w ten sposób (użytkownik ma możliwość wyboru), że:
+ \begin{itemize}
+  \item suma liczb w każdym wierszu, w każdej kolumnie i w każdej przekątnej jest taka sama,
+  \item suma liczb w każdym wierszu, w każdej kolumnie jest taka sama,
+ \end{itemize}
+ i wynosi $\frac{n^2\cdot(n^2+1)}{2*n}$
+\section{Funkcja dopasowania}
+Metoda prezentuje się następująco:
+		\begin{itemize}
+		\item wyliczenie oczekiwanej wartości sum w kolumnach, wierszach i przekątnych: $ s = (1 + n^2) \frac{n}{2} $
+		\item policzenie sum w kolumnach, wierszach i przekątnych(jeżeli przekątne są ważne dla typu kwadratu)
+		\item policzenie dla każdej z tych sum wartości absolutnej z różnicy tej sumy i wartości oczekiwanej
+		\item zsumowanie wartości absolutnych
+	\end{itemize}
+\section{Algorytm ewolucyjny}
+Zastosowany przez nas algorytm to $\mu$ +  $\lambda$. A jego pseudokod jest następujący:
+		\begin{enumerate}
+			\item Wylosuj populacje początkową P o rozumiarze $\mu$ osobników postaci $<x,\sigma>$, gdzie $x$ oznacza osobnika, a $\sigma$ prawdopodobienstwo jego mutacji (wylosowane z przedziału podanego przez użytkownika),
+			\item Wybierz z P za pomocą odpowiedniej strategi $\lambda$ osobników, którzy będą się rozmnażać jako populacje tymczasową T.
+			\item Zastosuj krzyżowanie dla populacji T, oraz mutację osobnika z prawdopodbieństwem $\sigma$  dla kwadratu (każdego z osobna) - wynik pouplacja R.
+			\item $P := P \cup R$.
+			\item Jeśli znaleziono magiczny kwadrat zakończ algorytm.
+		\end{enumerate}
 \section{Operator krzyżowania}
 	Najważniejszą decyzją do podjęcia przy realizacji algorytmu ewolucyjnego jest wybór operatora krzyżowania. Jako że w podstawowej reprezentacji magiczny kwadrat jest macierzą, a wartość funkcji dopasowania zależy od sum kolumn wierszy i przekątnych, należy bardzo dokładnie przeanalizować dostępne opcje. Po rozważeniu różnych możliwości zdecydowaliśmy się na implementację dwóch różnych operatorów:
 		\subsection{Zamiana przekątnych}
@@ -33,7 +54,7 @@
 			\item jeżeli rodzic B posiada jakieś nie wybrane pola na przekątnych to skok do punktu nr 2
 			\item koniec
 		\end{enumerate}
-		\subsection{zamiana wierszy albo kolumn}
+		\subsection{Zamiana wierszy albo kolumn}
 		Opisany algorytm operuje na kolumnach. Zamiana wierszy jest dokonywana analogicznie.
 		\begin{enumerate}
 			\item utworzenie dziecka - przepisanie pól rodzica A
@@ -44,19 +65,31 @@
 			\item jeżeli rodzic B posiada jakieś nie wybrane pola na wybranych kolumnach to skok do punktu nr 3
 			\item koniec
 		\end{enumerate}
-		Niezależnie od metody krzyżowanie rodziców wartość $ \lambda $ dla dziecka jest wyliczana jako średnia arytmetyczna z wartości $ \lambda $ obojga rodziców.
-\section{Funkcja oceny}
-	\begin{itemize}
-		\item wyliczenie oczekiwanej wartości sum w kolumnach, wierszach i przekątnych: $ s = 1 + n^2 \frac{n}{2} $
-		\item policzenie sum w kolumnach, wierszach i przekątnych
-		\item policzenie dla każdej z tych sum wartości absolutnej z różnicy tej sumy i wartości oczekiwanej
-		\item zsumowanie wartości absolutnych
-	\end{itemize}
-
+		Niezależnie od metody krzyżowanie rodziców wartość $ \sigma $ dla dziecka jest wyliczana jako średnia arytmetyczna z wartości $ \sigma$ obojga rodziców.
+\section{Operator mutacji}
+Dostępne są 2 operatory testowania:
+\begin{enumerate}
+\item zamiana dwóch punktów,
+\item zamiana dwóch kolumn.
+\end{enumerate}
+Warto zauważyć że 2 z operatorów nie zamienia sumy w kolumnach i wierszach (a tylko na przekątnych), zmiana wartości funkcji przystowania w tym przypadku jest więc zależna tylko od operatora krzyżowania.
+\section{Wybór osobników do krzyżownia}
+Selekcja nastepuje w trzech możliwych sposobach:
+\begin{itemize}
+\item Rankingowa:
+Osobniki są wybierane z prawdopodobieństwm proporcjonalnym do rankingu ich funkcji przystowania.
+\item Ruletki:
+Ta metoda jest zmodyfikowaną wersją standardowej wersji, polega na wyborze osobników z pradopodbieństwem $1 - \frac{przystowanie(osobnik) - przystosowanie(najlepszy)}{przystosowanie(osobik)}$.
+\item Najlpeszych:
+Brane jest $\mu$ najlepszych osobików (jeżeli $\mu$ jest wieksze od wielkości populacji, to branie jest rozpoczynane od końca).
+\end{itemize}
+Praktyka pokazuje, że ostatni z tych typów daje najlepsze rezultaty, ponieważ często jest tak, że jedna kluczowa zamiana potrafi osobnika bardzo złego zamienić na bardzo dobrego.
+\section{Optymalizacje}
+Użytkownik ma do wyboru 2 optymalizacje. Pierwsza polega na dodaniu nowych osobników co którąś iterację (czasem pozwala to wyjść z lokalnego maksimum). Drugie jest przyspieszeniem symulacji poprzez ogranicznenie populacji do jakichś rozmiarów (dzięki czemu oszczędzamy czas nie przetwarząjac słabo przystosowanych osobników).
 \section{Testowanie}
-	Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody ruletki jako użytej metody selekcji. Skuteczność działania naszego algorytmu zdecydowanie poprawiała wymiana części populacji co jakiś czas.
-			
+Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody Najlepszych jako użytej metody selekcji. Skuteczność działania naszego algorytmu często poprawia dodanie nowych osobników do populacji co jakiś czas.\
+100 próba dla $\mi 
 \section{Wnioski}
-	Dla tablic o wielkości nie przekraczającej 6 da się bez większych problemów generować magiczne kwadraty. Z powodu problemów ze znalezieniem optymalnego operatora krzyżowania stosowanie algorytmów ewolucyjnych do tworzenia magicznych jest mało optymalne i nie powinno stanowić większego problemu znalezienie strategii heurystycznej radzącej sobie z tym problemem zdecydowanie lepiej.
+Dla tablic o wielkości nie przekraczającej 5 da się bez większych problemów generować magiczne kwadraty (czasem po kilkunastu próbach). Z powodu problemów ze znalezieniem optymalnego operatora krzyżowania stosowanie algorytmów ewolucyjnych do tworzenia magicznych jest mało optymalne i nie powinno stanowić większego problemu znalezienie strategii heurystycznej radzącej sobie z tym problemem zdecydowanie lepiej.
 \end{document}
 

@@ -11,16 +11,16 @@
 \renewcommand{\theenumii}{\theenumi.\arabic{enumii}.}
 
 \author{Jan \textsc{Wiśniewski}, Adam \textsc{Mościcki}, Edwin \textsc{Jarosiński}}
-\title{Dokumentacja projektu z przedmiotu Podstawy Sztucznej Inteligencji}
-
+\title{Dokumentacja projektu z przedmiotu Podstawy Sztucznej Inteligencji
+\\ \vspace{2 mm} {\large Magiczne kwadraty}}
 \begin{document}
 \maketitle
  
 \section{Cel projektu}
-	Celem projektu jest stworzenie aplikacji pozwalającej na generowanie "magicznych kwadratów" przy użyciu algorytmów ewolucyjnych.
+	Celem projektu jest stworzenie aplikacji pozwalającej na generowanie ,,magicznych kwadratów'' przy użyciu algorytmów ewolucyjnych.
 \section{Założenia wstępne}
 	Przyjmujemy następującą definicję magicznego kwadratu:
- tablica składająca się z $ n $ wierszy i $ n $ kolumn $ (n>2) $, w którą wpisano $ n^2 $ różnych nie powtarzających się dodatnich liczb naturalnych (od 1 do $n^2$) w ten sposób (użytkownik ma możliwość wyboru), że:
+ tablica składająca się z $ n $ wierszy i $ n $ kolumn $ (n>2) $, w którą wpisano $ n^2 $ różnych nie powtarzających się dodatnich liczb naturalnych (od 1 do $n^2$) w ten sposób (użytkownik ma możliwość wyboru definicji), że:
  \begin{itemize}
   \item suma liczb w każdym wierszu, w każdej kolumnie i w każdej przekątnej jest taka sama,
   \item suma liczb w każdym wierszu, w każdej kolumnie jest taka sama,
@@ -35,7 +35,7 @@ Metoda prezentuje się następująco:
 		\item zsumowanie wartości absolutnych
 	\end{itemize}
 \section{Algorytm ewolucyjny}
-Zastosowany przez nas algorytm to $\mu$ +  $\lambda$. A jego pseudokod jest następujący:
+Zastosowany przez nas algorytm to $\mu$ +  $\lambda$. Jego pseudokod jest następujący:
 		\begin{enumerate}
 			\item Wylosuj populacje początkową P o rozumiarze $\mu$ osobników postaci $<x,\sigma>$, gdzie $x$ oznacza osobnika, a $\sigma$ prawdopodobienstwo jego mutacji (wylosowane z przedziału podanego przez użytkownika),
 			\item Wybierz z P za pomocą odpowiedniej strategi $\lambda$ osobników, którzy będą się rozmnażać jako populacje tymczasową T.
@@ -87,7 +87,7 @@ Praktyka pokazuje, że ostatni z tych typów daje najlepsze rezultaty, ponieważ
 \section{Optymalizacje}
 Użytkownik ma do wyboru 2 optymalizacje. Pierwsza polega na dodaniu nowych osobników co którąś iterację (czasem pozwala to wyjść z lokalnego maksimum). Drugie jest przyspieszeniem symulacji poprzez ogranicznenie populacji do jakichś rozmiarów (dzięki czemu oszczędzamy czas nie przetwarząjac słabo przystosowanych osobników).
 \section{Testowanie}
-Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody Najlepszych jako użytej metody selekcji. Skuteczność działania naszego algorytmu często poprawia dodanie nowych osobników do populacji co jakiś czas.\\
+Testowaliśmy naszą symulację z parametrami początkowymi. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody Najlepszych jako użytej metody selekci, zamiany losowych punktów jako metody mutacji oraz wymiany przekatnych jako metody reprodukcji. Skuteczność działania naszego algorytmu często poprawia dodanie nowych osobników do populacji co jakiś czas.\\
 Sto prób dla kwadratu z liczącymi się przekątnymi o rozmiarze 3, z parametrach $\mu$ równemu 500 oraz $\lambda$ równemu 1000, $\sigma$ stałą równa $80\%$ dla selekcji najlepszych przy mutacji zamieniającej 2 pola zakończyło się sukcesem w 100 przypadkach (3 z nich wychodziły poza 10 iteracje). \\
 Jeden z otrzymanych kwadratów: \\
 4 8 3 \\

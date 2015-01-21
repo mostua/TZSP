@@ -87,8 +87,18 @@ Praktyka pokazuje, że ostatni z tych typów daje najlepsze rezultaty, ponieważ
 \section{Optymalizacje}
 Użytkownik ma do wyboru 2 optymalizacje. Pierwsza polega na dodaniu nowych osobników co którąś iterację (czasem pozwala to wyjść z lokalnego maksimum). Drugie jest przyspieszeniem symulacji poprzez ogranicznenie populacji do jakichś rozmiarów (dzięki czemu oszczędzamy czas nie przetwarząjac słabo przystosowanych osobników).
 \section{Testowanie}
-Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody Najlepszych jako użytej metody selekcji. Skuteczność działania naszego algorytmu często poprawia dodanie nowych osobników do populacji co jakiś czas.\
-100 próba dla $\mi 
+Testowaliśmy naszą symulację z różnymi algorytmami i wartościami stałych. Najlepsze wyniki uzyskiwaliśmy przy wykorzystaniu metody Najlepszych jako użytej metody selekcji. Skuteczność działania naszego algorytmu często poprawia dodanie nowych osobników do populacji co jakiś czas.\\
+Sto prób dla kwadratu z liczącymi się przekątnymi o rozmiarze 3, z parametrach $\mu$ równemu 500 oraz $\lambda$ równemu 1000, $\sigma$ stałą równa $80\%$ dla selekcji najlepszych przy mutacji zamieniającej 2 pola zakończyło się sukcesem w 100 przypadkach (3 z nich wychodziły poza 10 iteracje). \\
+Jeden z otrzymanych kwadratów: \\
+4 8 3 \\
+2 6 7 \\
+9 1 5 \\
+20 prób dla kwadratu o rozmiarze 4 przy tych samych parametrach dało sukces w 5 przypadkach. \\
+Jeden z otrzymanych kwadratów: \\
+7 6 12 9 \\
+14 15 1 4\\
+2 3 16 13\\
+11 10 5 8 
 \section{Wnioski}
 Dla tablic o wielkości nie przekraczającej 5 da się bez większych problemów generować magiczne kwadraty (czasem po kilkunastu próbach). Z powodu problemów ze znalezieniem optymalnego operatora krzyżowania stosowanie algorytmów ewolucyjnych do tworzenia magicznych jest mało optymalne i nie powinno stanowić większego problemu znalezienie strategii heurystycznej radzącej sobie z tym problemem zdecydowanie lepiej.
 \end{document}
